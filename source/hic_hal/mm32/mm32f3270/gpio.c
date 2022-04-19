@@ -42,22 +42,14 @@ static void busy_wait(uint32_t cycles)
 void gpio_init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
-    // enable clock to ports
+    
+	// enable clock to ports
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOD, ENABLE);
-
-    /* Enable USB connect pin */
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
-    /* Disable JTAG to free pins for other uses. Note - SWD is still enabled */
-    //GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
-    USB_CONNECT_PORT_ENABLE();
-    USB_CONNECT_OFF();
-    GPIO_InitStructure.GPIO_Pin = USB_CONNECT_PIN;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(USB_CONNECT_PORT, &GPIO_InitStructure);
+
 
     // configure LEDs
     GPIO_ResetBits(RUNNING_LED_PORT, RUNNING_LED_PIN);
@@ -68,35 +60,52 @@ void gpio_init(void)
 
     GPIO_ResetBits(CONNECTED_LED_PORT, CONNECTED_LED_PIN);
     GPIO_InitStructure.GPIO_Pin = CONNECTED_LED_PIN;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(CONNECTED_LED_PORT, &GPIO_InitStructure);
 
     GPIO_ResetBits(PIN_CDC_LED_PORT, PIN_CDC_LED);
     GPIO_InitStructure.GPIO_Pin = PIN_CDC_LED;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(PIN_CDC_LED_PORT, &GPIO_InitStructure);
 
     GPIO_ResetBits(PIN_MSC_LED_PORT, PIN_MSC_LED);
     GPIO_InitStructure.GPIO_Pin = PIN_MSC_LED;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(PIN_MSC_LED_PORT, &GPIO_InitStructure);
+
+    // configure Beep
+    GPIO_ResetBits(BEEP_PORT, BEEP_PIN);
+    GPIO_InitStructure.GPIO_Pin = BEEP_PIN;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_Init(BEEP_PORT, &GPIO_InitStructure);
+    GPIO_PinAFConfig(BEEP_PORT, BEEP_Bit, GPIO_AF_2);
 
     // reset button configured as gpio open drain output with a pullup
     GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
     GPIO_InitStructure.GPIO_Pin = nRESET_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
     GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
 
-    // Turn on power to the board. When the target is unpowered
-    // it holds the reset line low.
-    GPIO_ResetBits(POWER_EN_PIN_PORT, POWER_EN_PIN);
-    GPIO_InitStructure.GPIO_Pin = POWER_EN_PIN;
+    /* Turn on power to the board. */
+    // When the target is unpowered, it holds the reset line low.
+    GPIO_ResetBits(POWER_5V_EN_PIN_PORT, POWER_5V_EN_PIN);
+    GPIO_InitStructure.GPIO_Pin = POWER_5V_EN_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(POWER_EN_PIN_PORT, &GPIO_InitStructure);
+    GPIO_Init(POWER_5V_EN_PIN_PORT, &GPIO_InitStructure);
+
+    GPIO_SetBits(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_PIN);
+    GPIO_InitStructure.GPIO_Pin = POWER_3V3_EN_PIN;
+    GPIO_Init(POWER_3V3_EN_PIN_PORT, &GPIO_InitStructure);
+
+
+    /* Enable USB connect pin */
+    /* Disable JTAG to free pins for other uses. Note - SWD is still enabled */
+    //GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
+    //USB_CONNECT_PORT_ENABLE();
+    //USB_CONNECT_OFF();
+    //GPIO_InitStructure.GPIO_Pin = USB_CONNECT_PIN;
+    //GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    //GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    //GPIO_Init(USB_CONNECT_PORT, &GPIO_InitStructure);
 
     // Setup the 8MHz MCO
     // GPIO_InitStructure.GPIO_Pin = GPIO_PIN_8;
@@ -143,7 +152,8 @@ void gpio_set_msc_led(gpio_led_state_t state)
 
 uint8_t gpio_get_reset_btn_no_fwrd(void)
 {
-    return (nRESET_PIN_PORT->IDR & nRESET_PIN) ? 0 : 1;
+    //return (nRESET_PIN_PORT->IDR & nRESET_PIN) ? 0 : 1;
+	return (K1_PIN_PORT->IDR & K1_PIN) ? 0 : 1;
 }
 
 uint8_t gpio_get_reset_btn_fwrd(void)

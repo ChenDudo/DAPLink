@@ -31,58 +31,87 @@
 COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32F3270);
 
 //USB control pin
-#define USB_CONNECT_PORT_ENABLE()    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE)
-#define USB_CONNECT_PORT_DISABLE()   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, DISABLE)
-#define USB_CONNECT_PORT             GPIOA
-#define USB_CONNECT_PIN              GPIO_Pin_15
-#define USB_CONNECT_ON()             (USB_CONNECT_PORT->BSRR = USB_CONNECT_PIN)
-#define USB_CONNECT_OFF()            (USB_CONNECT_PORT->BRR  = USB_CONNECT_PIN)
+//#define USB_CONNECT_PORT_ENABLE()    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE)
+//#define USB_CONNECT_PORT_DISABLE()   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, DISABLE)
+//#define USB_CONNECT_PORT             GPIOA
+//#define USB_CONNECT_PIN              GPIO_Pin_15
+//#define USB_CONNECT_ON()             (USB_CONNECT_PORT->BSRR = USB_CONNECT_PIN)
+//#define USB_CONNECT_OFF()            (USB_CONNECT_PORT->BRR  = USB_CONNECT_PIN)
 
-//Connected LED
-#define CONNECTED_LED_PORT           GPIOB
-#define CONNECTED_LED_PIN            GPIO_Pin_6
-#define CONNECTED_LED_PIN_Bit        6
 
 //When bootloader, disable the target port(not used)
-#define POWER_EN_PIN_PORT            GPIOB
-#define POWER_EN_PIN                 GPIO_Pin_15
-#define POWER_EN_Bit                 15
+#define POWER_5V_EN_PIN_PORT         GPIOC
+#define POWER_5V_EN_PIN              GPIO_Pin_10
+#define POWER_5V_EN_Bit              10
+
+#define POWER_3V3_EN_PIN_PORT        GPIOA
+#define POWER_3V3_EN_PIN             GPIO_Pin_15
+#define POWER_3V3_EN_Bit             15
 
 // nRESET OUT Pin
-#define nRESET_PIN_PORT              GPIOB
-#define nRESET_PIN                   GPIO_Pin_0
-#define nRESET_PIN_Bit               0
+#define nRESET_PIN_PORT              GPIOC
+#define nRESET_PIN                   GPIO_Pin_12
+#define nRESET_PIN_Bit               12
+// nRESET IN Pin (K1)
+#define K1_PIN_PORT                 GPIOD
+#define K1_PIN                      GPIO_Pin_2
+#define K1_PIN_Bit                  2
 
 //SWD
 #define SWCLK_TCK_PIN_PORT           GPIOB
 #define SWCLK_TCK_PIN                GPIO_Pin_13
 #define SWCLK_TCK_PIN_Bit            13
 
+// SWDIO3(MOSI) //SWDIO1(GPIO)
 #define SWDIO_OUT_PIN_PORT           GPIOB
-#define SWDIO_OUT_PIN                GPIO_Pin_14
-#define SWDIO_OUT_PIN_Bit            14
+#define SWDIO_OUT_PIN                GPIO_Pin_5
+#define SWDIO_OUT_PIN_Bit            5
 
-#define SWDIO_IN_PIN_PORT            GPIOB
-#define SWDIO_IN_PIN                 GPIO_Pin_12
-#define SWDIO_IN_PIN_Bit             12
+// SWDIO2(MISO)
+#define SWDIO_IN_PIN_PORT            GPIOA
+#define SWDIO_IN_PIN                 GPIO_Pin_6
+#define SWDIO_IN_PIN_Bit             6
 
-//LEDs
+
+// LEDs
+#define LED1_PORT             GPIOB
+#define LED1_PIN              GPIO_Pin_14
+#define LED1_Bit              14
+
+#define LED2_PORT             GPIOB
+#define LED2_PIN              GPIO_Pin_10
+#define LED2_Bit              10
+
+#define LED3_PORT             GPIOB
+#define LED3_PIN              GPIO_Pin_1
+#define LED3_Bit              1
+
+//Connected LED
+#define RUNNING_LED_PORT             LED1_PORT
+#define RUNNING_LED_PIN              LED1_PIN
+#define RUNNING_LED_Bit              LED1_Bit
+
+#define CONNECTED_LED_PORT           LED2_PORT
+#define CONNECTED_LED_PIN            LED2_PIN
+#define CONNECTED_LED_PIN_Bit        LED2_Bit
+
 //USB status LED
-#define RUNNING_LED_PORT             GPIOA
-#define RUNNING_LED_PIN              GPIO_Pin_9
-#define RUNNING_LED_Bit              9
+#define PIN_HID_LED_PORT             LED3_PORT
+#define PIN_HID_LED                  LED3_PIN
+#define PIN_HID_LED_Bit              LED3_Bit
 
-#define PIN_HID_LED_PORT             GPIOA
-#define PIN_HID_LED                  GPIO_Pin_9
-#define PIN_HID_LED_Bit              9
+#define PIN_CDC_LED_PORT             LED3_PORT
+#define PIN_CDC_LED                  LED3_PIN
+#define PIN_CDC_LED_Bit              LED3_Bit
 
-#define PIN_CDC_LED_PORT             GPIOA
-#define PIN_CDC_LED                  GPIO_Pin_9
-#define PIN_CDC_LED_Bit              9
+#define PIN_MSC_LED_PORT             LED3_PORT
+#define PIN_MSC_LED                  LED3_PIN
+#define PIN_MSC_LED_Bit              LED3_Bit
 
-#define PIN_MSC_LED_PORT             GPIOA
-#define PIN_MSC_LED                  GPIO_Pin_9
-#define PIN_MSC_LED_Bit              9
 
+//Beep
+#define BEEP_PORT             GPIOB
+#define BEEP_PIN              GPIO_Pin_8
+#define BEEP_Bit              8
 
 #endif

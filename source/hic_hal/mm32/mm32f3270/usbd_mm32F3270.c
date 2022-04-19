@@ -163,17 +163,15 @@ void          USBD_IntrEna(void)
 void USBD_Init(void)
 {
     /* Select USBCLK source */
-    //  RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_Div1);
-    RCC->CFGR &= ~(0x3 << 22);
-    RCC->CFGR |= (0x0 << 22);
+    RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_Div2);
 
     /* Enable USB clock */
     RCC->AHB2ENR |= 0x1 << 7;
-    
-    //RCC->APB1ENR |= (1 << 23);            /* enable clock for USB               */
+	
     USBD_IntrEna();                       /* Enable USB Interrupts              */
-    /* Control USB connecting via SW                                            */
-    USB_CONNECT_OFF();
+    
+	/* Control USB connecting via SW                                            */
+    //USB_CONNECT_OFF();
 }
 
 

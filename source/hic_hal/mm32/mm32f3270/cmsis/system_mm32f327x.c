@@ -26,12 +26,51 @@
 #include "mm32_device.h"
 
 
+
+
+void SystemInit (void)
+{
+    //Reset the RCC clock configuration to the default reset state(for debug purpose)
+    //Set HSION bit
+    RCC->CR |= (u32)0x00000001;
+
+    //Reset SW, HPRE, PPRE1, PPRE2, ADCPRE and MCO bits
+    RCC->CFGR &= (u32)0xF8FFC00C;
+
+    //Reset HSEON, CSSON and PLLON bits
+    RCC->CR &= (u32)0xFEF6FFFF;
+
+    //Reset HSEBYP bit
+    RCC->CR &= (u32)0xFFFBFFFF;
+
+    //Reset PLLSRC, PLLXTPRE, PLLMUL and USBPRE/OTGFSPRE bits
+    RCC->CFGR &= (u32)0xFF3CFFFF;
+    RCC->CR &= (u32)0x008FFFFF;
+
+    //Disable all interrupts and clear pending bits
+    RCC->CIR = 0x009F0000;
+    
+	//Configure the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers
+    //Configure the Flash Latency cycles and enable prefetch buffer
+    
+	// SetSysClock();
+}
+
 /// @}
 
 
 
+
+
+
+
+
+
+/*
+
 /// @}
 
+/// @}
 
 /// Uncomment the line corresponding to the desired System clock (SYSCLK)
 /// frequency (after reset the HSI is used as SYSCLK source)
@@ -61,8 +100,8 @@
 //#define SYSCLK_FREQ_48MHz  (HSE_VALUE*6)      //48000000 based HSE_VALUE = 8000000
 //#define SYSCLK_FREQ_XXMHz  (HSE_VALUE*6)      //48000000 based HSE_VALUE = 8000000
 //#define SYSCLK_FREQ_XXMHz  (HSE_VALUE*9)      //72000000 based HSE_VALUE = 8000000
-//#define SYSCLK_FREQ_XXMHz  (HSE_VALUE*12)      //96000000 based HSE_VALUE = 8000000
-#define SYSCLK_FREQ_XXMHz (HSE_VALUE*15)       //120000000 based HSE_VALUE = 8000000
+#define SYSCLK_FREQ_XXMHz  (HSE_VALUE*12)      //96000000 based HSE_VALUE = 8000000
+//#define SYSCLK_FREQ_XXMHz (HSE_VALUE*15)       //120000000 based HSE_VALUE = 8000000
 
 #if defined(SYSCLK_FREQ_HSE) || defined(SYSCLK_FREQ_24MHz) || defined(SYSCLK_FREQ_36MHz) || defined(SYSCLK_FREQ_48MHz) || defined(SYSCLK_FREQ_XXMHz)
 
@@ -78,8 +117,8 @@
 //#define SYSCLK_HSI_48MHz  48000000
 //#define SYSCLK_HSI_XXMHz  48000000
 //#define SYSCLK_HSI_XXMHz  72000000
-//#define SYSCLK_HSI_XXMHz  96000000
-#define SYSCLK_HSI_XXMHz  120000000
+#define SYSCLK_HSI_XXMHz  96000000
+//#define SYSCLK_HSI_XXMHz  120000000
 /// Uncomment the following line if you need to relocate your vector Table in
 /// Internal SRAM.
 ///#define VECT_TAB_SRAM
@@ -858,9 +897,4 @@ static void SetSysClockToXX_HSI(void)
 
 /// @}
 
-
-
-/// @}
-
-
-
+*/
