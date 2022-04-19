@@ -30,7 +30,7 @@ uint32_t time_count;
 
 
 /**
-    * @brief  Switch the PLL source from HSI to HSE bypass, and select the PLL as SYSCLK
+  * @brief  Switch the PLL source from HSI to HSE bypass, and select the PLL as SYSCLK
   *         source.
   *         The system Clock is configured as follow :
   *            System Clock source            = PLL (HSE bypass)
