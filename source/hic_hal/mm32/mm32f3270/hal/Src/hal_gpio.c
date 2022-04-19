@@ -24,6 +24,13 @@
 #include "hal_gpio.h"
 
 
+/* Suppress warning messages */
+#if defined(__CC_ARM)
+// Suppress warning message: extended constant initialiser used
+#pragma diag_suppress 1296
+#elif defined(__ICCARM__)
+#elif defined(__GNUC__)
+#endif
 
 
 ////////////////////////////////////////////////////////////////////////////////

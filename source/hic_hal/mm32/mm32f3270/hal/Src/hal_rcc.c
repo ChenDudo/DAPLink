@@ -22,6 +22,14 @@
 #include "mm32_reg.h"
 #include "hal_rcc.h"
 
+/* Suppress warning messages */
+#if defined(__CC_ARM)
+// Suppress warning message: extended constant initialiser used
+#pragma diag_suppress 1296
+#elif defined(__ICCARM__)
+#elif defined(__GNUC__)
+#endif
+
 
 
 u8 tbPresc[] = {0, 0, 0, 0, 1, 2, 3, 4, 1, 2, 3, 4, 6, 7, 8, 9};
