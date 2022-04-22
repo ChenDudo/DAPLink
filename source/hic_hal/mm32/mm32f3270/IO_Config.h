@@ -44,6 +44,7 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32F3270);
 #define POWER_5V_EN_PIN              GPIO_Pin_10
 #define POWER_5V_EN_Bit              10
 
+// AF0: JTDI ....    AF2/3 is null
 #define POWER_3V3_EN_PIN_PORT        GPIOA
 #define POWER_3V3_EN_PIN             GPIO_Pin_15
 #define POWER_3V3_EN_Bit             15
@@ -58,16 +59,18 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32F3270);
 #define K1_PIN_Bit                  2
 
 //SWD
+// SWCLK: spi2_SCK
 #define SWCLK_TCK_PIN_PORT           GPIOB
 #define SWCLK_TCK_PIN                GPIO_Pin_13
 #define SWCLK_TCK_PIN_Bit            13
 
-// SWDIO3(MOSI) //SWDIO1(GPIO)
+// SWDIO3: spi1_MOSI 
+// SWDIO1: GPIO
 #define SWDIO_OUT_PIN_PORT           GPIOB
 #define SWDIO_OUT_PIN                GPIO_Pin_5
 #define SWDIO_OUT_PIN_Bit            5
 
-// SWDIO2(MISO)
+// SWDIO2: spi1_MISO
 #define SWDIO_IN_PIN_PORT            GPIOA
 #define SWDIO_IN_PIN                 GPIO_Pin_6
 #define SWDIO_IN_PIN_Bit             6

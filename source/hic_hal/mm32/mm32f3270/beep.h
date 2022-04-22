@@ -1,7 +1,10 @@
 ////////////////////////////////////////////////////////////////////////////////
-/// @file     hal_uid.c
-/// @author   AE TEAM
-/// @brief    THIS FILE PROVIDES ALL THE UID FIRMWARE FUNCTIONS.
+/// @file     BSP_BEEP.H
+/// @author   Y Xu
+/// @version  v1.0.0
+/// @date     2021-09-28
+/// @brief    THIS FILE CONTAINS ALL THE FUNCTIONS PROTOTYPES FOR THE BEEP
+///           BSP LAYER.
 ////////////////////////////////////////////////////////////////////////////////
 /// @attention
 ///
@@ -12,44 +15,40 @@
 /// HARDWARE AND/OR THE USE OF THE CODING INFORMATION CONTAINED HEREIN IN
 /// CONNECTION WITH PRODUCTS MADE BY CUSTOMERS.
 ///
-/// <H2><CENTER>&COPY; COPYRIGHT MINDMOTION </CENTER></H2>
+/// <H2><CENTER>&COPY; COPYRIGHT 2018-2019 MINDMOTION </CENTER></H2>
 ////////////////////////////////////////////////////////////////////////////////
 
-// Define to prevent recursive inclusion
-#define _HAL_UID_C_
+// Define to prevent recursive inclusion  --------------------------------------
+#ifndef __BEEP_H
+#define __BEEP_H
 
-// Files includes
-#include "hal_uid.h"
 ////////////////////////////////////////////////////////////////////////////////
-/// @addtogroup MM32_Hardware_Abstract_Layer
+/// @defgroup BEEP_Exported_Variables
 /// @{
+#ifdef _BEEP_C_
+
+#define GLOBAL
+#else
+#define GLOBAL extern
+#endif
+
+#undef GLOBAL
+
+/// @}
 
 ////////////////////////////////////////////////////////////////////////////////
-///@addtogroup UID_HAL
-///@{
-
-////////////////////////////////////////////////////////////////////////////////
-/// @addtogroup UID_Exported_Functions
+/// @defgroup BEEP_Exported_Functions
 /// @{
+void BEEP_on(void);
+void BEEP_off(void);
+void InitBeep(void);
 
-//device_id_data[12] = {0};
+/// @}
+
+/// @}
+
+/// @}
 
 ////////////////////////////////////////////////////////////////////////////////
-/// @brief  Get device ID.
-/// @param  None.
-/// @retval None.
+#endif /*__BSP_BEEP_H */
 ////////////////////////////////////////////////////////////////////////////////
-void GetChipUID(void)
-{
-    u8 i;
-
-    for (i = 0; i < 12; i++) {
-        device_id_data[i] = *((vu8*)(UID_BASE + i));
-    }
-}
-
-/// @}
-
-/// @}
-
-/// @}

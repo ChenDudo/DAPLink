@@ -26,7 +26,7 @@
 #include "gpio.h"
 #include "daplink.h"
 #include "util.h"
-
+#include "beep.h"
 
 static void busy_wait(uint32_t cycles)
 {
@@ -38,6 +38,12 @@ static void busy_wait(uint32_t cycles)
     }
 }
 
+void closeLED(void)
+{
+	GPIO_SetBits(LED1_PORT, LED1_PIN);
+	GPIO_SetBits(LED2_PORT, LED2_PIN);
+	GPIO_SetBits(LED3_PORT, LED3_PIN);
+}
 
 void gpio_init(void)
 {
@@ -71,12 +77,12 @@ void gpio_init(void)
     GPIO_Init(PIN_MSC_LED_PORT, &GPIO_InitStructure);
 
     // configure Beep
+    GPIO_PinAFConfig(BEEP_PORT, BEEP_Bit, GPIO_AF_2);
     GPIO_ResetBits(BEEP_PORT, BEEP_PIN);
     GPIO_InitStructure.GPIO_Pin = BEEP_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(BEEP_PORT, &GPIO_InitStructure);
-    GPIO_PinAFConfig(BEEP_PORT, BEEP_Bit, GPIO_AF_2);
 
     // reset button configured as gpio open drain output with a pullup
     GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
@@ -92,6 +98,7 @@ void gpio_init(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(POWER_5V_EN_PIN_PORT, &GPIO_InitStructure);
 
+    GPIO_PinAFConfig(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_Bit, GPIO_AF_2);
     GPIO_SetBits(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_PIN);
     GPIO_InitStructure.GPIO_Pin = POWER_3V3_EN_PIN;
     GPIO_Init(POWER_3V3_EN_PIN_PORT, &GPIO_InitStructure);
@@ -121,6 +128,8 @@ void gpio_init(void)
     // button is pressed.
     // Note: With optimization set to -O2 the value 1000000 delays for ~85ms
     busy_wait(1000000);
+	closeLED();
+	BEEP_off();
 }
 
 void gpio_set_hid_led(gpio_led_state_t state)
