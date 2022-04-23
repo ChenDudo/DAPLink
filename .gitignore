@@ -29,6 +29,7 @@ tmp/
 *.uvopt
 *.uvgui.*
 *.uvguix.*
+*.scvd
 
 *.plg
 *.map
