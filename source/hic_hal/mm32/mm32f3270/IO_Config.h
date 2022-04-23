@@ -53,6 +53,7 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32F3270);
 #define nRESET_PIN_PORT              GPIOC
 #define nRESET_PIN                   GPIO_Pin_12
 #define nRESET_PIN_Bit               12
+
 // nRESET IN Pin (K1)
 #define K1_PIN_PORT                 GPIOD
 #define K1_PIN                      GPIO_Pin_2
@@ -75,6 +76,10 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32F3270);
 #define SWDIO_IN_PIN                 GPIO_Pin_6
 #define SWDIO_IN_PIN_Bit             6
 
+//SWO/TDO
+#define SWDO_PIN_PORT            GPIOC
+#define SWDO_PIN                 GPIO_Pin_11
+#define SWDO_PIN_Bit             11
 
 // LEDs
 #define LED1_PORT             GPIOB
@@ -99,13 +104,13 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32F3270);
 #define CONNECTED_LED_PIN_Bit        LED2_Bit
 
 //USB status LED
-#define PIN_HID_LED_PORT             LED3_PORT
-#define PIN_HID_LED                  LED3_PIN
-#define PIN_HID_LED_Bit              LED3_Bit
+#define PIN_HID_LED_PORT             LED1_PORT
+#define PIN_HID_LED                  LED1_PIN
+#define PIN_HID_LED_Bit              LED1_Bit
 
-#define PIN_CDC_LED_PORT             LED3_PORT
-#define PIN_CDC_LED                  LED3_PIN
-#define PIN_CDC_LED_Bit              LED3_Bit
+#define PIN_CDC_LED_PORT             LED2_PORT
+#define PIN_CDC_LED                  LED2_PIN
+#define PIN_CDC_LED_Bit              LED2_Bit
 
 #define PIN_MSC_LED_PORT             LED3_PORT
 #define PIN_MSC_LED                  LED3_PIN

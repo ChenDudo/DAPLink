@@ -30,8 +30,10 @@
 #include "mm32_device.h"
 #include "hal_gpio.h"
 #include "hal_rcc.h"
-
-#include "usbreg.h"
+#include "hal_misc.h"
+//#include "hal_crs.h"
+//#include "usbreg.h"
+#include "reg_usb_otg_fs.h"
 #include "IO_Config.h"
 #include "cortex_m.h"
 #include "string.h"
@@ -40,6 +42,72 @@
 #include "usb_config.c"
 
 
+// configure BDT table
+#define OTG_BUFFER_BASE     0x50000000
+
+/* The maximum value of ISO maximum packet size for FS in USB specification 2.0 */
+#define USB_DEVICE_MAX_FS_ISO_MAX_PACKET_SIZE (1023U)
+
+/* The maximum value of non-ISO maximum packet size for FS in USB specification 2.0 */
+#define USB_DEVICE_MAX_FS_NONE_ISO_MAX_PACKET_SIZE (64U)
+
+/* Set BDT buffer address */
+#define BDT_SET_ADDRESS(bdt_base, ep, direction, odd, address)                          \
+    *((volatile uint32_t *)((bdt_base & 0xfffffe00U) | (((uint32_t)ep & 0x0fU) << 5U) |          \
+                            (((uint32_t)direction & 1U) << 4U) | (((uint32_t)odd & 1U) << 3U)) + \
+      1U) = address
+
+/* Set BDT control fields*/
+#define BDT_SET_CONTROL(bdt_base, ep, direction, odd, control)                \
+    *(volatile uint32_t *)((bdt_base & 0xfffffe00U) | (((uint32_t)ep & 0x0fU) << 5U) | \
+                           (((uint32_t)direction & 1U) << 4U) | (((uint32_t)odd & 1U) << 3U)) = control
+
+/* Get BDT buffer address*/
+#define BDT_GET_ADDRESS(bdt_base, ep, direction, odd)                                    \
+    (*((volatile uint32_t *)((bdt_base & 0xfffffe00U) | (((uint32_t)ep & 0x0fU) << 5U) |          \
+                             (((uint32_t)direction & 1U) << 4U) | (((uint32_t)odd & 1U) << 3U)) + \
+       1U))
+
+/* Get BDT control fields*/
+#define BDT_GET_CONTROL(bdt_base, ep, direction, odd)                          \
+    (*(volatile uint32_t *)((bdt_base & 0xfffffe00U) | (((uint32_t)ep & 0x0fU) << 5U) | \
+                            (((uint32_t)direction & 1U) << 4U) | (((uint32_t)odd & 1U) << 3U)))
+
+
+////////////////////////////////////////////////////////////////////////////////
+void USB_NVIC_Config(void)
+{
+	//???chend: no use
+    NVIC_InitTypeDef NVIC_InitStruct;
+
+    NVIC_InitStruct.NVIC_IRQChannel = USB_FS_IRQn;
+	NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStruct);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void USB_Clock_Config(void)
+{
+	/* configure CRS */
+	RCC_APB1PeriphClockCmd(RCC_APB1ENR_CRS, ENABLE);
+    CRS->CFGR &= ~CRS_CFGR_RELOAD;
+    CRS->CFGR |= 0xBB7F;	// RELOAD=47999
+    CRS->CFGR &= ~CRS_CFGR_SRC;
+    CRS->CFGR |= CRS_CFGR_SRC_USBSOF;
+    CRS->CR |= CRS_CR_AUTOTRIMEN;
+    CRS->CR |= CRS_CR_CNTEN;
+	
+    /**/
+    RCC_AHBPeriphClockCmd(RCC_AHBENR_GPIO, ENABLE);
+
+	/* Select USBCLK source */
+    RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_Div2);
+
+	/* Enable USB clock */
+	RCC_AHB2PeriphClockCmd(RCC_AHB2ENR_USBFS, ENABLE);
+}
 
 /*
  *  USB Device Interrupt enable
@@ -63,16 +131,10 @@ void          USBD_IntrEna(void) {
  */
 void USBD_Init(void)
 {
-    /* Select USBCLK source */
-    RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_Div2);
-
-    /* Enable USB clock */
-    RCC->AHB2ENR |= 0x1 << 7;
-	
+	USB_Clock_Config();
     USBD_Reset();
-
-    /* Enable USB Interrupts */
     USBD_IntrEna();
+    USB_OTG_FS->ADDR = 0; // USB default address = 0
 }
 
 /*
@@ -84,10 +146,10 @@ void USBD_Init(void)
 void USBD_Connect(BOOL con)
 {
     if (con) {
-
+        USB_OTG_FS->CTL |= OTG_FS_CTL_USB_EN_SOF_EN;
     }
     else {
-
+        USB_OTG_FS->CTL &= ~OTG_FS_CTL_USB_EN_SOF_EN;
     }
 }
 
@@ -101,39 +163,18 @@ void USBD_Reset(void)
     NVIC_DisableIRQ(USB_FS_IRQn);
 
     /* Clear Interrupt Status */
-    //ISTR = 0;                            
-    //CNTR = CNTR_CTRM | CNTR_RESETM | CNTR_SUSPM | CNTR_WKUPM |
-#ifdef __RTX
-           ((USBD_RTX_DevTask   != 0) ? CNTR_ERRM    : 0) |
-           ((USBD_RTX_DevTask   != 0) ? CNTR_PMAOVRM : 0) |
-           ((USBD_RTX_DevTask   != 0) ? CNTR_SOFM    : 0) |
-           ((USBD_RTX_DevTask   != 0) ? CNTR_ESOFM   : 0);
-#else
-           //((USBD_P_Error_Event != 0) ? CNTR_ERRM    : 0) |
-           //((USBD_P_Error_Event != 0) ? CNTR_PMAOVRM : 0) |
-           //((USBD_P_SOF_Event   != 0) ? CNTR_SOFM    : 0) |
-           //((USBD_P_SOF_Event   != 0) ? CNTR_ESOFM   : 0);
-#endif
+    USB_OTG_FS->OTG_ISTAT |= 0xED;
+
+    USB_OTG_FS->CTL &= OTG_FS_CTL_HOST_MODE_EN;
 
     /* set BTABLE Address */
-    //FreeBufAddr = EP_BUF_ADDR;
-    //BTABLE = 0x00;      
+
 
     /* Setup Control Endpoint 0 */
-    //pBUF_DSCR->ADDR_TX = FreeBufAddr;
-    //FreeBufAddr += USBD_MAX_PACKET0;
-    //pBUF_DSCR->ADDR_RX = FreeBufAddr;
-    //FreeBufAddr += USBD_MAX_PACKET0;
-	//
-    //if (USBD_MAX_PACKET0 > 62) {
-    //    pBUF_DSCR->COUNT_RX = ((USBD_MAX_PACKET0 << 5) - 1) | 0x8000;
-    //} else {
-    //    pBUF_DSCR->COUNT_RX =   USBD_MAX_PACKET0 << 9;
-    //}
+
 
     /* Enable USB Default Address */
-    //EPxREG(0) = EP_CONTROL | EP_RX_VALID;
-    //DADDR = DADDR_EF | 0;
+
 
     NVIC_EnableIRQ(USB_FS_IRQn);
 }
@@ -145,8 +186,7 @@ void USBD_Reset(void)
  */
 void USBD_Suspend(void)
 {
-    CNTR |= CNTR_FSUSP;                   /* Force Suspend                      */
-    CNTR |= CNTR_LPMODE;                  /* Low Power Mode                     */
+    /* Performed by Hardware */
 }
 
 /*
@@ -156,7 +196,7 @@ void USBD_Suspend(void)
  */
 void USBD_Resume(void)
 {
-    
+    /* Performed by Hardware */
 }
 
 /*
@@ -166,8 +206,7 @@ void USBD_Resume(void)
  */
 void USBD_WakeUp(void)
 {
-    /* Clear Suspend */
-    USB_OTG_FS->CTL &= ~CNTR_FSUSP;
+    // no neeed
 }
 
 /*
@@ -177,7 +216,7 @@ void USBD_WakeUp(void)
  */
 void USBD_WakeUpCfg(BOOL cfg)
 {
-    //NULL
+    // no need
 }
 
 /*
@@ -188,10 +227,9 @@ void USBD_WakeUpCfg(BOOL cfg)
  */
 void USBD_SetAddress(U32 adr, U32 setup)
 {
-    if (setup) {    //????chend
-        return;
+    if (!setup) {
+        USB_OTG_FS->ADDR = adr;
     }
-    USB_OTG_FS->ADDR = adr;
 }
 
 /*
@@ -201,17 +239,58 @@ void USBD_SetAddress(U32 adr, U32 setup)
  */
 void USBD_Configure(BOOL cfg)
 {
-    if (cfg == __FALSE) {
-        /* reset Buffer address*/
-        //g_u32FreeBufAddr = CEP_BUF_BASE + CEP_BUF_LEN;
+    if (!cfg) {
+        /* reset endpoint Buffer*/
+        
 
     }
 }
 
+
+/* USB Standard Endpoint Descriptor */
+// typedef __PACKED_STRUCT _USB_ENDPOINT_DESCRIPTOR {
+//     U8  bLength;
+//     U8  bDescriptorType;
+//     U8  bEndpointAddress;
+//     U8  bmAttributes;
+//     U16 wMaxPacketSize;
+//     U8  bInterval;
+// } USB_ENDPOINT_DESCRIPTOR;
+
+#define USB_IN_MASK         (0x80)
+
 /******************************************************************************/
 void USBD_ConfigEP(USB_ENDPOINT_DESCRIPTOR *pEPD)
 {
+    uint32_t num, val;
     
+    U32 num, val;
+    num = pEPD->bEndpointAddress & 0x0F;
+    val = pEPD->wMaxPacketSize;
+    type = pEPD->bmAttributes & USB_ENDPOINT_TYPE_MASK;
+
+    /* IN EPs */
+    if (num & USB_IN_MASK) {
+
+    }
+    /* OUT EPs */
+    else {
+        EPBufInfo[EP_OUT_IDX(num)].buf_len  = val;
+        EPBufInfo[EP_OUT_IDX(num)].buf_ptr  = s_next_ep_buf_addr;
+        ptr  = GetEpCmdStatPtr(num);
+        *ptr = N_BYTES(EPBufInfo[EP_OUT_IDX(num)].buf_len) |
+               BUF_ADDR(EPBufInfo[EP_OUT_IDX(num)].buf_ptr) |
+               EP_DISABLED;
+
+        if (type == USB_ENDPOINT_TYPE_INTERRUPT) {
+            *ptr |= EP_TYPE | EP_RF_TV;
+        }
+        else if (type == USB_ENDPOINT_TYPE_ISOCHRONOUS) {
+            *ptr |= EP_TYPE;
+        }
+
+        s_next_ep_buf_addr += ROUND_UP(val, MIN_BUF_SIZE);     /* calc new free buffer address */
+    }
 }
 
 /******************************************************************************/
@@ -265,7 +344,7 @@ U32 USBD_ReadEP(U32 EPNum, U8 *pData, U32 cnt)
 /******************************************************************************/
 U32 USBD_WriteEP(U32 EPNum, U8 *pData, U32 cnt)
 {
-    return 0;
+    
 }
 
 /******************************************************************************/
@@ -280,19 +359,18 @@ U32 USBD_GetError(void)
     return 0;
 }
 
-/******************************************************************************/
-//void USBD_SignalHandler(void)
-//{
-//    
-//}
 
 /******************************************************************************/
 void USBD_Handler(void)
 {
-    
+    //TODO: handle
+
+    // end
+    NVIC_EnableIRQ(USB_FS_IRQn);
 }
 
 void OTG_FS_IRQHandler(void)
 {
+    NVIC_DisableIRQ(USB_FS_IRQn);
     USBD_SignalHandler();
 }

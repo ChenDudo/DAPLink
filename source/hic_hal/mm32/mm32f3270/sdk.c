@@ -31,6 +31,12 @@
 #include "util.h"
 #include "cortex_m.h"
 
+
+void readConfig()
+{
+	
+}
+
 /**
   * @brief  Switch the PLL source from HSI to HSE bypass, and select the PLL as SYSCLK
   *         source.
@@ -74,4 +80,5 @@ void sdk_init()
 	SystemCoreClock = 96000000;
 	
 	InitBeep();
+	readConfig();
 }

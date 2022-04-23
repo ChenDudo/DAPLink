@@ -29,7 +29,7 @@
 
 // TIM4 CH3
 #define BEEP_TIMER      TIM4
-#define ARR_VALUE       999
+#define ARR_VALUE       416
 
 
 /******************************************************************************/
@@ -56,8 +56,7 @@ void InitBeep(void)
 
 	TIM_CtrlPWMOutputs(BEEP_TIMER, ENABLE);
 	TIM_ARRPreloadConfig(BEEP_TIMER, ENABLE);
-	TIM_Cmd(BEEP_TIMER, ENABLE);
-	//BEEP_off();
+	BEEP_off();
 }
 
 /******************************************************************************/
