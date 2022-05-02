@@ -274,19 +274,19 @@ int main(void)
 
     // check for invalid app image or rst button press. Should be checksum or CRC but NVIC validation is better than nothing.
     // If the interface has set the hold in bootloader setting don't jump to app
-    if (!reset_button_pressed()
-            && g_board_info.target_cfg
-            && validate_bin_nvic((uint8_t *)g_board_info.target_cfg->flash_regions[0].start)
-            && !config_ram_get_initial_hold_in_bl()) {
+    if (!reset_button_pressed() 
+		&& g_board_info.target_cfg 
+		&& validate_bin_nvic((uint8_t *)g_board_info.target_cfg->flash_regions[0].start) 
+		&& !config_ram_get_initial_hold_in_bl())
+	{
         // change to the new vector table
         SCB->VTOR = g_board_info.target_cfg->flash_regions[0].start; //bootloaders should only have one flash region for interface
         // modify stack pointer and start app
-        modify_stack_pointer_and_start_app((*(uint32_t *)(g_board_info.target_cfg->flash_regions[0].start)),
-                (*(uint32_t *)(g_board_info.target_cfg->flash_regions[0].start + 4)));
+        modify_stack_pointer_and_start_app((*(uint32_t *)(g_board_info.target_cfg->flash_regions[0].start)), (*(uint32_t *)(g_board_info.target_cfg->flash_regions[0].start + 4)));
     }
 
     // config the usb interface descriptor and web auth token before USB connects
-    //unique_string_auth_config();
+    // unique_string_auth_config();
     // either the rst pin was pressed or we have an empty app region
     osKernelInitialize();                 // Initialize CMSIS-RTOS
     osThreadNew(main_task, NULL, NULL);    // Create application main thread
