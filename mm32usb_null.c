@@ -20,7 +20,7 @@
 *      RL-ARM - USB
 *----------------------------------------------------------------------------
 *      Name:    usbd_MM32F3270.c
-*      Purpose: Hardware Layer module for ST STM32F103
+*      Purpose: Hardware Layer module for MM32F3270
 *      Rev.:    V4.70
 *---------------------------------------------------------------------------*/
 
@@ -247,6 +247,8 @@ void USB_Clock_Config(void)
     RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_Div2);
 	/* Enable USB clock */
 	RCC_AHB2PeriphClockCmd(RCC_AHB2ENR_USBFS, ENABLE);
+	/* Enable USB Device */
+	USB_OTG_FS->CTL |= OTG_FS_CTL_USB_EN_SOF_EN;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -310,7 +312,7 @@ static void USB_DeviceKhciSetDefaultState(void)
         USB_KHCI_BDT_SET_CONTROL((uint32_t)khciState.bdt, count, USB_IN, 0U, 0U);
         USB_KHCI_BDT_SET_CONTROL((uint32_t)khciState.bdt, count, USB_IN, 1U, 0U);
         khciState.endpointState[((uint32_t)count << 1U) | USB_OUT].stateUnion.state = 0U;
-        khciState.endpointState[((uint32_t)count << 1U) | USB_IN].stateUnion.state = 0U;
+        khciState.endpointState[((uint32_t)count << 1U) | USB_IN ].stateUnion.state = 0U;
         khciState.registerBase->EP_CTL[count] = 0x00U;
     }
 	khciState.isDmaAlignBufferInusing = 0U;
@@ -320,9 +322,6 @@ static void USB_DeviceKhciSetDefaultState(void)
 	
 	/* Enable all error */
     khciState.registerBase->ERR_ENB = 0xFFU;
-
-	/* Enable all error */
-    USB_OTG_FS->ERR_ENB = 0xFFU;
 	
 	 /* Enable reset, sof, token, stall interrupt */
     interruptFlag = kUSB_KhciInterruptReset | kUSB_KhciInterruptTokenDone;
@@ -350,53 +349,12 @@ void USB_DeviceKhciInit(void)
     khciState.bdt = (uint8_t*)(s_UsbDeviceKhciBdtBuffer);
 
     /* Set BDT buffer address */
-    khciState.registerBase->BDT_PAGE_01 = (uint8_t)((((uint32_t)khciState.bdt) >> 8U) & 0xFFU);
+    khciState.registerBase->BDT_PAGE_01 = (uint8_t)((((uint32_t)khciState.bdt) >> 8U ) & 0xFFU);
     khciState.registerBase->BDT_PAGE_02 = (uint8_t)((((uint32_t)khciState.bdt) >> 16U) & 0xFFU);
     khciState.registerBase->BDT_PAGE_03 = (uint8_t)((((uint32_t)khciState.bdt) >> 24U) & 0xFFU);
 
     /* Set KHCI device state to default value. */
     USB_DeviceKhciSetDefaultState();
-}
-
-/*
- *  USB Device Interrupt enable
- *   Called by USBD_Init to enable the USB Interrupt
- *    Return Value:    None
- */
-#ifdef __RTX
-void __svc(1) USBD_IntrEna(void);
-void __SVC_1(void) {
-#else
-void          USBD_IntrEna(void) {
-#endif
-    NVIC_EnableIRQ(USB_FS_IRQn);
-}
-
-/*
- *  USB Device Initialize Function
- *   Called by the User to initialize USB Device
- *    Return Value:    None
- */
-void USBD_Init(void)
-{
-	USB_Clock_Config();
-    
-	USB_DeviceKhciInit();
-	USB_OTG_FS->CTL |= OTG_FS_CTL_USB_EN_SOF_EN;
-	USBD_IntrEna();
-    USBD_Reset();
-}
-
-/*
- *  USB Device Connect Function
- *   Called by the User to Connect/Disconnect USB Device
- *    Parameters:      con:   Connect/Disconnect
- *    Return Value:    None
- */
-void USBD_Connect(BOOL con)
-{
-    (con) ? (USB_OTG_FS->CTL |= OTG_FS_CTL_USB_EN_SOF_EN) : \
-		(USB_OTG_FS->CTL &= ~OTG_FS_CTL_USB_EN_SOF_EN);
 }
 
 void USB_DeviceKhciEndpointTransfer(uint8_t endpoint, uint8_t direction, uint8_t* buffer, uint32_t length)
@@ -422,8 +380,7 @@ static void USB_DeviceKhciPrimeNextSetup(void)
 {
     /* Update the endpoint state */
     /* Save the buffer address used to receive the setup packet. */
-    khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_OUT].transferBuffer =
-        (uint8_t*)&khciState.setupPacketBuffer[0] + khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_OUT].stateUnion.stateBitField.bdtOdd * USB_SETUP_PACKET_SIZE;
+    khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_OUT].transferBuffer = (uint8_t*)&khciState.setupPacketBuffer[0] + khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_OUT].stateUnion.stateBitField.bdtOdd * USB_SETUP_PACKET_SIZE;
 	
     /* Clear the transferred length. */
     khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_OUT].transferDone = 0U;
@@ -435,6 +392,54 @@ static void USB_DeviceKhciPrimeNextSetup(void)
     khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_OUT].stateUnion.stateBitField.data0 = 0U;
 
     USB_DeviceKhciEndpointTransfer(USB_CONTROL_ENDPOINT, USB_OUT, khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_OUT].transferBuffer, USB_SETUP_PACKET_SIZE);
+}
+
+
+/*
+ *  Configure USB Device Endpoint according to Descriptor
+ *    Parameters:      pEPD:  Pointer to USB_ENDPOINT_DESCRIPTOR
+ *                  U8  bLength;
+ *                  U8  bDescriptorType;
+ *                  U8  bEndpointAddress;
+ *                  U8  bmAttributes;
+ *                  U16 wMaxPacketSize;
+ *                  U8  bInterval;
+ *    Return Value:    None
+ */
+void USB_DeviceKhciEndpointInit(USB_ENDPOINT_DESCRIPTOR *pEPD)
+{	
+    uint16_t maxPacketSize = pEPD->wMaxPacketSize;
+    uint8_t endpoint = (pEPD->bEndpointAddress & USB_ENDPOINT_NUMBER_MASK);
+    uint8_t direction = (pEPD->bEndpointAddress & USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_MASK) >> USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_SHIFT;
+    uint8_t index = ((uint8_t)((uint32_t)endpoint << 1U)) | (uint8_t)direction;
+	uint8_t type = pEPD->bmAttributes & USB_ENDPOINT_TYPE_MASK;
+	
+    /* Make the endpoint max packet size align with USB Specification 2.0. */
+    if (USB_ENDPOINT_ISOCHRONOUS == type) {
+        if (maxPacketSize > 1023U) maxPacketSize = 1023U;
+    }
+    else {
+		if (maxPacketSize > 64U) maxPacketSize = 64U;
+        /* Enable an endpoint to perform handshaking during a transaction to this endpoint. */
+        khciState.registerBase->EP_CTL[endpoint] |= USB_ENDPT_EPHSHK_MASK;
+    }
+    /* Set the endpoint idle */
+    khciState.endpointState[index].stateUnion.stateBitField.transferring = 0U;
+    /* Save the max packet size of the endpoint */
+    khciState.endpointState[index].stateUnion.stateBitField.maxPacketSize = maxPacketSize;
+    /* Set the data toggle to DATA0 */
+    khciState.endpointState[index].stateUnion.stateBitField.data0 = 0U;
+    /* Clear the endpoint stalled state */
+    khciState.endpointState[index].stateUnion.stateBitField.stalled = 0U;
+    /* Set the ZLT field */
+    khciState.endpointState[index].stateUnion.stateBitField.zlt = 1U;
+    /* Enable the endpoint. */
+    khciState.registerBase->EP_CTL[endpoint] |= (USB_IN == direction) ? USB_ENDPT_EPTXEN_MASK : USB_ENDPT_EPRXEN_MASK;
+
+    /* Prime a transfer to receive next setup packet when the endpoint is control out endpoint. */
+    if ((USB_CONTROL_ENDPOINT == endpoint) && (USB_OUT == direction)) {
+        USB_DeviceKhciPrimeNextSetup();
+    }
 }
 
 void USB_DeviceKhciRecv(uint8_t endpointAddress, uint8_t* buffer, uint32_t length)
@@ -588,11 +593,8 @@ void USB_DeviceKhciInterruptTokenDone(void)
     else {
         if (!((USB_CONTROL_ENDPOINT == endpoint) && (0U == length))) {
             if (0U == khciState.endpointState[index].stateUnion.stateBitField.dmaAlign) {
-                uint8_t* buffer = (uint8_t*)USB_LONG_FROM_LITTLE_ENDIAN(
-                                      USB_KHCI_BDT_GET_ADDRESS((uint32_t)khciState.bdt, endpoint, USB_OUT,
-                                              khciState.endpointState[index].stateUnion.stateBitField.bdtOdd));
-                uint8_t* transferBuffer =
-                    khciState.endpointState[index].transferBuffer + khciState.endpointState[index].transferDone;
+                uint8_t* buffer = (uint8_t*)USB_LONG_FROM_LITTLE_ENDIAN(USB_KHCI_BDT_GET_ADDRESS((uint32_t)khciState.bdt, endpoint, USB_OUT, khciState.endpointState[index].stateUnion.stateBitField.bdtOdd));
+                uint8_t* transferBuffer =  khciState.endpointState[index].transferBuffer + khciState.endpointState[index].transferDone;
                 if (buffer != transferBuffer) {
                     for (uint32_t i = 0U; i < length; i++) {
                         transferBuffer[i] = buffer[i];
@@ -607,20 +609,13 @@ void USB_DeviceKhciInterruptTokenDone(void)
 
             if ((USB_CONTROL_ENDPOINT == endpoint) && isSetup) {
                 khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_OUT].stateUnion.stateBitField.data0 = 1U;
-                khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_IN].stateUnion.stateBitField.data0 = 1U;
+                khciState.endpointState[(USB_CONTROL_ENDPOINT << 1U) | USB_IN ].stateUnion.stateBitField.data0 = 1U;
             }
             else {
                 khciState.endpointState[index].stateUnion.stateBitField.data0 ^= 1U;
             }
             khciState.endpointState[index].stateUnion.stateBitField.bdtOdd ^= 1U;
             if ((!khciState.endpointState[index].transferLength) || (!remainingLength) || (khciState.endpointState[index].stateUnion.stateBitField.maxPacketSize > length)) {
-//                message.length = khciState.endpointState[index].transferDone;
-//                if (isSetup) {
-//                    message.buffer = bdtBuffer;
-//                }
-//                else {
-//                    message.buffer = khciState.endpointState[index].transferBuffer;
-//                }
                 khciState.endpointState[index].stateUnion.stateBitField.transferring = 0U;
             }
             else {
@@ -636,16 +631,72 @@ void USB_DeviceKhciInterruptTokenDone(void)
 
 
 /*
+ *  USB Device Interrupt enable
+ *   Called by USBD_Init to enable the USB Interrupt
+ *    Return Value:    None
+ */
+#ifdef __RTX
+void __svc(1) USBD_IntrEna(void);
+void __SVC_1(void) {
+#else
+void          USBD_IntrEna(void) {
+#endif
+    NVIC_EnableIRQ(USB_FS_IRQn);
+}
+
+/*
+ *  USB Device Initialize Function
+ *   Called by the User to initialize USB Device
+ *    Return Value:    None
+ */
+void USBD_Init(void)
+{
+	USB_Clock_Config();
+    
+	USB_DeviceKhciDeinit();
+	USB_DeviceKhciInit();
+	
+	USBD_IntrEna();
+    //USBD_Reset();
+}
+
+/*
+ *  USB Device Connect Function
+ *   Called by the User to Connect/Disconnect USB Device
+ *    Parameters:      con:   Connect/Disconnect
+ *    Return Value:    None
+ */
+void USBD_Connect(BOOL con)
+{
+    // not support
+    // (con) ? (USB_OTG_FS->CTL |= OTG_FS_CTL_USB_EN_SOF_EN) : \
+	// 	(USB_OTG_FS->CTL &= ~OTG_FS_CTL_USB_EN_SOF_EN);
+}
+
+/*
  *  USB Device Reset Function
  *   Called automatically on USB Device Reset
  *    Return Value:    None
  */
 void USBD_Reset(void)
-{//USB_DeviceKhciInterruptReset()
+{
+	USB_ENDPOINT_DESCRIPTOR *pEPD;
+	
     NVIC_DisableIRQ(USB_FS_IRQn);
 	
 	USB_DeviceKhciInterruptReset();
-
+	
+	pEPD->bmAttributes = USB_ENDPOINT_TYPE_CONTROL;
+	pEPD->wMaxPacketSize = USB_CONTROL_MAX_PACKET_SIZE;
+	pEPD->bEndpointAddress = USB_CONTROL_ENDPOINT | (USB_IN << USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_SHIFT);
+	
+    /* Initialize the control IN pipe */
+	USB_DeviceKhciEndpointInit((USB_ENDPOINT_DESCRIPTOR *)pEPD);
+	
+	/* Initialize the control OUT pipe */
+	pEPD->bEndpointAddress = USB_CONTROL_ENDPOINT | (USB_OUT << USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_SHIFT);
+	USB_DeviceKhciEndpointInit((USB_ENDPOINT_DESCRIPTOR *)pEPD);
+	
     NVIC_EnableIRQ(USB_FS_IRQn);
 }
 
@@ -658,6 +709,7 @@ void USBD_Reset(void)
 void USBD_Suspend(void)
 {
     /* Performed by Hardware */
+
 }
 
 /*
@@ -730,129 +782,12 @@ void USBD_Configure(BOOL cfg)
     }
 }
 
-
-/*
- *  Configure USB Device Endpoint according to Descriptor
- *    Parameters:      pEPD:  Pointer to USB_ENDPOINT_DESCRIPTOR
- *                  U8  bLength;
- *                  U8  bDescriptorType;
- *                  U8  bEndpointAddress;
- *                  U8  bmAttributes;
- *                  U16 wMaxPacketSize;
- *                  U8  bInterval;
- *    Return Value:    None
- */
-void USB_DeviceKhciEndpointInit(USB_ENDPOINT_DESCRIPTOR *pEPD)
-{	
-    uint16_t maxPacketSize = pEPD->bEndpointAddress;
-    uint8_t endpoint = (pEPD->bEndpointAddress & USB_ENDPOINT_NUMBER_MASK);
-    uint8_t direction = (pEPD->bEndpointAddress & USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_MASK) >>
-                        USB_DESCRIPTOR_ENDPOINT_ADDRESS_DIRECTION_SHIFT;
-    uint8_t index = ((uint8_t)((uint32_t)endpoint << 1U)) | (uint8_t)direction;
-	uint8_t type = pEPD->bmAttributes & USB_ENDPOINT_TYPE_MASK;
-	
-    /* Make the endpoint max packet size align with USB Specification 2.0. */
-    if (USB_ENDPOINT_ISOCHRONOUS == type) {
-        if (maxPacketSize > 1023U) maxPacketSize = 1023U;
-    }
-    else {
-		if (maxPacketSize > 64U) maxPacketSize = 64U;
-        /* Enable an endpoint to perform handshaking during a transaction to this endpoint. */
-        khciState.registerBase->EP_CTL[endpoint] |= USB_ENDPT_EPHSHK_MASK;
-    }
-    /* Set the endpoint idle */
-    khciState.endpointState[index].stateUnion.stateBitField.transferring = 0U;
-    /* Save the max packet size of the endpoint */
-    khciState.endpointState[index].stateUnion.stateBitField.maxPacketSize = maxPacketSize;
-    /* Set the data toggle to DATA0 */
-    khciState.endpointState[index].stateUnion.stateBitField.data0 = 0U;
-    /* Clear the endpoint stalled state */
-    khciState.endpointState[index].stateUnion.stateBitField.stalled = 0U;
-    /* Set the ZLT field */
-    khciState.endpointState[index].stateUnion.stateBitField.zlt = 0U;
-    /* Enable the endpoint. */
-    khciState.registerBase->EP_CTL[endpoint] |= (USB_IN == direction) ? USB_ENDPT_EPTXEN_MASK : USB_ENDPT_EPRXEN_MASK;
-
-    /* Prime a transfer to receive next setup packet when the endpoint is control out endpoint. */
-    if ((USB_CONTROL_ENDPOINT == endpoint) && (USB_OUT == direction)) {
-        USB_DeviceKhciPrimeNextSetup();
-    }
-}
-
-
 void USBD_ConfigEP(USB_ENDPOINT_DESCRIPTOR *pEPD)
 {
+    uint8_t epnum = (uint8_t)(pEPD->bEndpointAddress);
 	USB_DeviceKhciEndpointInit((USB_ENDPOINT_DESCRIPTOR*)pEPD);
-	
-//    uint32_t num, val, type;
-//    uint8_t endpoint, direction;
-//    uint32_t index;
 
-//    num  = pEPD->bEndpointAddress;
-//    val  = pEPD->wMaxPacketSize;
-//    type = pEPD->bmAttributes & USB_ENDPOINT_TYPE_MASK;
-//    endpoint = (num & 0x0FU);
-//    direction = (num & 0x80U) >> 7;
-//    index = ((uint8_t)((uint32_t)endpoint << 1U)) | (uint8_t)direction;
-
-//    /* Make the endpoint max packet size align with USB Specification 2.0. */
-//    if (USB_ENDPOINT_ISOCHRONOUS == type) {
-//        if (val > 1023U)    val = 1023U;
-//    }
-//    else {
-//        if (val > 64U)      val = 64U;
-//        /* Enable an endpoint to perform handshaking during a transaction to this endpoint. */
-//        USB_OTG_FS->EP_CTL[endpoint] |= USB_ENDPT_EPHSHK_MASK;
-//    }
-//    /* Set the endpoint idle */
-//    khciState.endpointState[index].stateUnion.stateBitField.transferring = 0U;
-//    /* Save the max packet size of the endpoint */
-//    khciState.endpointState[index].stateUnion.stateBitField.maxPacketSize = val;
-//    /* Set the data toggle to DATA0 */
-//    khciState.endpointState[index].stateUnion.stateBitField.data0 = 0U;
-//    /* Clear the endpoint stalled state */
-//    khciState.endpointState[index].stateUnion.stateBitField.stalled = 0U;
-//    /* Set the ZLT field */
-//    //khciState.endpointState[index].stateUnion.stateBitField.zlt = pEPD->bInterval; //TODO ???
-
-//    // /* Enable the endpoint. */   // TODO ???
-//    // USB_OTG_FS->EP_CTL[endpoint] |= (USB_IN == direction) ? USB_ENDPT_EPTXEN_MASK : USB_ENDPT_EPRXEN_MASK;
-//    
-//    /* Prime a transfer to receive next setup packet when the endpoint is control out endpoint. */
-//    if (USB_OUT == direction) {
-//        uint8_t epIndex = (endpoint << 1U) | USB_OUT;
-//        khciState.endpointState[epIndex].transferBuffer = (uint8_t*)s_next_ep_buf_addr;
-//        /* Clear the transferred length. */
-//        khciState.endpointState[epIndex].transferDone = 0U;
-//        /* Save the data length expected to get from a host. */
-//        khciState.endpointState[epIndex].transferLength = val; //USB_SETUP_PACKET_SIZE;
-//        /* Save the data buffer DMA align flag. */
-//        khciState.endpointState[epIndex].stateUnion.stateBitField.dmaAlign = 1U;
-
-//        /* Add the data buffer address to the BDT. */
-//        USB_KHCI_BDT_SET_ADDRESS(BDT_BASE, endpoint, USB_OUT, khciState.endpointState[epIndex].stateUnion.stateBitField.bdtOdd, (uint32_t)khciState.endpointState[epIndex].transferBuffer);
-//        /* Change the BDT control field to start the transfer. */
-//        USB_KHCI_BDT_SET_CONTROL(BDT_BASE, endpoint, USB_OUT, khciState.endpointState[epIndex].stateUnion.stateBitField.bdtOdd,\
-//            (uint32_t)(USB_KHCI_BDT_BC(val) | USB_KHCI_BDT_OWN | USB_KHCI_BDT_DTS | USB_KHCI_BDT_DATA01(khciState.endpointState[epIndex].stateUnion.stateBitField.data0)));
-//        
-//        //USB_OTG_FS->CTL &= ~USB_CTL_TXSUSPENDTOKENBUSY_MASK; //* Clear the token busy state */
-//    }
-//    else {
-//        uint8_t epIndex = (endpoint << 1U) | USB_IN;
-//        khciState.endpointState[epIndex].transferBuffer = (uint8_t *)s_next_ep_buf_addr;
-//        /* Clear the transferred length. */
-//        khciState.endpointState[epIndex].transferDone = 0U;
-//        /* Save the data length expected to get from a host. */
-//        khciState.endpointState[epIndex].transferLength = val;
-//        /* Save the data buffer DMA align flag. */
-//        khciState.endpointState[epIndex].stateUnion.stateBitField.dmaAlign = 1U;
-
-//        /* Add the data buffer address to the BDT. */
-//        USB_KHCI_BDT_SET_ADDRESS(BDT_BASE, endpoint, USB_IN, khciState.endpointState[epIndex].stateUnion.stateBitField.bdtOdd, (uint32_t)khciState.endpointState[epIndex].transferBuffer);
-//        /* Change the BDT control field to start the transfer. */
-//        USB_KHCI_BDT_SET_CONTROL(BDT_BASE, endpoint, USB_IN, khciState.endpointState[epIndex].stateUnion.stateBitField.bdtOdd,\
-//            (uint32_t)(USB_KHCI_BDT_BC(val) | USB_KHCI_BDT_OWN | USB_KHCI_BDT_DTS | USB_KHCI_BDT_DATA01(khciState.endpointState[epIndex].stateUnion.stateBitField.data0)));
-//    }
+    USBD_ResetEP(epnum);
 }
 
 /*
@@ -882,7 +817,9 @@ void USBD_EnableEP(U32 EPNum)
 	index = ((uint8_t)((uint32_t)endpoint << 1U)) | (uint8_t)direction;
 	
     /* Enable the endpoint. */
-    
+    if (direction){
+        
+    }
 }
 
 /*
@@ -1101,41 +1038,70 @@ U32 USBD_GetError(void)
 void tokenhandle()
 {
 //USB_DeviceKhciInterruptTokenDone();
-		uint8_t stateRegister = USB_OTG_FS->STAT;
-		uint8_t num, direction;
+	uint32_t control;
+    uint32_t length;
+    uint32_t remainingLength;
+    uint8_t* bdtBuffer;
+	uint8_t endpoint;
+    uint8_t direction;
+    uint8_t bdtOdd;
+    uint8_t isSetup;
+    uint8_t index;
+    uint8_t stateRegister = khciState.registerBase->STAT;
         
-		/* Get the endpoint number to identify which one triggers the token done interrupt. */
-        num = (stateRegister & USB_STAT_ENDP_MASK) >> USB_STAT_ENDP_SHIFT;
+	/* Get the endpoint number to identify which one triggers the token done interrupt. */
+    endpoint = (stateRegister & USB_STAT_ENDP_MASK) >> USB_STAT_ENDP_SHIFT;
 
-        /* Get the direction of the endpoint number. */
-        direction = (stateRegister & USB_STAT_TX_MASK) >> USB_STAT_TX_SHIFT;
+    /* Get the direction of the endpoint number. */
+    direction = (stateRegister & USB_STAT_TX_MASK) >> USB_STAT_TX_SHIFT;
 
-        /* Get the finished BDT ODD. */
-        //bdtOdd = (stateRegister & USB_STAT_ODD_MASK) >> USB_STAT_ODD_SHIFT;
+    /* Get the finished BDT ODD. */
+    bdtOdd = (stateRegister & USB_STAT_ODD_MASK) >> USB_STAT_ODD_SHIFT;
 
-        /* Clear token done interrupt flag. */
-        USB_OTG_FS->INT_STAT = kUSB_KhciInterruptTokenDone;
+    /* Clear token done interrupt flag. */
+    khciState.registerBase->INT_STAT = kUSB_KhciInterruptTokenDone;
 
-        if (USB_IN == direction) {
+    /* Get the Control field of the BDT element according to the endpoint number, the direction and finished BDT ODD. */
+    control = USB_KHCI_BDT_GET_CONTROL((uint32_t)khciState.bdt, endpoint, direction, bdtOdd);
+
+    /* Get the buffer field of the BDT element according to the endpoint number, the direction and finished BDT ODD. */
+    bdtBuffer = (uint8_t*)USB_KHCI_BDT_GET_ADDRESS((uint32_t)khciState.bdt, endpoint, direction, bdtOdd);
+
+    /* Get the transferred length. */
+    length = ((USB_LONG_FROM_LITTLE_ENDIAN(control)) >> 16U) & 0x3FFU;
+
+    /* Get the transferred length. */
+    isSetup = (USB_KHCI_BDT_DEVICE_SETUP_TOKEN == ((uint8_t)(((USB_LONG_FROM_LITTLE_ENDIAN(control)) >> 2U) & 0x0FU))) ? 1U : 0U;
+
+	if (0U == khciState.endpointState[index].stateUnion.stateBitField.transferring) {
+        return;
+    }
+
+    if (isSetup) {
+        khciState.setupBufferIndex = bdtOdd;
+    }
+
+	/* USB_IN, Send completed */
+    if (USB_IN == direction) {
 #ifdef __RTX
             if (USBD_RTX_EPTask[num])   isr_evt_set(USBD_EVT_IN,  USBD_RTX_EPTask[num]);
 #else
-            if (USBD_P_EP[num])         USBD_P_EP[num](USBD_EVT_IN);
+            if (USBD_P_EP[endpoint])         USBD_P_EP[endpoint](USBD_EVT_IN);
 #endif
         }
         if (USB_OUT == direction) {
-            if (USB_CONTROL_ENDPOINT == num){
+            if (USB_CONTROL_ENDPOINT == endpoint){
 #ifdef __RTX
                 if (USBD_RTX_EPTask[num / 2])   isr_evt_set(USBD_EVT_OUT, USBD_RTX_EPTask[num / 2]);
 #else
-                if (USBD_P_EP[num / 2])         USBD_P_EP[num](USBD_EVT_SETUP);
+                if (USBD_P_EP[endpoint / 2])         USBD_P_EP[endpoint](USBD_EVT_SETUP);
 #endif
 			}
             else {
 #ifdef __RTX
 				if (USBD_RTX_EPTask[num])   isr_evt_set(USBD_EVT_OUT,  USBD_RTX_EPTask[num]);
 #else
-				if (USBD_P_EP[num])         USBD_P_EP[num](USBD_EVT_OUT);
+				if (USBD_P_EP[endpoint])         USBD_P_EP[endpoint](USBD_EVT_OUT);
 #endif
 			}
 		}
@@ -1193,7 +1159,7 @@ void USBD_Handler(void)
 
     /* Token done interrupt */
     if (status & kUSB_KhciInterruptTokenDone) {
-        
+        tokenhandle();
 	}
 
     NVIC_EnableIRQ(USB_FS_IRQn);

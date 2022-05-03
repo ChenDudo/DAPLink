@@ -61,15 +61,21 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32F3270);
 
 //SWD
 // SWCLK: spi2_SCK
-#define SWCLK_TCK_PIN_PORT           GPIOB
-#define SWCLK_TCK_PIN                GPIO_Pin_13
-#define SWCLK_TCK_PIN_Bit            13
+//#define SWCLK_TCK_PIN_PORT           GPIOB
+//#define SWCLK_TCK_PIN                GPIO_Pin_13
+//#define SWCLK_TCK_PIN_Bit            13
+#define SWCLK_TCK_PIN_PORT           GPIOA
+#define SWCLK_TCK_PIN                GPIO_Pin_5
+#define SWCLK_TCK_PIN_Bit            5
 
 // SWDIO3: spi1_MOSI 
-// SWDIO1: GPIO
-#define SWDIO_OUT_PIN_PORT           GPIOB
-#define SWDIO_OUT_PIN                GPIO_Pin_5
-#define SWDIO_OUT_PIN_Bit            5
+// SWDIO1: GPIO (yes)
+//#define SWDIO_OUT_PIN_PORT           GPIOB
+//#define SWDIO_OUT_PIN                GPIO_Pin_5
+//#define SWDIO_OUT_PIN_Bit            5
+#define SWDIO_OUT_PIN_PORT           GPIOA
+#define SWDIO_OUT_PIN                GPIO_Pin_4
+#define SWDIO_OUT_PIN_Bit            4
 
 // SWDIO2: spi1_MISO
 #define SWDIO_IN_PIN_PORT            GPIOA

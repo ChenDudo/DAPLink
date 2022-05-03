@@ -25,6 +25,9 @@
 #include "mm32_device.h"
 #include "IO_Config.h"
 
+#include "hal_gpio.h"
+#include "hal_rcc.h"
+
 //**************************************************************************************************
 /**
 \defgroup DAP_Config_Debug_gr CMSIS-DAP Debug Unit Information
@@ -524,20 +527,25 @@ Status LEDs. In detail the operation of Hardware I/O and LED pins are enabled an
 __STATIC_INLINE void DAP_SETUP(void)
 {
     /* Enable port clock */
-    RCC->AHBENR |= RCC_AHBENR_GPIOA;
-    RCC->AHBENR |= RCC_AHBENR_GPIOB;
-    RCC->AHBENR |= RCC_AHBENR_GPIOC;
-    RCC->AHBENR |= RCC_AHBENR_GPIOD;
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOD, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
 
     /* Configure I/O pin SWCLK */
-    pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
-    SWCLK_TCK_PIN_PORT->BSRR = SWCLK_TCK_PIN;
+    GPIO_PinAFConfig(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, GPIO_AF_0);
+	pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
+	SWCLK_TCK_PIN_PORT->BSRR = SWCLK_TCK_PIN;
 
+	GPIO_PinAFConfig(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, GPIO_AF_0);
     pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
 
+	GPIO_PinAFConfig(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, GPIO_AF_0);
     pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
 
+	GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, GPIO_AF_0);
     pin_out_od_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
 

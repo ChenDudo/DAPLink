@@ -82,7 +82,11 @@ typedef struct {
     __IO u32 BDT_PAGE_03;                                                        ///< BDT page register 3                            offset: 0xB4
     __IO u32 RESERVED1;                                                          ///< Reserved                                       offset: 0xB8
     __IO u32 RESERVED2;                                                          ///< Reserved                                       offset: 0xBC
-    __IO u32 EP_CTL[16];                                                         ///< Endpoint control register                      offset: 0xC0
+    //__IO u32 EP_CTL[16];                                                         ///< Endpoint control register                      offset: 0xC0
+    struct {                                         /* offset: 0xC0, array step: 0x4 */
+    __IO uint8_t ENDPT;                              /**< Endpoint Control register, array offset: 0xC0, array step: 0x4 */
+         uint8_t RESERVED_0[3];
+    } EP_CTL[16];
 } USB_OTG_FS_TypeDef;
 ////////////////////////////////////////////////////////////////////////////////
 /// @brief USBD type pointer Definition

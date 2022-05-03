@@ -93,11 +93,11 @@ void gpio_init(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(BEEP_PORT, &GPIO_InitStructure);
 
-    // nRESET OUT
-    GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
-    GPIO_InitStructure.GPIO_Pin = nRESET_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-    GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
+//    // nRESET OUT
+//    GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
+//    GPIO_InitStructure.GPIO_Pin = nRESET_PIN;
+//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+//    GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
 	
 	// K1
 	GPIO_SetBits(K1_PIN_PORT, K1_PIN);
@@ -105,12 +105,12 @@ void gpio_init(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
     GPIO_Init(K1_PIN_PORT, &GPIO_InitStructure);
 	
-	// SWO/TDO
-	GPIO_SetBits(SWDO_PIN_PORT, SWDO_PIN);
-    GPIO_InitStructure.GPIO_Pin = SWDO_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_FLOATING;
-    GPIO_Init(SWDO_PIN_PORT, &GPIO_InitStructure);
-	
+//	// SWO/TDO
+//	GPIO_PinAFConfig(SWDO_PIN_PORT, SWDO_PIN_Bit, GPIO_AF_0);
+//	GPIO_SetBits(SWDO_PIN_PORT, SWDO_PIN);
+//    GPIO_InitStructure.GPIO_Pin = SWDO_PIN;
+//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+//    GPIO_Init(SWDO_PIN_PORT, &GPIO_InitStructure);
 	
     /* Turn on power to the board. */
     // When the target is unpowered, it holds the reset line low.

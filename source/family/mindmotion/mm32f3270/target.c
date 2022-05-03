@@ -34,7 +34,7 @@ target_cfg_t target_device = {
     .flash_regions[0].flags         = kRegionIsDefault,
     .flash_regions[0].flash_algo    = (program_target_t *) &flash,
     .ram_regions[0].start           = 0x20000000,
-    .ram_regions[0].end             = 0x20008000,
+    .ram_regions[0].end             = 0x20005000,
     .target_vendor                  = "MindMotion",
     .target_part_number             = "MM32F3270",
 };

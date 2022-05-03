@@ -54,8 +54,8 @@
 //   </h>
 #define USBD_POWER                  0
 #define USBD_MAX_PACKET0            64
-#define USBD_DEVDESC_IDVENDOR       0x0D28
-#define USBD_DEVDESC_IDPRODUCT      0x0204
+#define USBD_DEVDESC_IDVENDOR       0x2F81 //0x0D28
+#define USBD_DEVDESC_IDPRODUCT      0x0010 //0x0204
 #define USBD_DEVDESC_BCDDEVICE      0x0100
 
 //   <h> Configuration Settings
@@ -90,9 +90,9 @@
 //     </e>
 //   </h>
 #define USBD_STRDESC_LANGID         0x0409
-#define USBD_STRDESC_MAN            L"Arm"
+#define USBD_STRDESC_MAN            L"MindMotion"
 #ifndef USB_PROD_STR
-#define USBD_STRDESC_PROD           L"DAPLink CMSIS-DAP"       //"MM32Link-Max"
+#define USBD_STRDESC_PROD           L"MM32-Link_MAX CMSIS-DAP"       //"DAPLink CMSIS-DAP"
 #else
 #define _TOWIDE(x)                   L ## #x
 #define TOWIDE(x)                   _TOWIDE(x)
@@ -104,7 +104,7 @@
 //   <e0> Class Support
 //     <i> Enables USB Device Class specific Requests
 #define USBD_CLASS_ENABLE           1
-
+ 
 //     <e0.0> Human Interface Device (HID)
 //       <i> Enable class support for Human Interface Device (HID)
 //       <h> Interrupt Endpoint Settings
@@ -173,7 +173,7 @@
 #define USBD_HID_HS_ENABLE          0
 #define USBD_HID_HS_WMAXPACKETSIZE  64
 #define USBD_HID_HS_BINTERVAL       6
-#define USBD_HID_STRDESC            L"CMSIS-DAP v1"     //"MM32Link-Max v1"
+#define USBD_HID_STRDESC            L"CMSIS-DAP v1"     //"CMSIS-DAP v1"
 #define USBD_WEBUSB_STRDESC         L"WebUSB: CMSIS-DAP"
 #define USBD_HID_INREPORT_NUM       1
 #define USBD_HID_OUTREPORT_NUM      1
@@ -347,7 +347,7 @@
 #define USBD_CDC_ACM_EP_BULKIN          4
 #define USBD_CDC_ACM_EP_BULKOUT         4
 #define USBD_CDC_ACM_EP_BULKIN_STACK    0
-#define USBD_CDC_ACM_WMAXPACKETSIZE1    16
+#define USBD_CDC_ACM_WMAXPACKETSIZE1    64       //TODO 0503: 16 change to 64
 #define USBD_CDC_ACM_HS_ENABLE1         0
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE1 16
 #define USBD_CDC_ACM_HS_BINTERVAL1      0
@@ -398,13 +398,18 @@
 #define BULK_ENDPOINT 1
 #endif
 #define USBD_BULK_ENABLE             BULK_ENDPOINT
-#define USBD_BULK_EP_BULKIN          1 // fixme: both bulk and hid ep cannot be both enabled in a single build
-#define USBD_BULK_EP_BULKOUT         1
-#define USBD_BULK_EP_BULKIN_SWO      6
+// TODO 0503
+// #define USBD_BULK_EP_BULKIN          1 // fixme: both bulk and hid ep cannot be both enabled in a single build
+// #define USBD_BULK_EP_BULKOUT         1
+// #define USBD_BULK_EP_BULKIN_SWO      6
+
+#define USBD_BULK_EP_BULKIN          5
+#define USBD_BULK_EP_BULKOUT         5
+
 #define USBD_BULK_WMAXPACKETSIZE     64
 #define USBD_BULK_HS_ENABLE          0
 #define USBD_BULK_HS_WMAXPACKETSIZE  512
-#define USBD_BULK_STRDESC            L"CMSIS-DAP v2"    //"MM32Link-Max v2"
+#define USBD_BULK_STRDESC            L"CMSIS-DAP v2"    //"CMSIS-DAP v2"
 
 
 /* USB Device Calculations ---------------------------------------------------*/

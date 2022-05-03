@@ -79,6 +79,6 @@ void sdk_init()
  	while(RCC_GetSYSCLKSource() != 0x08);                       /* Check if the PLL clock output is the system clock, 0x08 : SYSCLK is PLL */
 	SystemCoreClock = 96000000;
 	
-	//InitBeep();
+	InitBeep();
 	readConfig();
 }
