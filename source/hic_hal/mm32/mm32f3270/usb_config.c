@@ -92,7 +92,7 @@
 #define USBD_STRDESC_LANGID         0x0409
 #define USBD_STRDESC_MAN            L"MindMotion"
 #ifndef USB_PROD_STR
-#define USBD_STRDESC_PROD           L"MM32-Link_MAX CMSIS-DAP"       //"DAPLink CMSIS-DAP"
+#define USBD_STRDESC_PROD           L"MM32-Link MAX CMSIS-DAP"       //"DAPLink CMSIS-DAP"
 #else
 #define _TOWIDE(x)                   L ## #x
 #define TOWIDE(x)                   _TOWIDE(x)

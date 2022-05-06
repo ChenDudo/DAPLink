@@ -103,11 +103,11 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32F3270);
 //Connected LED
 #define RUNNING_LED_PORT             LED1_PORT
 #define RUNNING_LED_PIN              LED1_PIN
-#define RUNNING_LED_Bit              LED1_Bit
+#define RUNNING_LED_Bit              LED1_Bits
 
-#define CONNECTED_LED_PORT           LED2_PORT
-#define CONNECTED_LED_PIN            LED2_PIN
-#define CONNECTED_LED_PIN_Bit        LED2_Bit
+#define CONNECTED_LED_PORT           LED1_PORT
+#define CONNECTED_LED_PIN            LED1_PIN
+#define CONNECTED_LED_PIN_Bit        LED1_Bit
 
 //USB status LED
 #define PIN_HID_LED_PORT             LED1_PORT

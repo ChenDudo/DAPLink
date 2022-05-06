@@ -25,6 +25,7 @@
 #include "hal_gpio.h"
 #include "hal_uart.h"
 #include "hal_misc.h"
+#include "hal_rcc.h"
 #include "uart.h"
 #include "gpio.h"
 #include "util.h"
@@ -43,9 +44,11 @@
 
 #define UART_TX_PORT                 GPIOB
 #define UART_TX_PIN                  GPIO_Pin_6
+#define UART_TX_PIN_Bit           	 6
 
 #define UART_RX_PORT                 GPIOB
 #define UART_RX_PIN                  GPIO_Pin_7
+#define UART_RX_PIN_Bit           	 7
 
 // #define UART_CTS_PORT                GPIOA
 // #define UART_CTS_PIN                 GPIO_PIN_0
@@ -86,16 +89,22 @@ int32_t uart_initialize(void)
     GPIO_InitTypeDef GPIO_InitStructure;
     NVIC_InitTypeDef NVIC_InitStructure;
 
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+	CDC_UART_ENABLE();
+    UART_PINS_PORT_ENABLE();
+	
     UART_ITConfig(CDC_UART, UART_IT_RXIEN|UART_IT_TXIEN, DISABLE);
     clear_buffers();
 
     //TX pin
+    GPIO_PinAFConfig(UART_TX_PORT, UART_TX_PIN_Bit, GPIO_AF_7);
     GPIO_InitStructure.GPIO_Pin = UART_TX_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(UART_TX_PORT, &GPIO_InitStructure);
 
     //RX pin
+    GPIO_PinAFConfig(UART_RX_PORT, UART_RX_PIN_Bit, GPIO_AF_7);
     GPIO_InitStructure.GPIO_Pin = UART_RX_PIN;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_Init(UART_RX_PORT, &GPIO_InitStructure);
@@ -107,48 +116,13 @@ int32_t uart_initialize(void)
     NVIC_Init(&NVIC_InitStructure);
     NVIC_ClearPendingIRQ(CDC_UART_IRQn);
 
-
-    // CDC_UART->CR1 &= ~(USART_IT_TXE | USART_IT_RXNE);
-    // clear_buffers();
-
-    // CDC_UART_ENABLE();
-    // UART_PINS_PORT_ENABLE();
-
-    // //TX pin
-    // GPIO_InitStructure.Pin = UART_TX_PIN;
-    // GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
-    // GPIO_InitStructure.Mode = GPIO_MODE_AF_PP;
-    // HAL_GPIO_Init(UART_TX_PORT, &GPIO_InitStructure);
-    // //RX pin
-    // GPIO_InitStructure.Pin = UART_RX_PIN;
-    // GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
-    // GPIO_InitStructure.Mode = GPIO_MODE_INPUT;
-    // GPIO_InitStructure.Pull = GPIO_PULLUP;
-    // HAL_GPIO_Init(UART_RX_PORT, &GPIO_InitStructure);
-    // //CTS pin, input
-    // GPIO_InitStructure.Pin = UART_CTS_PIN;
-    // GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
-    // GPIO_InitStructure.Mode = GPIO_MODE_INPUT;
-    // GPIO_InitStructure.Pull = GPIO_PULLUP;
-    // HAL_GPIO_Init(UART_CTS_PORT, &GPIO_InitStructure);
-    // //RTS pin, output low
-    // HAL_GPIO_WritePin(UART_RTS_PORT, UART_RTS_PIN, GPIO_PIN_RESET);
-    // GPIO_InitStructure.Pin = UART_RTS_PIN;
-    // GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
-    // GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_PP;
-    // HAL_GPIO_Init(UART_RTS_PORT, &GPIO_InitStructure);
-
-    // NVIC_EnableIRQ(CDC_UART_IRQn);
-
     return 1;
 }
 
 int32_t uart_uninitialize(void)
 {
-    UART_Cmd(CDC_UART, DISABLE);    // ??? ADD
+    //UART_Cmd(CDC_UART, DISABLE);    // ??? ADD
     UART_ITConfig(CDC_UART, UART_IT_RXIEN|UART_IT_TXIEN, DISABLE);
-    
-    // CDC_UART->CR1 &= ~(USART_IT_TXE | USART_IT_RXNE);
     clear_buffers();
     return 1;
 }
