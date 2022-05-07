@@ -65,7 +65,7 @@ This information includes:
 
 /// Configure maximum number of JTAG devices on the scan chain connected to the Debug Access Port.
 /// This setting impacts the RAM requirements of the Debug Unit. Valid range is 1 .. 255.
-#define DAP_JTAG_DEV_CNT        0               ///< Maximum number of JTAG devices on scan chain
+#define DAP_JTAG_DEV_CNT        4               ///< Maximum number of JTAG devices on scan chain
 
 /// Default communication mode on the Debug Access Port.
 /// Used for the command \ref DAP_Connect when Port Default mode is selected.
@@ -81,7 +81,7 @@ This information includes:
 /// debugger and depends on the USB peripheral. Typical vales are 64 for Full-speed USB HID or WinUSB,
 /// 1024 for High-speed USB HID and 512 for High-speed USB WinUSB.
 #ifndef HID_ENDPOINT            //HID end points currently set limits to 64
-#define DAP_PACKET_SIZE         64 //512              ///< Specifies Packet Size in bytes.
+#define DAP_PACKET_SIZE         512              ///< Specifies Packet Size in bytes.
 #else
 #define DAP_PACKET_SIZE         64              ///< Specifies Packet Size in bytes.
 #endif
@@ -90,14 +90,14 @@ This information includes:
 /// This configuration settings is used to optimize the communication performance with the
 /// debugger and depends on the USB peripheral. For devices with limited RAM or USB buffer the
 /// setting can be reduced (valid range is 1 .. 255). Change setting to 4 for High-Speed USB.
-#define DAP_PACKET_COUNT       64              ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
+#define DAP_PACKET_COUNT        4U              ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
 
 /// Indicate that UART Serial Wire Output (SWO) trace is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
 #define SWO_UART                0               ///< SWO UART:  1 = available, 0 = not available
 
 /// USART Driver instance number for the UART SWO.
-#define SWO_UART_DRIVER         0               ///< USART Driver instance number (Driver_USART#).
+#define SWO_UART_DRIVER         3               ///< USART Driver instance number (Driver_USART#).
 
 /// Maximum SWO UART Baudrate
 #define SWO_UART_MAX_BAUDRATE   10000000U       ///< SWO UART Maximum Baudrate in Hz
