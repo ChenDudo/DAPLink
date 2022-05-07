@@ -53,8 +53,8 @@ const target_family_descriptor_t *g_target_family = NULL;
 const board_info_t g_board_info = {
     .info_version = kBoardInfoVersion,
     .board_id = "0000",
-    .daplink_url_name =       "HELP_FAQHTM",
-    .daplink_drive_name = 		"MAINTENANCE",
-    .daplink_target_url = "https://daplink.io",
+    .daplink_url_name =       "MM32_DBTHTM",
+    .daplink_drive_name = 		"MM32-LinkBL",
+    .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools",
     .target_cfg = &target_device,
 };

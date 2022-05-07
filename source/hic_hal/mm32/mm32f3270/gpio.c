@@ -41,6 +41,18 @@ static void busy_wait(uint32_t cycles)
     }
 }
 
+void Power_5v_En(void)
+{
+	GPIO_ResetBits(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_PIN);
+	GPIO_SetBits(POWER_5V_EN_PIN_PORT, POWER_5V_EN_PIN);
+}
+
+void Power_3v3_En(void)
+{
+	GPIO_ResetBits(POWER_5V_EN_PIN_PORT, POWER_5V_EN_PIN);
+	GPIO_SetBits(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_PIN);
+}
+
 void LED_off(void)
 {
 	GPIO_SetBits(LED1_PORT, LED1_PIN);
@@ -93,11 +105,11 @@ void gpio_init(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(BEEP_PORT, &GPIO_InitStructure);
 
-//    // nRESET OUT
-//    GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
-//    GPIO_InitStructure.GPIO_Pin = nRESET_PIN;
-//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
-//    GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
+	// nRESET OUT
+	GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
+	GPIO_InitStructure.GPIO_Pin = nRESET_PIN;
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+	GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
 	
 	// K1
 	GPIO_SetBits(K1_PIN_PORT, K1_PIN);
@@ -105,43 +117,20 @@ void gpio_init(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
     GPIO_Init(K1_PIN_PORT, &GPIO_InitStructure);
 	
-//	// SWO/TDO
-//	GPIO_PinAFConfig(SWDO_PIN_PORT, SWDO_PIN_Bit, GPIO_AF_0);
-//	GPIO_SetBits(SWDO_PIN_PORT, SWDO_PIN);
-//    GPIO_InitStructure.GPIO_Pin = SWDO_PIN;
-//    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-//    GPIO_Init(SWDO_PIN_PORT, &GPIO_InitStructure);
-	
     /* Turn on power to the board. */
     // When the target is unpowered, it holds the reset line low.
-    GPIO_ResetBits(POWER_5V_EN_PIN_PORT, POWER_5V_EN_PIN);
+    Power_3v3_En();
+	
+	GPIO_PinAFConfig(POWER_3V3_EN_PIN_PORT, POWER_5V_EN_Bit, GPIO_AF_0);
+	GPIO_PinAFConfig(POWER_5V_EN_PIN_PORT, POWER_3V3_EN_Bit, GPIO_AF_2);
+	
     GPIO_InitStructure.GPIO_Pin = POWER_5V_EN_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(POWER_5V_EN_PIN_PORT, &GPIO_InitStructure);
-
-    GPIO_PinAFConfig(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_Bit, GPIO_AF_2);
-    GPIO_SetBits(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_PIN);
+	
     GPIO_InitStructure.GPIO_Pin = POWER_3V3_EN_PIN;
     GPIO_Init(POWER_3V3_EN_PIN_PORT, &GPIO_InitStructure);
-
-
-    /* Enable USB connect pin */
-    /* Disable JTAG to free pins for other uses. Note - SWD is still enabled */
-    //GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);
-    //USB_CONNECT_PORT_ENABLE();
-    //USB_CONNECT_OFF();
-    //GPIO_InitStructure.GPIO_Pin = USB_CONNECT_PIN;
-    //GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    //GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    //GPIO_Init(USB_CONNECT_PORT, &GPIO_InitStructure);
-
-    // Setup the 8MHz MCO
-    // GPIO_InitStructure.GPIO_Pin = GPIO_PIN_8;
-    // GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    // GPIO_InitStructure.GPIO_Mode = GPIO_MODE_AF_PP;
-    // GPIO_Init(GPIOA, &GPIO_InitStructure);
-    // output_clock_enable();
 
     // Let the voltage rails stabilize.  This is especailly important
     // during software resets, since the target's 3.3v rail can take
@@ -149,7 +138,6 @@ void gpio_init(void)
     // the reset pin low, causing the bootloader to think the reset
     // button is pressed.
     // Note: With optimization set to -O2 the value 1000000 delays for ~85ms
-	
 	LED_on();BEEP_on();
     busy_wait(1000000);
 	LED_off();BEEP_off();

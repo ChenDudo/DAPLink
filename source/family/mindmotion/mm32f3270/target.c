@@ -30,11 +30,11 @@ target_cfg_t target_device = {
     .sectors_info                   = sectors_info,
     .sector_info_length             = (sizeof(sectors_info))/(sizeof(sector_info_t)),
     .flash_regions[0].start         = 0x08000000,
-    .flash_regions[0].end           = 0x08020000,
+    .flash_regions[0].end           = 0x08080000,
     .flash_regions[0].flags         = kRegionIsDefault,
     .flash_regions[0].flash_algo    = (program_target_t *) &flash,
     .ram_regions[0].start           = 0x20000000,
-    .ram_regions[0].end             = 0x20005000,
+    .ram_regions[0].end             = 0x20020000,
     .target_vendor                  = "MindMotion",
     .target_part_number             = "MM32F3270",
 };
