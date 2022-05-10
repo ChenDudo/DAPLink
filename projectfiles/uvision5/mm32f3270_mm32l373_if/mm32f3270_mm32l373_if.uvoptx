@@ -2,7 +2,7 @@
 <ProjectOpt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_optx.xsd">
 	<SchemaVersion>1.0</SchemaVersion>
 	<Target>
-		<TargetName>mm32f3270_if</TargetName>
+		<TargetName>mm32f3270_mm32l373_if</TargetName>
 		<ToolsetNumber>0x4</ToolsetNumber>
 		<ToolsetName>ARM-ADS</ToolsetName>
 		<TargetOption>

@@ -54,8 +54,8 @@
 //   </h>
 #define USBD_POWER                  0
 #define USBD_MAX_PACKET0            64
-#define USBD_DEVDESC_IDVENDOR       0x2F81 //0x0D28
-#define USBD_DEVDESC_IDPRODUCT      0x0010 //0x0204
+#define USBD_DEVDESC_IDVENDOR       0x2F81
+#define USBD_DEVDESC_IDPRODUCT      0x0204
 #define USBD_DEVDESC_BCDDEVICE      0x0100
 
 //   <h> Configuration Settings
@@ -90,9 +90,9 @@
 //     </e>
 //   </h>
 #define USBD_STRDESC_LANGID         0x0409
-#define USBD_STRDESC_MAN            L"MindMotion"       //"Arm"
+#define USBD_STRDESC_MAN            L"Arm"
 #ifndef USB_PROD_STR
-#define USBD_STRDESC_PROD           L"MM32-Link MAX CMSIS-DAP"      //"DAPLink CMSIS-DAP"       
+#define USBD_STRDESC_PROD           L"DAPLink CMSIS-DAP"
 #else
 #define _TOWIDE(x)                   L ## #x
 #define TOWIDE(x)                   _TOWIDE(x)
@@ -100,6 +100,9 @@
 #endif
 #define USBD_STRDESC_SER_ENABLE     1
 #define USBD_STRDESC_SER            L"0001A0000000"
+
+
+// #define CMSIS_DAP_PRODUCT_NAME     L"MM32-Link MAX CMSIS-DAP" //TODO new add
 
 //   <e0> Class Support
 //     <i> Enables USB Device Class specific Requests
@@ -160,6 +163,7 @@
 #endif
 
 #define USBD_HID_ENABLE             HID_ENDPOINT
+
 #ifndef BULK_ENDPOINT               //check if bulk endpoint is not enabled
 #define USBD_HID_EP_INTIN           1
 #define USBD_HID_EP_INTOUT          1
@@ -167,12 +171,14 @@
 #define USBD_HID_EP_INTIN           0
 #define USBD_HID_EP_INTOUT          0
 #endif
+
 #define USBD_HID_EP_INTIN_STACK     0
+#define USBD_HID_EP_INTOUT_STACK    0
 #define USBD_HID_WMAXPACKETSIZE     64
 #define USBD_HID_BINTERVAL          1
 #define USBD_HID_HS_ENABLE          0
 #define USBD_HID_HS_WMAXPACKETSIZE  64
-#define USBD_HID_HS_BINTERVAL       6
+#define USBD_HID_HS_BINTERVAL       1
 #define USBD_HID_STRDESC            L"CMSIS-DAP v1"
 #define USBD_WEBUSB_STRDESC         L"WebUSB: CMSIS-DAP"
 #define USBD_HID_INREPORT_NUM       1
@@ -180,7 +186,6 @@
 #define USBD_HID_INREPORT_MAX_SZ    64
 #define USBD_HID_OUTREPORT_MAX_SZ   64
 #define USBD_HID_FEATREPORT_MAX_SZ  1
-
 //     <e0.0> Mass Storage Device (MSC)
 //       <i> Enable class support for Mass Storage Device (MSC)
 //       <h> Bulk Endpoint Settings
@@ -351,8 +356,8 @@
 #define USBD_CDC_ACM_HS_ENABLE1         0
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE1 64
 #define USBD_CDC_ACM_HS_BINTERVAL1      0
-#define USBD_CDC_ACM_CIF_STRDESC        L"mbed Serial Port"
-#define USBD_CDC_ACM_DIF_STRDESC        L"mbed Serial Port"
+#define USBD_CDC_ACM_CIF_STRDESC        L"MM32-Link MAX Serial Port"           //TODO chendo
+#define USBD_CDC_ACM_DIF_STRDESC        L"MM32-Link MAX Serial Port"          //"mbed Serial Port"
 #define USBD_CDC_ACM_SENDBUF_SIZE       64
 #define USBD_CDC_ACM_RECEIVEBUF_SIZE    64
 #if (((USBD_CDC_ACM_HS_ENABLE1) && (USBD_CDC_ACM_SENDBUF_SIZE    < USBD_CDC_ACM_HS_WMAXPACKETSIZE1)) || (USBD_CDC_ACM_SENDBUF_SIZE    < USBD_CDC_ACM_WMAXPACKETSIZE1))
@@ -398,8 +403,8 @@
 #define BULK_ENDPOINT 1
 #endif
 #define USBD_BULK_ENABLE             BULK_ENDPOINT
-#define USBD_BULK_EP_BULKIN          1
-#define USBD_BULK_EP_BULKOUT         1
+#define USBD_BULK_EP_BULKIN          5
+#define USBD_BULK_EP_BULKOUT         5
 #define USBD_BULK_WMAXPACKETSIZE     64
 #define USBD_BULK_HS_ENABLE          0
 #define USBD_BULK_HS_WMAXPACKETSIZE  512

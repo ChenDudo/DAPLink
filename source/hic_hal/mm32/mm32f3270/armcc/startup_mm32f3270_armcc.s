@@ -46,26 +46,27 @@ __heap_limit
                 EXPORT  __Vectors
                 EXPORT  __Vectors_End
                 EXPORT  __Vectors_Size
-
-__Vectors       DCD     __initial_sp                                            ;         Top of Stack
-                DCD     Reset_Handler                                           ;         Reset Handler
-                DCD     NMI_Handler                                             ; -14     NMI Handler
-                DCD     HardFault_Handler                                       ; -13     Hard Fault Handler
-                DCD     MemManage_Handler                                       ; -12     MPU Fault Handler
-                DCD     BusFault_Handler                                        ; -11     Bus Fault Handler
-                DCD     UsageFault_Handler                                      ; -10     Usage Fault Handler
-__vector_table_0x1c
-                DCD     0                                                       ; -9      Reserved
-                DCD     0                                                       ; -8      Reserved
-                DCD     0                                                       ; -7      Reserved
-                DCD     0                                                       ; -6      Reserved
-                DCD     SVC_Handler                                             ; -5      SVCall Handler
-                DCD     DebugMon_Handler                                        ; -4      Debug Monitor Handler
-                DCD     0                                                       ; -3      Reserved
-                DCD     PendSV_Handler                                          ; -2      PendSV Handler
-                DCD     SysTick_Handler                                         ; -1      SysTick Handler  ; External Interrupts     
-                DCD     WWDG_IRQHandler                                         ; 0       Window Watchdog
-                DCD     PVD_IRQHandler                                          ; 1       PVD through EXTI Line detect
+                IMPORT  g_board_info
+__Vectors       DCD     __initial_sp               ; Top of Stack
+                DCD     Reset_Handler              ; Reset Handler
+                DCD     NMI_Handler                ; NMI Handler
+                DCD     HardFault_Handler          ; Hard Fault Handler
+                DCD     MemManage_Handler          ; MPU Fault Handler
+                DCD     BusFault_Handler           ; Bus Fault Handler
+                DCD     UsageFault_Handler         ; Usage Fault Handler
+                DCD     0                          ; Reserved
+                DCD     DAPLINK_BUILD_KEY          ; DAPLINK: Build type (BL/IF)
+                DCD     DAPLINK_HIC_ID             ; DAPLINK: Compatibility
+                DCD     DAPLINK_VERSION            ; DAPLINK: Version
+                DCD     SVC_Handler                ; SVCall Handler
+                DCD     DebugMon_Handler           ; Debug Monitor Handler
+                DCD     g_board_info               ; DAPLINK: Pointer to board/family/target info
+                DCD     PendSV_Handler             ; PendSV Handler
+                DCD     SysTick_Handler            ; SysTick Handler
+                
+                ; External Interrupts
+                DCD     WWDG_IRQHandler            ; Window Watchdog
+                DCD     PVD_IRQHandler             ; PVD through EXTI Line detect
                 DCD     TAMPER_IRQHandler                                       ; 2       Tamper
                 DCD     RTC_IRQHandler                                          ; 3       RTC
                 DCD     FLASH_IRQHandler                                        ; 4       Flash
@@ -99,7 +100,7 @@ __vector_table_0x1c
                 DCD     0                                                       ; 32      Reserved
                 DCD     I2C2_IRQHandler                                         ; 33      I2C2 Event
                 DCD     0                                                       ; 34      Reserved
-                DCD     SPI1_IRQHandler                                         ; 35      SPI1
+            DCD     SPI1_IRQHandler                                         ; 35      SPI1
                 DCD     SPI2_IRQHandler                                         ; 36      SPI2
                 DCD     UART1_IRQHandler                                        ; 37      UART1
                 DCD     UART2_IRQHandler                                        ; 38      UART2

@@ -23,13 +23,13 @@
 #include "target_board.h"
 
 const board_info_t g_board_info = {
-    .info_version       = kBoardInfoVersion,
-    .board_id           = "0059",
-    .family_id          = kStub_HWReset_FamilyID,
+    .info_version   	= kBoardInfoVersion,
+    .board_id       	= "0700",
+    .family_id      	= kStub_HWReset_FamilyID,
     .daplink_url_name   = "PRODINFOHTM",
     .daplink_drive_name = "MM32-Link",
     .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/evaluation_boards/",
-    .target_cfg         = &target_device,
-    .board_vendor       = "MindMotion",
-    .board_name         = "MB059",
+    .target_cfg     	= &target_device,
+    .board_vendor   	= "MindMotion",
+    .board_name     	= "MiniBoard-L373",
 };

@@ -81,7 +81,7 @@ This information includes:
 /// debugger and depends on the USB peripheral. Typical vales are 64 for Full-speed USB HID or WinUSB,
 /// 1024 for High-speed USB HID and 512 for High-speed USB WinUSB.
 #ifndef HID_ENDPOINT            //HID end points currently set limits to 64
-#define DAP_PACKET_SIZE         512              ///< Specifies Packet Size in bytes.
+#define DAP_PACKET_SIZE         64              ///< Specifies Packet Size in bytes.
 #else
 #define DAP_PACKET_SIZE         64              ///< Specifies Packet Size in bytes.
 #endif
@@ -437,13 +437,15 @@ __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
            - 1: release device hardware reset.
 */
 // TODO - sw specific implementation should be created
-
+extern uint8_t swd_write_word(uint32_t addr, uint32_t val);
 __STATIC_FORCEINLINE void     PIN_nRESET_OUT(uint32_t bit)
 {
     if (bit & 1)
         nRESET_PIN_PORT->BSRR = nRESET_PIN;
     else
         nRESET_PIN_PORT->BRR = nRESET_PIN;
+    if (bit == 0)
+        swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
 }
 
 //**************************************************************************************************
