@@ -90,9 +90,9 @@
 //     </e>
 //   </h>
 #define USBD_STRDESC_LANGID         0x0409
-#define USBD_STRDESC_MAN            L"MindMoiton"
+#define USBD_STRDESC_MAN            L"Arm"
 #ifndef USB_PROD_STR
-#define USBD_STRDESC_PROD           L"MM32Link-MAX CMSIS-DAP"
+#define USBD_STRDESC_PROD           L"DAPLink CMSIS-DAP"
 #else
 #define _TOWIDE(x)                   L ## #x
 #define TOWIDE(x)                   _TOWIDE(x)
@@ -163,22 +163,15 @@
 #endif
 
 #define USBD_HID_ENABLE             HID_ENDPOINT
-
-#ifndef BULK_ENDPOINT               //check if bulk endpoint is not enabled
 #define USBD_HID_EP_INTIN           1
 #define USBD_HID_EP_INTOUT          1
-#else                               //if bulk endpoint is enabled remove interrupt endpoints from the hid
-#define USBD_HID_EP_INTIN           0
-#define USBD_HID_EP_INTOUT          0
-#endif
 
 #define USBD_HID_EP_INTIN_STACK     0
-#define USBD_HID_EP_INTOUT_STACK    0
 #define USBD_HID_WMAXPACKETSIZE     64
 #define USBD_HID_BINTERVAL          1
 #define USBD_HID_HS_ENABLE          0
 #define USBD_HID_HS_WMAXPACKETSIZE  64
-#define USBD_HID_HS_BINTERVAL       1
+#define USBD_HID_HS_BINTERVAL       6
 #define USBD_HID_STRDESC            L"CMSIS-DAP v1"
 #define USBD_WEBUSB_STRDESC         L"WebUSB: CMSIS-DAP"
 #define USBD_HID_INREPORT_NUM       1
@@ -356,8 +349,8 @@
 #define USBD_CDC_ACM_HS_ENABLE1         0
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE1 64
 #define USBD_CDC_ACM_HS_BINTERVAL1      0
-#define USBD_CDC_ACM_CIF_STRDESC        L"MM32-Link MAX Serial Port"           //TODO chendo
-#define USBD_CDC_ACM_DIF_STRDESC        L"MM32-Link MAX Serial Port"          //"mbed Serial Port"
+#define USBD_CDC_ACM_CIF_STRDESC        L"MM32-Link Serial Port"
+#define USBD_CDC_ACM_DIF_STRDESC        L"MM32-Link Serial Port"
 #define USBD_CDC_ACM_SENDBUF_SIZE       64
 #define USBD_CDC_ACM_RECEIVEBUF_SIZE    64
 #if (((USBD_CDC_ACM_HS_ENABLE1) && (USBD_CDC_ACM_SENDBUF_SIZE    < USBD_CDC_ACM_HS_WMAXPACKETSIZE1)) || (USBD_CDC_ACM_SENDBUF_SIZE    < USBD_CDC_ACM_WMAXPACKETSIZE1))
@@ -416,7 +409,7 @@
 #define USBD_IF_NUM_MAX             (USBD_BULK_ENABLE+USBD_WEBUSB_ENABLE+USBD_HID_ENABLE+USBD_MSC_ENABLE+(USBD_ADC_ENABLE*2)+(USBD_CDC_ACM_ENABLE*2)+USBD_CLS_ENABLE)
 #define USBD_MULTI_IF               (USBD_CDC_ACM_ENABLE*(USBD_HID_ENABLE|USBD_MSC_ENABLE|USBD_ADC_ENABLE|USBD_CLS_ENABLE|USBD_WEBUSB_ENABLE|USBD_BULK_ENABLE))
 // #define MAX(x, y)                   (((x) < (y)) ? (y) : (x))
-#define USBD_EP_NUM_CALC0           MAX((USBD_HID_ENABLE    *(USBD_HID_EP_INTIN     )), (USBD_HID_ENABLE    *(USBD_HID_EP_INTOUT!=0)*(USBD_HID_EP_INTOUT)))
+#define USBD_EP_NUM_CALC0           MAX((USBD_HID_ENABLE    *(USBD_HID_EP_INTIN     )), (USBD_HID_ENABLE    *(USBD_HID_EP_INTOUT)))
 #define USBD_EP_NUM_CALC1           MAX((USBD_MSC_ENABLE    *(USBD_MSC_EP_BULKIN    )), (USBD_MSC_ENABLE    *(USBD_MSC_EP_BULKOUT)))
 #define USBD_EP_NUM_CALC2           MAX((USBD_ADC_ENABLE    *(USBD_ADC_EP_ISOOUT    )), (USBD_CDC_ACM_ENABLE*(USBD_CDC_ACM_EP_INTIN)))
 #define USBD_EP_NUM_CALC3           MAX((USBD_CDC_ACM_ENABLE*(USBD_CDC_ACM_EP_BULKIN)), (USBD_CDC_ACM_ENABLE*(USBD_CDC_ACM_EP_BULKOUT)))

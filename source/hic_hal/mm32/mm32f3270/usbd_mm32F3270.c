@@ -172,19 +172,6 @@ void          USBD_IntrEna(void) {
  */
 void USBD_Init(void)
 {
-//	USB_Clock_Config();
-//	
-//    USB_OTG_FS->INT_STAT	= 0xFFU;
-//    USB_OTG_FS->INT_ENB	   &= ~(0xFFU);
-//    USB_OTG_FS->ADDR 		= (0U);
-//    USB_OTG_FS->CTL 		= 0x00U;
-//	USB_OTG_FS->BDT_PAGE_01 = ((uint32_t)BDT_BASE >> 8U ) & 0xFFU;
-//    USB_OTG_FS->BDT_PAGE_02 = ((uint32_t)BDT_BASE >> 16U) & 0xFFU;
-//    USB_OTG_FS->BDT_PAGE_03 = ((uint32_t)BDT_BASE >> 24U) & 0xFFU;
-//	
-//	USBD_IntrEna();
-//    USBD_Reset();
-	
 	OutEpSize[0] = USBD_MAX_PACKET0;
 
     USB_Clock_Config();

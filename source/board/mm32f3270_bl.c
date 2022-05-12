@@ -1,5 +1,5 @@
 /**
- * @file    stm32f103_bl.c
+ * @file    mm32f3270_bl.c
  * @brief   board ID and meta-data for the hardware interface circuit (HIC) based on STM32F103XB
  *
  * DAPLink Interface Firmware
