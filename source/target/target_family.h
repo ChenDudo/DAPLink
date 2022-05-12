@@ -67,6 +67,7 @@ enum _vendor_ids {
     kRenesas_VendorID = 117,
     kRealtek_VendorID = 124,
     kAmbiq_VendorID = 120,
+    kMindMotion_VendorID = 132,
 };
 
 //! @brief Unique IDs for device families supported by DAPLink.
@@ -106,6 +107,7 @@ typedef enum _family_id {
     kAmbiq_ama3b1kk_FamilyID = CREATE_FAMILY_ID(kAmbiq_VendorID, 1),
     kMaxim_MAX3262X_FamilyID = CREATE_FAMILY_ID(kMaxim_VendorID, 1),
     kMaxim_MAX3266X_FamilyID = CREATE_FAMILY_ID(kMaxim_VendorID, 2),
+    kMindMotion_MM32F3270_FamilyID = CREATE_FAMILY_ID(kMindMotion_VendorID, 1),
 } family_id_t;
 
 //! @brief Defines all characteristics of a device family.

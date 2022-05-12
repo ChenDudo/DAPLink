@@ -35,11 +35,6 @@ typedef enum led_state {
     GPIO_LED_ON
 } gpio_led_state_t;
 
-
-//add
-void Power_5v_En(void);
-void Power_3v3_En(void);
-
 void gpio_init(void);
 void gpio_set_board_power(bool powerEnabled);
 void gpio_set_hid_led(gpio_led_state_t state);

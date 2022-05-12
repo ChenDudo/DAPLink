@@ -6,8 +6,8 @@ common:
     macros:
         - INTERFACE_MM32F3270
         - MM32F3270
-        - DAPLINK_HIC_ID=0x9796990E  # DAPLINK_HIC_ID_mm32f3270
-        - __packed=__packed          # Prevent redefinition of __packed with ARMCC
+        - DAPLINK_HIC_ID=0x4D4D3270
+        - __packed=__packed
         - DAPLINK_NO_ASSERT_FILENAMES
         - OS_CLOCK=96000000
     includes:
