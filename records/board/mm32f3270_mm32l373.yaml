@@ -10,4 +10,4 @@ common:
             - source/board/mm32l373.c
         family:
             - source/family/mindmotion/mm32l373/target.c
-            # - source/family/mindmotion/target_reset.c
+            - source/family/mindmotion/target_reset.c

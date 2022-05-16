@@ -66,7 +66,7 @@ typedef struct board_info {
     //@{
     vfs_filename_t daplink_url_name;    /*!< Customize the URL file name */
     vfs_filename_t daplink_drive_name;  /*!< Customize the MSD DAPLink drive name */
-    char daplink_target_url[128];        /*!< Customize the target url in DETAILS.TXT */
+    char daplink_target_url[64];        /*!< Customize the target url in DETAILS.TXT */
     //@}
 
     //! @name Board initialization customization

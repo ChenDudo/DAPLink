@@ -1548,6 +1548,11 @@
 							<FileName>target.c</FileName>
 							<FilePath>..\..\..\source\family\mindmotion\mm32l373\target.c</FilePath>
 						</File>
+						<File>
+							<FileType>1</FileType>
+							<FileName>target_reset.c</FileName>
+							<FilePath>..\..\..\source\family\mindmotion\target_reset.c</FilePath>
+						</File>
 					</Files>
 				</Group>
 				<Group>
