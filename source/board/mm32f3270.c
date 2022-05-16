@@ -24,8 +24,8 @@
 
 const board_info_t g_board_info = {
     .info_version       = kBoardInfoVersion,
-    //.board_id           = "0000",
-    //.family_id          = kMindMotion_FamilyID,
+    .board_id           = "0059",
+    .family_id          = kMindMotion_FamilyID,
     .daplink_url_name   = "PRODINFOHTM",
     .daplink_drive_name = "MM32-Link",
     .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/",

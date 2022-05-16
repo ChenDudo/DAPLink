@@ -55,6 +55,6 @@ const board_info_t g_board_info = {
     .board_id           = "0000",
     .daplink_url_name   = "MM32_DBTHTM",
     .daplink_drive_name = "MM32-LinkBL",
-    .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools",
+    .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/",
     .target_cfg         = &target_device,
 };

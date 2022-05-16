@@ -36,5 +36,5 @@ target_cfg_t target_device = {
     .ram_regions[0].start           = 0x20000000,
     .ram_regions[0].end             = 0x20020000,
     .target_vendor                  = "MindMotion",
-    .target_part_number             = "MM32F3270",
+    .target_part_number             = "MM32F327",
 };
