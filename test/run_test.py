@@ -524,7 +524,7 @@ def main():
 
     progen_toolchains = ['make_gcc_arm', 'make_armclang', 'make_armcc',
                          'cmake_gcc_arm', 'cmake_armclang', 'cmake_armcc']
-    toolchains = ['uvision', 'mbedcli']
+    toolchains = ['uvision', 'uvision5', 'mbedcli']
     description = 'DAPLink validation and testing tool'
     parser = argparse.ArgumentParser(description=description)
     parser.add_argument('--targetdir',
