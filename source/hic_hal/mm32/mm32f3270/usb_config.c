@@ -32,7 +32,7 @@
 //     <i> Enable high-speed functionality (if device supports it)
 #define USBD_HS_ENABLE              0
 #if (defined(WEBUSB_INTERFACE) || defined(WINUSB_INTERFACE) || defined(BULK_ENDPOINT))
-#define USBD_BOS_ENABLE             1
+#define USBD_BOS_ENABLE             0
 #else
 #define USBD_BOS_ENABLE             0
 #endif
@@ -56,7 +56,7 @@
 #define USBD_MAX_PACKET0            64
 #define USBD_DEVDESC_IDVENDOR       0x2F81
 #define USBD_DEVDESC_IDPRODUCT      0x0204
-#define USBD_DEVDESC_BCDDEVICE      0x0100
+#define USBD_DEVDESC_BCDDEVICE      0x0001
 
 //   <h> Configuration Settings
 //     <i> These settings affect Configuration Descriptor
@@ -90,9 +90,9 @@
 //     </e>
 //   </h>
 #define USBD_STRDESC_LANGID         0x0409
-#define USBD_STRDESC_MAN            L"Arm"
+#define USBD_STRDESC_MAN            L"MindMotion"
 #ifndef USB_PROD_STR
-#define USBD_STRDESC_PROD           L"DAPLink CMSIS-DAP"
+#define USBD_STRDESC_PROD           L"MM32-Link MAX"
 #else
 #define _TOWIDE(x)                   L ## #x
 #define TOWIDE(x)                   _TOWIDE(x)
@@ -172,7 +172,7 @@
 #define USBD_HID_HS_ENABLE          0
 #define USBD_HID_HS_WMAXPACKETSIZE  64
 #define USBD_HID_HS_BINTERVAL       6
-#define USBD_HID_STRDESC            L"CMSIS-DAP v1"
+#define USBD_HID_STRDESC            L"MM32_V1 CMSIS-DAP"
 #define USBD_WEBUSB_STRDESC         L"WebUSB: CMSIS-DAP"
 #define USBD_HID_INREPORT_NUM       1
 #define USBD_HID_OUTREPORT_NUM      1
@@ -401,7 +401,7 @@
 #define USBD_BULK_WMAXPACKETSIZE     64
 #define USBD_BULK_HS_ENABLE          0
 #define USBD_BULK_HS_WMAXPACKETSIZE  512
-#define USBD_BULK_STRDESC            L"CMSIS-DAP v2"
+#define USBD_BULK_STRDESC            L"MM32_V2 CMSIS-DAP"
 
 
 /* USB Device Calculations ---------------------------------------------------*/

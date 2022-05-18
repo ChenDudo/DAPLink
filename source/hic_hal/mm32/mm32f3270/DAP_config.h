@@ -65,7 +65,7 @@ This information includes:
 
 /// Configure maximum number of JTAG devices on the scan chain connected to the Debug Access Port.
 /// This setting impacts the RAM requirements of the Debug Unit. Valid range is 1 .. 255.
-#define DAP_JTAG_DEV_CNT        4               ///< Maximum number of JTAG devices on scan chain
+#define DAP_JTAG_DEV_CNT        0               ///< Maximum number of JTAG devices on scan chain
 
 /// Default communication mode on the Debug Access Port.
 /// Used for the command \ref DAP_Connect when Port Default mode is selected.
@@ -97,7 +97,7 @@ This information includes:
 #define SWO_UART                0               ///< SWO UART:  1 = available, 0 = not available
 
 /// USART Driver instance number for the UART SWO.
-#define SWO_UART_DRIVER         3               ///< USART Driver instance number (Driver_USART#).
+#define SWO_UART_DRIVER         0               ///< USART Driver instance number (Driver_USART#).
 
 /// Maximum SWO UART Baudrate
 #define SWO_UART_MAX_BAUDRATE   10000000U       ///< SWO UART Maximum Baudrate in Hz
@@ -160,12 +160,12 @@ __STATIC_INLINE void pin_out_od_init(GPIO_TypeDef* GPIOx, uint8_t pin_bit)
     if(pin_bit >= 8)
     {
         GPIOx->CRH &= ~(0x0000000F << ((pin_bit-8) << 2));
-        GPIOx->CRH |= ( ((uint32_t)(0x04|0x03) & 0x0F) << ((pin_bit-8) << 2) );
+        GPIOx->CRH |= ( ((uint32_t)(0x04|0x01) & 0x0F) << ((pin_bit-8) << 2) );
     }
     else
     {
         GPIOx->CRL &= ~(0x0000000F << ((pin_bit) << 2));
-        GPIOx->CRL |= ( ((uint32_t)(0x04|0x03) & 0x0F) << ((pin_bit) << 2) );
+        GPIOx->CRL |= ( ((uint32_t)(0x04|0x01) & 0x0F) << ((pin_bit) << 2) );
     }
 }
 
@@ -264,7 +264,7 @@ __STATIC_INLINE void PORT_SWD_SETUP(void)
 
     pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
     // Set RESET HIGH
-    pin_out_od_init(nRESET_PIN_PORT, nRESET_PIN_Bit);//TODO - fix reset logic
+    pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit);//TODO - fix reset logic
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
 }
 

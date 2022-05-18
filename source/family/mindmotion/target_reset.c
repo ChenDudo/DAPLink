@@ -28,7 +28,7 @@ static void target_before_init_debug(void)
 {
     // any target specific sequences needed before attaching
     //	to the DAP across JTAG or SWD
-    return;
+    PIN_nRESET_OUT(0);
 }
 
 static uint8_t target_unlock_sequence(void)
@@ -54,13 +54,13 @@ static uint8_t security_bits_set(uint32_t addr, uint8_t *data, uint32_t size)
     return 0;
 }
 
-//const target_family_descriptor_t g_target_family = {
-//    //.version                    = kTargetFamilyVersion,
-//    .family_id                  = kMindMotion_FamilyID,
-//    .default_reset_type         = kHardwareReset,
-//    .target_before_init_debug   = target_before_init_debug,
-//    .target_unlock_sequence     = target_unlock_sequence,
-//    .target_set_state           = target_set_state,
-//    .security_bits_set          = security_bits_set,
-//};
+const target_family_descriptor_t g_target_family = {
+    //.version                    = kTargetFamilyVersion,
+    .family_id                  = kMindMotion_FamilyID,
+    .default_reset_type         = kHardwareReset,
+    .target_before_init_debug   = target_before_init_debug,
+    .target_unlock_sequence     = target_unlock_sequence,
+    .target_set_state           = target_set_state,
+    .security_bits_set          = security_bits_set,
+};
 */
