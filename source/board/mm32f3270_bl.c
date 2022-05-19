@@ -54,7 +54,7 @@ const board_info_t g_board_info = {
     .info_version       = kBoardInfoVersion,
     .board_id           = "0000",
     .daplink_url_name   = "MM32_DBTHTM",
-    .daplink_drive_name = "MM32-LinkBL",
+    .daplink_drive_name = "BootLoader",
     .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/",
     .target_cfg         = &target_device,
 };

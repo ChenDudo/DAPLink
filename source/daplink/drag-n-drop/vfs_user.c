@@ -522,7 +522,7 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
     uint32_t pos = 0;
 
     pos += util_write_string_in_region(buf, size, start, pos,
-        "# MM32-Link MAX Firmware \r\n"
+        "# MM32-LINK MAX Firmware \r\n"
         // Build ID
         "Build ID: " GIT_DESCRIPTION " (" COMPILER_DESCRIPTION LOCAL_MODS ")\r\n");
     // Unique ID
@@ -538,25 +538,25 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
 
     // Current mode and version
 #if defined(DAPLINK_BL)
-    pos += util_write_string_in_region(buf, size, start, pos, "MM32-Link Mode: Bootloader\r\n");
+    pos += util_write_string_in_region(buf, size, start, pos, "MM32-LINK Mode: Bootloader\r\n");
     pos += expand_string_in_region(buf, size, start, pos, "Bootloader Version: @V\r\n");
 
     if (info_get_interface_present()) {
-        char version[6] = { 0, 0, 0, 0, '\r', '\n' };
+        char version[8] = { 0, 0, 0, 0, 0, 0, '\r', '\n' };
         pos += util_write_string_in_region(buf, size, start, pos, "Interface Version: ");
-        util_write_uint32_zp(version, info_get_interface_version(), 4);
-        pos += util_write_in_region(buf, size, start, pos, version, 6);
+        util_write_uint32_zp(version, info_get_interface_version(), 6);
+        pos += util_write_in_region(buf, size, start, pos, version, 8);
     }
 #elif defined(DAPLINK_IF)
-    pos += util_write_string_in_region(buf, size, start, pos, "MM32-Link Mode: Interface\r\n");
+    pos += util_write_string_in_region(buf, size, start, pos, "MM32-LINK Mode: Interface\r\n");
     pos += expand_string_in_region(buf, size, start, pos, "Interface Version: @V\r\n");
 
 #if DAPLINK_ROM_BL_SIZE != 0
     if (info_get_bootloader_present()) {
-        char version[6] = { 0, 0, 0, 0, '\r', '\n' };
+        char version[8] = { 0, 0, 0, 0, 0, 0, '\r', '\n' };
         pos += util_write_string_in_region(buf, size, start, pos, "Bootloader Version: ");
-        util_write_uint32_zp(version, info_get_bootloader_version(), 4);
-        pos += util_write_in_region(buf, size, start, pos, version, 6);
+        util_write_uint32_zp(version, info_get_bootloader_version(), 6);
+        pos += util_write_in_region(buf, size, start, pos, version, 8);
     }
 #endif
 #endif

@@ -92,7 +92,7 @@
 #define USBD_STRDESC_LANGID         0x0409
 #define USBD_STRDESC_MAN            L"MindMotion"
 #ifndef USB_PROD_STR
-#define USBD_STRDESC_PROD           L"MM32-Link MAX"
+#define USBD_STRDESC_PROD           L"MM32-LINK MAX"
 #else
 #define _TOWIDE(x)                   L ## #x
 #define TOWIDE(x)                   _TOWIDE(x)
@@ -102,7 +102,7 @@
 #define USBD_STRDESC_SER            L"0001A0000000"
 
 
-// #define CMSIS_DAP_PRODUCT_NAME     L"MM32-Link MAX CMSIS-DAP" //TODO new add
+// #define CMSIS_DAP_PRODUCT_NAME     L"MM32-LINK MAX CMSIS-DAP" //TODO new add
 
 //   <e0> Class Support
 //     <i> Enables USB Device Class specific Requests
@@ -349,8 +349,8 @@
 #define USBD_CDC_ACM_HS_ENABLE1         0
 #define USBD_CDC_ACM_HS_WMAXPACKETSIZE1 64
 #define USBD_CDC_ACM_HS_BINTERVAL1      0
-#define USBD_CDC_ACM_CIF_STRDESC        L"MM32-Link Serial Port"
-#define USBD_CDC_ACM_DIF_STRDESC        L"MM32-Link Serial Port"
+#define USBD_CDC_ACM_CIF_STRDESC        L"MM32-LINK Serial Port"
+#define USBD_CDC_ACM_DIF_STRDESC        L"MM32-LINK Serial Port"
 #define USBD_CDC_ACM_SENDBUF_SIZE       64
 #define USBD_CDC_ACM_RECEIVEBUF_SIZE    64
 #if (((USBD_CDC_ACM_HS_ENABLE1) && (USBD_CDC_ACM_SENDBUF_SIZE    < USBD_CDC_ACM_HS_WMAXPACKETSIZE1)) || (USBD_CDC_ACM_SENDBUF_SIZE    < USBD_CDC_ACM_WMAXPACKETSIZE1))
