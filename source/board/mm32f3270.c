@@ -1,6 +1,6 @@
 /**
- * @file    stm32f103rb.c
- * @brief   board information for STMicroelectronics NUCLEO-F103RB
+ * @file    mm32f3270.c
+ * @brief   board information for MM32
  *
  * DAPLink Interface Firmware
  * Copyright (c) 2009-2019, ARM Limited, All Rights Reserved
@@ -24,7 +24,7 @@
 
 const board_info_t g_board_info = {
     .info_version       = kBoardInfoVersion,
-    .board_id           = "59",
+    .board_id           = "3270",
     .family_id          = kMindMotion_FamilyID,
     .daplink_url_name   = "PRODINFOHTM",
     .daplink_drive_name = "MM32-LINK",

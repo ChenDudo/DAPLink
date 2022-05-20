@@ -1,5 +1,5 @@
 /**
- * @file    mm32l373.c
+ * @file    mm32f0270.c
  * @brief   board information for MM32
  *
  * DAPLink Interface Firmware
@@ -24,12 +24,12 @@
 
 const board_info_t g_board_info = {
     .info_version   	= kBoardInfoVersion,
-    .board_id       	= "0304",
+    .board_id       	= "0270",
     .family_id      	= kStub_HWReset_FamilyID,
     .daplink_url_name   = "PRODINFOHTM",
     .daplink_drive_name = "MM32-LINK",
     .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/",
     .target_cfg     	= &target_device,
     .board_vendor   	= "MindMotion",
-    .board_name     	= "MiniBoard-L373",
+    .board_name     	= "MiniBoard-F0270",
 };

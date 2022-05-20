@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>mm32f3270_mm32l373_if</TargetName>
+      <TargetName>mb059_mm32f0020_if</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\</OutputDirectory>
-          <OutputName>mm32f3270_mm32l373_if</OutputName>
+          <OutputName>mb059_mm32f0020_if</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -134,10 +134,10 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>-1</DriverSelection>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2></Flash2>
+          <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -385,9 +385,9 @@
           <GroupName>board</GroupName>
           <Files>
             <File>
-              <FileName>mm32l373.c</FileName>
+              <FileName>mm32f0020.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\board\mm32l373.c</FilePath>
+              <FilePath>..\..\..\source\board\mm32f0020.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1512,7 +1512,7 @@
             <File>
               <FileName>target.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\family\mindmotion\mm32l373\target.c</FilePath>
+              <FilePath>..\..\..\source\family\mindmotion\mm32f0020\target.c</FilePath>
             </File>
             <File>
               <FileName>target_reset.c</FileName>

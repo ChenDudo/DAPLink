@@ -1,6 +1,6 @@
 /**
  * @file    target.c
- * @brief   Target information for the STM32F103RB
+ * @brief   Target information for the MM32F0140
  *
  * DAPLink Interface Firmware
  * Copyright (c) 2017-2019, ARM Limited, All Rights Reserved
@@ -30,11 +30,11 @@ target_cfg_t target_device = {
     .sectors_info                   = sectors_info,
     .sector_info_length             = (sizeof(sectors_info))/(sizeof(sector_info_t)),
     .flash_regions[0].start         = 0x08000000,
-    .flash_regions[0].end           = 0x08080000,
+    .flash_regions[0].end           = 0x08008000,
     .flash_regions[0].flags         = kRegionIsDefault,
-    .flash_regions[0].flash_algo    = (program_target_t *) &flash,
+    .flash_regions[0].flash_algo    = (program_target_t *) &flash_algo,
     .ram_regions[0].start           = 0x20000000,
-    .ram_regions[0].end             = 0x20020000,
+    .ram_regions[0].end             = 0x20002000,
     .target_vendor                  = "MindMotion",
-    .target_part_number             = "MM32F3270",
+    .target_part_number             = "MM32F0140",
 };
