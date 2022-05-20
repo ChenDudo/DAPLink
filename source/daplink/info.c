@@ -30,10 +30,10 @@
 #include "target_board.h"
 #include "flash_hal.h"
 
-static char hex_to_ascii(uint8_t x)
-{
-    return ('0' + (x>9 ? x+0x27 : x));
-}
+//static char hex_to_ascii(uint8_t x)
+//{
+//    return ('0' + (x>9 ? x+0x27 : x));
+//}
 
 // Constant variables
 static const daplink_info_t *const info_bl = (daplink_info_t *)(DAPLINK_ROM_BL_START + DAPLINK_INFO_OFFSET);
@@ -49,8 +49,8 @@ static uint32_t crc_interface;
 static uint32_t crc_config_user;
 
 // Strings
-static char string_unique_id[20 + 1];
-static char string_host_id[12 + 1];
+static char string_unique_id[24 + 1];
+static char string_host_id[24 + 1];
 static char string_hic_id[8 + 1];
 static char string_version[6 + 1];
 
@@ -172,7 +172,7 @@ static void setup_unique_id()
     //strcat(string_unique_id, string_board_id);
     //strcat(string_unique_id, string_family_id);
     strcat(string_unique_id, string_host_id);
-    strcat(string_unique_id, string_hic_id);
+    //strcat(string_unique_id, string_hic_id);
 }
 
 static void setup_string_descriptor()

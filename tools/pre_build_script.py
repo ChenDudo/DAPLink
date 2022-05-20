@@ -77,7 +77,7 @@ def generate_version_file(version_git_dir):
     # Get the git SHA.
     print("#> Getting git SHA")
     try:
-        git_sha = check_output("git rev-parse --verify HEAD", shell=True)
+        git_sha = check_output("git rev-parse --verify HEAD", shell=True)[:6]
         git_sha = git_sha.decode().strip()
     except:
         print("#> ERROR: Failed to get git SHA, do you have git.exe in your PATH environment variable?")

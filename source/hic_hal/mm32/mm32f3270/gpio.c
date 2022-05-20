@@ -119,8 +119,8 @@ void gpio_init(void)
 	
     /* Turn on power to the board. */
     // When the target is unpowered, it holds the reset line low.
-    //Power_3v3_En();
-    Power_5v_En();
+    Power_3v3_En();
+    //Power_5v_En();
 	
 	GPIO_PinAFConfig(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_Bit, GPIO_AF_0);
 	GPIO_PinAFConfig(POWER_5V_EN_PIN_PORT, POWER_5V_EN_Bit, GPIO_AF_2);
