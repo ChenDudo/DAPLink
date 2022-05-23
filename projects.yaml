@@ -547,26 +547,26 @@ projects:
         - *module_if
         - *module_hic_max32625
         - records/board/max78000fthr.yaml
-    mb059_mm32l373_if:
+    mm32f3270_mm32l373_if:
         - *module_if
         - *module_hic_mm32f3270
-        - records/board/mb059_mm32l373.yaml
-    mb059_mm32f0020_if:
+        - records/board/mm32f3270_mm32l373.yaml
+    mm32f3270_mm32f0020_if:
         - *module_if
         - *module_hic_mm32f3270
-        - records/board/mb059_mm32f0020.yaml
-    mb059_mm32f0140_if:
+        - records/board/mm32f3270_mm32f0020.yaml
+    mm32f3270_mm32f0140_if:
         - *module_if
         - *module_hic_mm32f3270
-        - records/board/mb059_mm32f0140.yaml
-    mb059_mm32f0270_if:
+        - records/board/mm32f3270_mm32f0140.yaml
+    mm32f3270_mm32f0270_if:
         - *module_if
         - *module_hic_mm32f3270
-        - records/board/mb059_mm32f0270.yaml
-    mb059_mm32f3270_if:
+        - records/board/mm32f3270_mm32f0270.yaml
+    mm32f3270_mm32f3270_if:
         - *module_if
         - *module_hic_mm32f3270
-        - records/board/mb059_mm32f3270.yaml
+        - records/board/mm32f3270_mm32f3270.yaml
     nrf52820_microbit_bl:
         - *module_bl
         - records/hic_hal/nrf52820.yaml
