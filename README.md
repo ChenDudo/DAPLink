@@ -2,10 +2,10 @@
 ----------
 **v0.90 内测版 发布说明**
 
-- 硬件示意图
+## 硬件示意图
 ![MAX](./docs/images/正视图(1).jpg)
 
-- MAIN FUNCTION
+## MAIN FUNCTION
 
 | Func | Details | Note |
 |:--:|:--:|:--:|
@@ -13,7 +13,18 @@
 | CDC | Virtual com port | Done |
 | MSC | Drag-n-drop firmware update | Done |
 
-- SUPPORT LISTS
+### HID: 
+- CMSIS 兼容的调试通道，支持 SW 调试接口
+- Windows 免驱，兼容 Windows/Mac OSX/Linux 所有已知版本
+  
+### MSC:
+- 拖拽式升级固件
+- 其他功能待开放
+
+### CDC:
+- 虚拟串口，收发波特率、数据长度、校验位、停止位可配置
+
+## SUPPORT LISTS
 
 | Target Chip | Keil(download) |ARM Kernel | Note |
 |-------------|:--------------:|-----------|------|
@@ -29,4 +40,5 @@
 | MM32L073 | Ok | Cortex-M0 | MZ306 |
 | MM32L373 | Ok | Cortex-M3 | MT304 |
 
-- MORE
+---
+2022.5.20
