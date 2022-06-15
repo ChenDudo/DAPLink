@@ -14,16 +14,16 @@
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>MM32F3273G6P</Device>
+          <Device>MM32F3273G9P</Device>
           <Vendor>MindMotion</Vendor>
           <PackID>MindMotion.MM32F3270_DFP.1.0.6</PackID>
           <PackURL>http://www.mindmotion.com.cn/Download/MDK_KEIL/</PackURL>
           <Cpu>IRAM(0x20000000,0x20000) IROM(0x08000000,0x80000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0MM32F3270_512 -FS08000000 -FL080000 -FP0($$Device:MM32F3273G6P$Flash\MM32F3270_512.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0MM32F3270_512 -FS08000000 -FL080000 -FP0($$Device:MM32F3273G9P$Flash\MM32F3270_512.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:MM32F3273G6P$Device\MM32F327x\Include\mm32_device.h</RegisterFile>
+          <RegisterFile>$$Device:MM32F3273G9P$Device\MM32F327x\Include\mm32_device.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -33,7 +33,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:MM32F3273G6P$SVD\MM32F3270.svd</SFDFile>
+          <SFDFile>$$Device:MM32F3273G9P$SVD\MM32F3270.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -134,10 +134,10 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4100</DriverSelection>
+            <DriverSelection>4096</DriverSelection>
           </Flash1>
-          <bUseTDR>0</bUseTDR>
-          <Flash2>Segger\JL2CM3.dll</Flash2>
+          <bUseTDR>1</bUseTDR>
+          <Flash2>BIN\UL2CM3.DLL</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -374,7 +374,7 @@
             <ScatterFile>..\..\..\source\daplink\daplink.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc>--bestdebug --predefine=-DDAPLINK_BL --predefine="-I..\..\..\source\hic_hal\mm32\mm32f3270"</Misc>
+            <Misc> --bestdebug --predefine=-DDAPLINK_BL --predefine="-I..\..\..\source\hic_hal\mm32\mm32f3270"</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
