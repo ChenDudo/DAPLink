@@ -158,14 +158,12 @@ void config_ram_clear_assert()
 
 bool config_ram_get_hold_in_bl()
 {
-    //return config_ram.hold_in_bl; // | hold_in_BT;
-	return config_ram.hold_in_bl | hold_in_BT;
+    return config_ram.hold_in_bl;
 }
 
 bool config_ram_get_initial_hold_in_bl()
 {
-	//return config_ram_copy.hold_in_bl;
-    return config_ram_copy.hold_in_bl | hold_in_BT;
+	return config_ram_copy.hold_in_bl;
 }
 
 bool config_ram_get_assert(char *buf, uint16_t buf_size, uint16_t *line, assert_source_t *source)
