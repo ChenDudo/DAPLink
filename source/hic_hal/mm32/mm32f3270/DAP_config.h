@@ -444,8 +444,8 @@ __STATIC_FORCEINLINE void     PIN_nRESET_OUT(uint32_t bit)
         nRESET_PIN_PORT->BSRR = nRESET_PIN;
     else
         nRESET_PIN_PORT->BRR = nRESET_PIN;
-    if (bit == 0)
-        swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+    //if (bit == 0)
+    //    swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
 }
 
 //**************************************************************************************************

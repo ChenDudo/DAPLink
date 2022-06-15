@@ -47,11 +47,18 @@ typedef struct __attribute__((__packed__)) cfg_setting {
     uint8_t detect_incompatible_target;
 
     // Add new members here
-
+	uint8_t output5v_allowed; //chendo
+#if defined (USE_BEEP)	
+	uint8_t beep_allowed;
+#endif
 } cfg_setting_t;
 
 // Make sure FORMAT in generate_config.py is updated if size changes
-COMPILER_ASSERT(sizeof(cfg_setting_t) == 10);
+#if defined (USE_BEEP)
+COMPILER_ASSERT(sizeof(cfg_setting_t) == 12);
+#else
+COMPILER_ASSERT(sizeof(cfg_setting_t) == 11);
+#endif
 
 // Sector buffer must be as big or bigger than settings
 COMPILER_ASSERT(sizeof(cfg_setting_t) < SECTOR_BUFFER_SIZE);
@@ -196,3 +203,28 @@ bool config_get_detect_incompatible_target()
 {
     return config_rom_copy.detect_incompatible_target;
 }
+
+// TODO chendo new add
+void config_set_5v_output(bool on)
+{
+	config_rom_copy.output5v_allowed = on;
+	program_cfg(&config_rom_copy);
+}
+
+bool config_get_5v_output(void)
+{
+	return config_rom_copy.output5v_allowed;
+}
+
+#if defined (USE_BEEP)
+void config_set_beep_en(bool on)
+{
+	config_rom_copy.beep_allowed = on;
+	program_cfg(&config_rom_copy);
+}
+
+bool config_get_beep_en(void)
+{
+	return config_rom_copy.beep_allowed;
+}
+#endif

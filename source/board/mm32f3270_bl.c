@@ -34,7 +34,7 @@ static const sector_info_t sectors_info[] = {
     {0x08000000 + KB(48), 0x400},
  };
 
-// stm32f103 target information
+// mm32f3270 target information
 target_cfg_t target_device = {
     .version                    = kTargetConfigVersion,
     .sectors_info               = sectors_info,
@@ -52,7 +52,7 @@ const target_family_descriptor_t *g_target_family = NULL;
 
 const board_info_t g_board_info = {
     .info_version       = kBoardInfoVersion,
-    .board_id           = "0000",
+    .board_id           = "059",
     .daplink_url_name   = "MM32_DBTHTM",
     .daplink_drive_name = "BootLoader",
     .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/",

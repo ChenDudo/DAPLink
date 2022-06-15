@@ -68,8 +68,10 @@ COMPILER_ASSERT((offsetof(cfg_ram_t, hexdump) % sizeof(uint32_t)) == 0);
 // Configuration RAM
 #if defined(__CC_ARM)
 static cfg_ram_t config_ram __attribute__((section("cfgram"), zero_init));
+static uint8_t hold_in_BT __attribute__((section("holdinbl"), zero_init));
 #else
 static cfg_ram_t config_ram __attribute__((section("cfgram")));
+static uint8_t hold_in_BT __attribute__((section("holdinbl")));
 #endif
 
 // Ram copy of RAM config
@@ -89,6 +91,9 @@ void config_init()
         memcpy(&config_ram_copy, (void *)&config_ram, size);
         config_ram_copy.assert_file_name[sizeof(config_ram_copy.assert_file_name) - 1] = 0;
     }
+	else {
+		hold_in_BT = 0x00;
+	}
 
     // Initialize RAM
     memset((void *)&config_ram, 0, sizeof(config_ram));
@@ -109,7 +114,8 @@ void config_init()
 
 void config_ram_set_hold_in_bl(bool hold)
 {
-    config_ram.hold_in_bl = hold;
+	config_ram.hold_in_bl = hold;
+	hold_in_BT = hold;
 }
 
 void config_ram_set_assert(const char *file, uint16_t line)
@@ -152,12 +158,14 @@ void config_ram_clear_assert()
 
 bool config_ram_get_hold_in_bl()
 {
-    return config_ram.hold_in_bl;
+    //return config_ram.hold_in_bl; // | hold_in_BT;
+	return config_ram.hold_in_bl | hold_in_BT;
 }
 
 bool config_ram_get_initial_hold_in_bl()
 {
-    return config_ram_copy.hold_in_bl;
+	//return config_ram_copy.hold_in_bl;
+    return config_ram_copy.hold_in_bl | hold_in_BT;
 }
 
 bool config_ram_get_assert(char *buf, uint16_t buf_size, uint16_t *line, assert_source_t *source)
