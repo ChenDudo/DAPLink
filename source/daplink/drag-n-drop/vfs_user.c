@@ -70,6 +70,12 @@ typedef enum _magic_file {
     kImageCheckOffConfigFile,   //!< Disable Incompatible target image detection.
     kPageEraseActionFile,       //!< Enable page programming and sector erase for drag and drop.
     kChipEraseActionFile,       //!< Enable page programming and chip erase for drag and drop.
+	k5VEnConfigFile,			//!< Enable 5V output
+	k5VDisEnConfigFile,         //!< Disable 5V output, default 3.3V
+	kBeepOnConfigFile,			//!< Enable Beep
+#if defined (USE_BEEP)
+	kBeepOffConfigFile,			//!< Disable Beep
+#endif
 } magic_file_t;
 
 //! @brief Mapping from filename string to magic file enum.
@@ -98,6 +104,13 @@ static const magic_file_info_t s_magic_file_info[] = {
         { "COMP_OFFCFG", kImageCheckOffConfigFile   },
         { "PAGE_ON ACT", kPageEraseActionFile       },
         { "PAGE_OFFACT", kChipEraseActionFile       },
+		{ "PAGE_OFFACT", kChipEraseActionFile       },
+		{ "FIVE_ON CFG", k5VEnConfigFile            },
+		{ "FIVE_OFFCFG", k5VDisEnConfigFile         },
+#if defined (USE_BEEP)		
+		{ "BEEP_ON CFG", kBeepOnConfigFile          },
+		{ "BEEP_OFFCFG", kBeepOffConfigFile         },
+#endif		
     };
 
 static char assert_buf[64 + 1];
@@ -268,6 +281,20 @@ void vfs_user_file_change_handler(const vfs_filename_t filename, vfs_file_change
                     case kChipEraseActionFile:
                         config_ram_set_page_erase(false);
                         break;
+					case k5VEnConfigFile:
+                        config_set_5v_output(true);
+                        break;
+					case k5VDisEnConfigFile:
+                        config_set_5v_output(false);
+                        break;
+#if defined (USE_BEEP)					
+					case kBeepOnConfigFile:
+                        config_set_beep_en(true);
+                        break;
+					case kBeepOffConfigFile:
+                        config_set_beep_en(false);
+                        break;
+#endif					
                     default:
                         util_assert(false);
                 }
@@ -294,6 +321,7 @@ void vfs_user_file_change_handler(const vfs_filename_t filename, vfs_file_change
 
 void vfs_user_disconnecting()
 {
+	remount_count++; //chendo
     // Reset if programming was successful  //TODO - move to flash layer
     if (daplink_is_bootloader() && (ERROR_SUCCESS == vfs_mngr_get_transfer_status())) {
         SystemReset();
@@ -304,7 +332,7 @@ void vfs_user_disconnecting()
         SystemReset();
     }
 
-    remount_count++;
+    //remount_count++;
 }
 
 // Get the filesize from a filesize callback.
@@ -522,7 +550,7 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
     uint32_t pos = 0;
 
     pos += util_write_string_in_region(buf, size, start, pos,
-        "# MM32-LINK MAX Firmware \r\n"
+        "# MM32-LINK MAX Firmware\r\n"
         // Build ID
         "Build ID: " GIT_DESCRIPTION " (" COMPILER_DESCRIPTION LOCAL_MODS ")\r\n");
     // Unique ID
@@ -599,6 +627,19 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
     // Number of remounts that have occurred
     pos += uint32_field_in_region(buf, size, start, pos, "Remount count", remount_count);
 
+	// chendo newadd 5v/beep
+	if (config_get_5v_output())
+		pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 5V\r\n");
+	else
+		pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 3.3V\r\n");
+	
+#if defined (USE_BEEP)
+	if (config_get_beep_en())
+		pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: On\r\n");
+	else
+		pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: Off\r\n");
+#endif
+	
     //Target URL
     pos += expand_string_in_region(buf, size, start, pos, "URL: @R\r\n");
 

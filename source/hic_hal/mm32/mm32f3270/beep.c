@@ -27,10 +27,6 @@
 
 #include "beep.h"
 
-// TIM4 CH3
-#define BEEP_TIMER      TIM4
-#define ARR_VALUE       416
-
 
 /******************************************************************************/
 void InitBeep(void)
@@ -49,7 +45,7 @@ void InitBeep(void)
 	TIM_OCStructInit(&TIM_OCInitStructure);
 	TIM_OCInitStructure.TIM_OCMode          = TIM_OCMode_PWM2;
 	TIM_OCInitStructure.TIM_OutputState     = TIM_OutputState_Enable;
-	TIM_OCInitStructure.TIM_Pulse           = ARR_VALUE >> 1;
+	TIM_OCInitStructure.TIM_Pulse           = 0;
 	TIM_OCInitStructure.TIM_OCPolarity      = TIM_OCPolarity_High;
 	TIM_OC3Init(BEEP_TIMER, &TIM_OCInitStructure);
 	TIM_OC3PreloadConfig(BEEP_TIMER, TIM_OCPreload_Enable);
@@ -62,6 +58,7 @@ void InitBeep(void)
 /******************************************************************************/
 void BEEP_on(void)
 {
+	BEEP_Hz(ARR_VALUE >> 1);
 	TIM_Cmd(BEEP_TIMER, ENABLE);
 }
 
@@ -69,4 +66,9 @@ void BEEP_on(void)
 void BEEP_off(void)
 {
 	TIM_Cmd(BEEP_TIMER, DISABLE);
+}
+
+void BEEP_Hz(int pulse)
+{
+	TIM_SetCompare3(BEEP_TIMER, pulse);
 }

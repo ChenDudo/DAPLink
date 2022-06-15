@@ -28,8 +28,7 @@
 #include "util.h"
 #include "beep.h"
 
-uint8_t aaa;
-
+#include "settings.h"
 
 static void busy_wait(uint32_t cycles)
 {
@@ -51,6 +50,11 @@ void Power_3v3_En(void)
 {
 	GPIO_ResetBits(POWER_5V_EN_PIN_PORT, POWER_5V_EN_PIN);
 	GPIO_SetBits(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_PIN);
+}
+
+void Beep_En(bool enable)
+{
+	enable ? BEEP_on() : BEEP_off();
 }
 
 void LED_off(void)
@@ -119,8 +123,7 @@ void gpio_init(void)
 	
     /* Turn on power to the board. */
     // When the target is unpowered, it holds the reset line low.
-    Power_3v3_En();
-    //Power_5v_En();
+    config_get_5v_output() ? Power_5v_En() : Power_3v3_En();
 	
 	GPIO_PinAFConfig(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_Bit, GPIO_AF_0);
 	GPIO_PinAFConfig(POWER_5V_EN_PIN_PORT, POWER_5V_EN_Bit, GPIO_AF_2);
@@ -139,9 +142,9 @@ void gpio_init(void)
     // the reset pin low, causing the bootloader to think the reset
     // button is pressed.
     // Note: With optimization set to -O2 the value 1000000 delays for ~85ms
-	LED_on();BEEP_on();
+	LED_on();BEEP_Hz(ARR_VALUE >> 1);
     busy_wait(1000000);
-	LED_off();BEEP_off();
+	LED_off();BEEP_Hz(0);
 }
 
 void gpio_set_hid_led(gpio_led_state_t state)

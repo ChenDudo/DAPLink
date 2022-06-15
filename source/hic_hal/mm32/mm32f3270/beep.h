@@ -22,6 +22,11 @@
 #ifndef __BEEP_H
 #define __BEEP_H
 
+
+// TIM4 CH3
+#define BEEP_TIMER      TIM4
+#define ARR_VALUE       416
+
 ////////////////////////////////////////////////////////////////////////////////
 /// @defgroup BEEP_Exported_Variables
 /// @{
@@ -42,6 +47,7 @@
 void BEEP_on(void);
 void BEEP_off(void);
 void InitBeep(void);
+void BEEP_Hz(int pulse);
 
 /// @}
 

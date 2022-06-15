@@ -48,6 +48,15 @@ bool config_get_automation_allowed(void);
 bool config_get_overflow_detect(void);
 bool config_get_detect_incompatible_target(void);
 
+// chendo: new add 5v output config
+void config_set_5v_output(bool on);
+bool config_get_5v_output(void);
+
+#if defined (USE_BEEP)
+void config_set_beep_en(bool on);
+bool config_get_beep_en(void);
+#endif
+
 // Get/set settings residing in shared ram
 void config_ram_set_hold_in_bl(bool hold);
 void config_ram_set_assert(const char *file, uint16_t line);

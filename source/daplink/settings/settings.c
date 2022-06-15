@@ -68,9 +68,26 @@ COMPILER_ASSERT((offsetof(cfg_ram_t, hexdump) % sizeof(uint32_t)) == 0);
 // Configuration RAM
 #if defined(__CC_ARM)
 static cfg_ram_t config_ram __attribute__((section("cfgram"), zero_init));
+
+/* chendo220615 note:
+daplink.sct should add: 
+ ---BEGIN----
+  RW_CONFIG 0x2000BF00 UNINIT 0x000000F0 {
+    .ANY (cfgram)
+  }
+  RW_CONFIG2 0x2000BFF0 UNINIT 0x00000010 {
+    .ANY (holdinbl)
+  }
+ ---END---
+then ,add follow here:
+static uint8_t hold_in_BT __attribute__((section("holdinbl"), zero_init));
+*/
+
 #else
 static cfg_ram_t config_ram __attribute__((section("cfgram")));
 #endif
+
+static uint8_t hold_in_BT __attribute__((at(0x2000C000))); //chendo220615 add
 
 // Ram copy of RAM config
 static cfg_ram_t config_ram_copy;
@@ -109,7 +126,8 @@ void config_init()
 
 void config_ram_set_hold_in_bl(bool hold)
 {
-    config_ram.hold_in_bl = hold;
+	config_ram.hold_in_bl = hold;
+	hold_in_BT = hold;	//chendo220615 ???? no use, but ok
 }
 
 void config_ram_set_assert(const char *file, uint16_t line)
@@ -157,7 +175,7 @@ bool config_ram_get_hold_in_bl()
 
 bool config_ram_get_initial_hold_in_bl()
 {
-    return config_ram_copy.hold_in_bl;
+	return config_ram_copy.hold_in_bl;
 }
 
 bool config_ram_get_assert(char *buf, uint16_t buf_size, uint16_t *line, assert_source_t *source)

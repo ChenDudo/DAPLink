@@ -110,6 +110,11 @@ void __libc_init_array (void) {}
 #define MSC_LED_DEF GPIO_LED_OFF
 #endif
 
+
+#ifndef  USE_BEEP
+#define USE_BEEP
+#endif
+
 // Reference to our main task
 osThreadId_t main_task_id;
 #ifndef USE_LEGACY_CMSIS_RTOS
@@ -375,7 +380,7 @@ void main_task(void * arg)
             gpio_set_hid_led(GPIO_LED_OFF);
             gpio_set_cdc_led(GPIO_LED_OFF);
             gpio_set_msc_led(GPIO_LED_OFF);
-
+			
             board_handle_powerdown();
         }
 
@@ -447,6 +452,9 @@ void main_task(void * arg)
                 default:
                     break;
             }
+			//chendo
+			config_get_5v_output() ? Power_5v_En() : Power_3v3_En();
+			//config_get_beep_en() ? Beep_En(true) : Beep_En(false);
         }
 
         // 30mS tick used for flashing LED when USB is busy
