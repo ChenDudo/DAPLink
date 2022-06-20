@@ -243,6 +243,9 @@ SUPPORTED_CONFIGURATIONS = [
     (   0x0000,     VENDOR_TO_FAMILY('Stub', 1),        'sam3u2c_if',                               None,               None                                    ),
     (   0x0000,     VENDOR_TO_FAMILY('Stub', 1),        'stm32f103xb_if',                           None,               None                                    ),
     (   0x0059,     VENDOR_TO_FAMILY('Stub', 1),        'mm32f3270_mm32f3270_if',                   'mm32f3270_bl',     'mm32f3270_mm32f3270_if'                                    ),
+    (   0x0AF1,     VENDOR_TO_FAMILY('Stub', 1),        'mm32f3270_mm32f0270_if',                   'mm32f3270_bl',     'mm32f3270_mm32f0270_if'                ),
+    (   0x0AF0,     VENDOR_TO_FAMILY('Stub', 1),        'mm32f3270_mm32f0270_if',                   'mm32f3270_bl',     'mm32f3270_mm32f0270_if'                ),
+    (   0x0270,     VENDOR_TO_FAMILY('Stub', 1),        'mm32f3270_mm32f0270_if',                   'mm32f3270_bl',     'mm32f3270_mm32f0270_if'                ),
 
     # Test projects
     (   0x1102,     VENDOR_TO_FAMILY('Nordic', 2),      'lpc55s69_nrf52840dk_test_if',              'lpc55s69_bl',      'Nordic-nRF52840-DK'                    ),

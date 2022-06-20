@@ -44,7 +44,9 @@ class TestInfo(object):
         self.infos = 0
         self.name = name
         if init_print:
-            self._print_msg("SubTest: " + name)
+            msg = "SubTest: " + name
+            msg = "-" * 60 + " " + msg
+            self._print_msg(msg)
 
     def failure(self, msg):
         assert isinstance(msg, six.string_types)

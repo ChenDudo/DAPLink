@@ -108,12 +108,12 @@ class ProjectFirmwareBundle(FirmwareBundle):
     def __init__(self, project_dir, build_folder):
 
         if not os.path.exists(project_dir):
-            print("Error: DAPLink project folder %s missing" % project_dir)
+            print("[ERROR] Error: DAPLink project folder %s missing" % project_dir)
             exit(-1)
 
         project_dir_list = os.listdir(project_dir)
         if not project_dir_list:
-            print("Error: DAPLink projects not build yet at %s" % project_dir)
+            print("[ERROR] Error: DAPLink projects not build yet at %s" % project_dir)
             exit(-1)
 
         firmware_list = []
