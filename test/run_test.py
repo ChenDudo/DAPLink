@@ -514,7 +514,7 @@ def main():
 
     # We make assumptions that break if user copies script file outside the test dir
     if os.path.basename(test_dir) != "test":
-        print("Error - this script must reside in the test directory")
+        print("[ERROR] Error - this script must reside in the test directory")
         exit(-1)
 
     git_sha, local_changes = get_git_info(daplink_dir)
@@ -605,7 +605,7 @@ def main():
         if args.force:
             shutil.rmtree(args.logdir)
         else:
-            print('Error - test results directory "%s" already exists' %
+            print('[ERROR] Error - test results directory "%s" already exists' %
                   args.logdir)
             exit(-1)
 
@@ -620,11 +620,11 @@ def main():
 
     for board in all_boards:
         if board.get_mode() == board.MODE_BL:
-            print('Switching to APP mode on board: %s' % board.unique_id)
+            print('[LOG] Switching to APP mode on board: %s' % board.unique_id)
             try:
                 board.set_mode(board.MODE_IF)
             except Exception:
-                print('Unable to switch mode on board: %s' % board.unique_id)
+                print('[ERROR] Unable to switch mode on board: %s' % board.unique_id)
 
     # Make sure firmware is present
     firmware_explicitly_specified = len(args.firmware) != 0
@@ -699,13 +699,13 @@ def main():
     # Warn about untested boards
     print('')
     for firmware in tester.get_untested_firmware():
-        print('Warning - configuration %s is untested' % firmware.name)
+        print('[WARNING] Warning - configuration %s is untested' % firmware.name)
 
     if tester.all_tests_pass:
-        print("All boards passed")
+        print("[LOG] All boards passed")
         exit(0)
     else:
-        print("Test Failed")
+        print("[ERROR] Test Failed")
         exit(-1)
 
 

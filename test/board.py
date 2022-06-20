@@ -73,7 +73,7 @@ def get_all_attached_daplink_boards():
         if board._mode is not None: #Valid daplink should have set this mode
             all_boards.append(board)
         else:
-            print("Warning: DAPLink tests cannot be done on board %s" % board.unique_id)
+            print("[WARNING] Warning: DAPLink tests cannot be done on board %s" % board.unique_id)
     return all_boards
 
 
@@ -116,7 +116,7 @@ def _parse_kvp_file(file_path, parent_test=None):
     kvp = {}
     if parent_test is not None:
         test_info = parent_test.create_subtest('parse_kvp_file')
-    line_format = re.compile("^([a-zA-Z0-9 ]+): +(.+)$")
+    line_format = re.compile("^([a-zA-Z0-9 \-]+): +(.+)$")
     if not os.path.isfile(file_path):
         return kvp
 
@@ -212,7 +212,7 @@ class DaplinkBoard(object):
     # Keys for details.txt
     KEY_UNIQUE_ID = "unique_id"
     KEY_HIC_ID = "hic_id"
-    KEY_MODE = "daplink_mode"
+    KEY_MODE = "mm32-link_mode"
     KEY_BL_VERSION = "bootloader_version"
     KEY_IF_VERSION = "interface_version"
     KEY_GIT_SHA = "git_sha"
@@ -658,16 +658,16 @@ class DaplinkBoard(object):
         """Check that details.txt has all requied fields"""
         test_info = parent_test.create_subtest('test_details_txt')
         required_key_and_format = {
-            DaplinkBoard.KEY_UNIQUE_ID: re.compile("^[a-f0-9]{48}$"),
+            DaplinkBoard.KEY_UNIQUE_ID: re.compile("^[a-f0-9]{24,48}$"),
             DaplinkBoard.KEY_HIC_ID: re.compile("^[a-f0-9]{8}$"),
-            DaplinkBoard.KEY_GIT_SHA: re.compile("^[a-f0-9]{40}$"),
+            DaplinkBoard.KEY_GIT_SHA: re.compile("^[a-f0-9]{6}$"),
             DaplinkBoard.KEY_LOCAL_MODS: re.compile("^[01]{1}$"),
             DaplinkBoard.KEY_USB_INTERFACES: re.compile("^.+$"),
             DaplinkBoard.KEY_MODE: re.compile("(interface|bootloader)"),
         }
         optional_key_and_format = {
-            DaplinkBoard.KEY_BL_VERSION: re.compile("^[0-9]{4}$"),
-            DaplinkBoard.KEY_IF_VERSION: re.compile("^[0-9]{4}$"),
+            DaplinkBoard.KEY_BL_VERSION: re.compile("^[0-9]{6}$"),
+            DaplinkBoard.KEY_IF_VERSION: re.compile("^[0-9]{6}$"),
             DaplinkBoard.KEY_BL_CRC: re.compile("^0x[a-f0-9]{8}$"),
             DaplinkBoard.KEY_IF_CRC: re.compile("^0x[a-f0-9]{8}$"),
         }
