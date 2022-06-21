@@ -88,14 +88,25 @@ VERB_VERBOSE = 'Verbose'    # All errors and warnings
 VERB_ALL = 'All'            # All errors
 VERB_LEVELS = [VERB_MINIMAL, VERB_NORMAL, VERB_VERBOSE, VERB_ALL]
 
+TEST_HID = False
+TEST_SERIAL = True
+TEST_MASS_STORAGE = True
+TEST_USB = True
 
 def test_endpoints(workspace, parent_test, quick=False):
     """Run tests to validate DAPLINK fimrware"""
     test_info = parent_test.create_subtest('test_endpoints')
-    test_hid(workspace, test_info, quick)
-    test_serial(workspace, test_info, quick)
-    test_mass_storage(workspace, test_info, quick)
-    test_usb(workspace, test_info, False, quick)
+    if TEST_HID:
+        test_hid(workspace, test_info, quick)
+
+    if TEST_SERIAL:
+        test_serial(workspace, test_info, quick)
+
+    if TEST_MASS_STORAGE:
+        test_mass_storage(workspace, test_info, quick)
+
+    if TEST_USB:
+        test_usb(workspace, test_info, False, quick)
 
 
 class TestConfiguration(object):
