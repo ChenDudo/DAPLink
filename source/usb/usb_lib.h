@@ -40,7 +40,9 @@ extern const U8 usbd_max_packet0;
  *----------------------------------------------------------------------------*/
 extern const U8 usbd_hid_enable;
 extern U8 usbd_hid_if_num;
+#if    (USBD_WEBUSB_ENABLE)
 extern U8 usbd_webusb_if_num;
+#endif
 extern const U8 usbd_hid_ep_intin;
 extern const U8 usbd_hid_ep_intout;
 extern const U16 usbd_hid_interval     [2];

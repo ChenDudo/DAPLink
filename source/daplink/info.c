@@ -49,11 +49,18 @@ static uint32_t crc_interface;
 static uint32_t crc_config_user;
 
 // Strings
-static char string_unique_id[24 + 1];
-static char string_host_id[24 + 1];
-static char string_hic_id[8 + 1];
+// old Strings
+//static char string_unique_id[48 + 1];
+//static char string_host_id[32 + 1];
+//static char string_version[4 + 1];
+
+// Strings
+static char string_unique_id[24 + 1];	// v0520 = 24
+static char string_host_id[24 + 1];	// v0520 = 16
 static char string_version[6 + 1];
 
+// no change
+static char string_hic_id[8 + 1];
 static char string_mac[12 + 1];
 static char string_board_id[4 + 1];
 static char string_target_id[32 + 1];

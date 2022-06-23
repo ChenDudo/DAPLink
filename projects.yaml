@@ -91,8 +91,7 @@ module:
     hic_mm32f3270: &module_hic_mm32f3270
         - records/rtos/rtos-cm3.yaml
         - records/hic_hal/mm32f3270.yaml
-        #- records/usb/usb-bulk.yaml
-        - records/usb/usb-hid.yaml
+        #- records/usb/usb-hid.yaml
     hic_nrf52820: &module_hic_nrf52820
         - records/rtos/rtos-cm4.yaml
         - records/hic_hal/nrf52820.yaml
@@ -563,8 +562,41 @@ projects:
         - *module_if
         - *module_hic_mm32f3270
         - records/board/mm32f3270_mm32f0270.yaml
-    mm32f3270_mm32f3270_if:
-        - *module_if
+    mm32f3270_hid_if:
+        - *module_tools
+        - records/usb/usb-core.yaml
+        - records/usb/usb-msc.yaml
+        - records/usb/usb-cdc.yaml
+        #- records/usb/usb-webusb.yaml
+        #- records/usb/usb-winusb.yaml
+        - records/usb/usb-hid.yaml
+        - records/daplink/cmsis-dap.yaml
+        - records/daplink/drag-n-drop.yaml
+        - records/daplink/usb2uart.yaml
+        - records/daplink/settings.yaml
+        - records/daplink/settings_rom.yaml
+        - records/daplink/interface.yaml
+        - records/daplink/target_family.yaml
+        - records/daplink/target_board.yaml
+        - *module_hic_mm32f3270
+        - records/board/mm32f3270_mm32f3270.yaml
+    mm32f3270_winusb_if:
+        - *module_tools
+        - records/usb/usb-core.yaml
+        - records/usb/usb-msc.yaml
+        - records/usb/usb-cdc.yaml
+        #- records/usb/usb-webusb.yaml
+        #- records/usb/usb-hid.yaml
+        - records/usb/usb-bulk.yaml
+        - records/usb/usb-winusb.yaml
+        - records/daplink/cmsis-dap.yaml
+        - records/daplink/drag-n-drop.yaml
+        - records/daplink/usb2uart.yaml
+        - records/daplink/settings.yaml
+        - records/daplink/settings_rom.yaml
+        - records/daplink/interface.yaml
+        - records/daplink/target_family.yaml
+        - records/daplink/target_board.yaml
         - *module_hic_mm32f3270
         - records/board/mm32f3270_mm32f3270.yaml
     nrf52820_microbit_bl:
