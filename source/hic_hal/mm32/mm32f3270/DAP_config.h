@@ -440,12 +440,19 @@ __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 extern uint8_t swd_write_word(uint32_t addr, uint32_t val);
 __STATIC_FORCEINLINE void     PIN_nRESET_OUT(uint32_t bit)
 {
-    if (bit & 1)
-        nRESET_PIN_PORT->BSRR = nRESET_PIN;
-    else
-        nRESET_PIN_PORT->BRR = nRESET_PIN;
-    //if (bit == 0)
-    //    swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+    if (bit & 1){
+		//PC 12
+		nRESET_PIN_PORT->BSRR = nRESET_PIN;
+		nRESET_PIN_PORT->CRH &= ~0x000F0000;
+		nRESET_PIN_PORT->CRH |= 0x00080000;
+	}
+    else {
+		nRESET_PIN_PORT->BRR = nRESET_PIN;
+		nRESET_PIN_PORT->CRH &= ~0x000F0000;
+		nRESET_PIN_PORT->CRH |= 0x00010000;
+		// chendo: add system reset
+		//swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+	}
 }
 
 //**************************************************************************************************
@@ -481,7 +488,11 @@ __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
 */
 __STATIC_INLINE void LED_RUNNING_OUT(uint32_t bit)
 {
-    ;             // Not available
+	;
+//	if (bit & 1)
+//        RUNNING_LED_PORT->BRR = RUNNING_LED_PIN; // LED on
+//    else
+//        RUNNING_LED_PORT->BSRR = RUNNING_LED_PIN;// LED off
 }
 
 ///@}

@@ -42,3 +42,41 @@
 
 ---
 2022.5.20
+
+
+# 2022-0624 
+
+修订后测试
+## reset_out 逻辑
+reset为高，pin为输入，配置上拉
+reset为低，pin为输出，输出低电平
+
+### 测试芯片 MB032(F0010)
+
+IAR 测试(Freq = 1MHz)：
+
+1.不加软复位（正常情况）
+复位模式：
+- [x] Disable(no reset)
+- [x] Software: **降低频率后OK**
+- [x] Hardware: **降低频率。重试后OK**
+- [x] System
+- [x] Connect during reset(default)
+
+2.带软复位
+
+- [x] Disable(no reset)
+- [ ] Software: **Call to _ExecDeviceCoreConnect: macro undefined**
+- [x] Hardware
+- [x] System
+- [x] Connect during reset(default)
+
+### 测试芯片 MM32F0270
+
+IAR 测试(Freq = 1MHz)：
+
+- [x] Disable(no reset)
+- [x] Software: **切换其他成功下载模式，再次切回下载OK**
+- [x] Hardware: 
+- [x] System
+- [ ] Connect during reset(default)： **ERROR**

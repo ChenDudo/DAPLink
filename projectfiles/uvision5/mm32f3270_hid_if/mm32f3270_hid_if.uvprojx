@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>mm32f3270_mm32f0270_if</TargetName>
+      <TargetName>mm32f3270_hid_if</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\</OutputDirectory>
-          <OutputName>mm32f3270_mm32f0270_if</OutputName>
+          <OutputName>mm32f3270_hid_if</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -134,10 +134,10 @@
             <RunIndependent>0</RunIndependent>
             <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
             <Capability>1</Capability>
-            <DriverSelection>4096</DriverSelection>
+            <DriverSelection>4099</DriverSelection>
           </Flash1>
           <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
+          <Flash2>BIN\CMSIS_AGDI.dll</Flash2>
           <Flash3>"" ()</Flash3>
           <Flash4></Flash4>
           <pFcarmOut></pFcarmOut>
@@ -338,7 +338,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls> --gnu --asm --interleave -g</MiscControls>
-              <Define>DAPLINK_VERSION=220520, MSC_ENDPOINT, CDC_ENDPOINT, WEBUSB_INTERFACE, WINUSB_INTERFACE, DRAG_N_DROP_SUPPORT, DAPLINK_IF, DAPLINK_BUILD_KEY=0x9B939E8F, OS_TICK_FREQ=100, INTERFACE_MM32F3270, MM32F3270, DAPLINK_HIC_ID=0x4D4D3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, HID_ENDPOINT, HID_LED_DEF=GPIO_LED_ON, CDC_LED_DEF=GPIO_LED_ON, MSC_LED_DEF=GPIO_LED_ON, USE_LEGACY_CMSIS_RTOS, OS_TICK=10000</Define>
+              <Define>DAPLINK_VERSION=220520, MSC_ENDPOINT, CDC_ENDPOINT, HID_ENDPOINT, DRAG_N_DROP_SUPPORT, DAPLINK_IF, DAPLINK_BUILD_KEY=0x9B939E8F, OS_TICK_FREQ=100, INTERFACE_MM32F3270, MM32F3270, DAPLINK_HIC_ID=0x4D4D3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, HID_LED_DEF=GPIO_LED_ON, CDC_LED_DEF=GPIO_LED_ON, MSC_LED_DEF=GPIO_LED_ON, USE_LEGACY_CMSIS_RTOS, OS_TICK=10000</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\source\usb; ..\..\..\source\daplink\cmsis-dap; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\usb2uart; ..\..\..\source\daplink\settings; ..\..\..\source\daplink; ..\..\..\source\daplink\interface; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\hic_hal\cmsis-driver; ..\..\..\source\target; ..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc; ..\..\..\source\rtos</IncludePath>
             </VariousControls>
@@ -355,7 +355,7 @@
             <useXO>0</useXO>
             <ClangAsOpt>1</ClangAsOpt>
             <VariousControls>
-              <MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220520,-DMSC_ENDPOINT,-DCDC_ENDPOINT,-DWEBUSB_INTERFACE,-DWINUSB_INTERFACE,-DDRAG_N_DROP_SUPPORT,-DDAPLINK_IF,-DDAPLINK_BUILD_KEY=0x9B939E8F,-DOS_TICK_FREQ=100,-DINTERFACE_MM32F3270,-DMM32F3270,-DDAPLINK_HIC_ID=0x4D4D3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DHID_ENDPOINT,-DHID_LED_DEF=GPIO_LED_ON,-DCDC_LED_DEF=GPIO_LED_ON,-DMSC_LED_DEF=GPIO_LED_ON,-DUSE_LEGACY_CMSIS_RTOS,-DOS_TICK=10000 -g</MiscControls>
+              <MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220520,-DMSC_ENDPOINT,-DCDC_ENDPOINT,-DHID_ENDPOINT,-DDRAG_N_DROP_SUPPORT,-DDAPLINK_IF,-DDAPLINK_BUILD_KEY=0x9B939E8F,-DOS_TICK_FREQ=100,-DINTERFACE_MM32F3270,-DMM32F3270,-DDAPLINK_HIC_ID=0x4D4D3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DHID_LED_DEF=GPIO_LED_ON,-DCDC_LED_DEF=GPIO_LED_ON,-DMSC_LED_DEF=GPIO_LED_ON,-DUSE_LEGACY_CMSIS_RTOS,-DOS_TICK=10000 -g</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
@@ -374,7 +374,7 @@
             <ScatterFile>..\..\..\source\daplink\daplink.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc> --bestdebug --predefine=-DDAPLINK_IF --predefine="-I..\..\..\source\hic_hal\mm32\mm32f3270"</Misc>
+            <Misc>--bestdebug --predefine=-DDAPLINK_IF --predefine="-I..\..\..\source\hic_hal\mm32\mm32f3270"</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -385,9 +385,9 @@
           <GroupName>board</GroupName>
           <Files>
             <File>
-              <FileName>mm32f0270.c</FileName>
+              <FileName>mm32f3270.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\board\mm32f0270.c</FilePath>
+              <FilePath>..\..\..\source\board\mm32f3270.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1512,7 +1512,7 @@
             <File>
               <FileName>target.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\family\mindmotion\mm32f0270\target.c</FilePath>
+              <FilePath>..\..\..\source\family\mindmotion\mm32f3270\target.c</FilePath>
             </File>
             <File>
               <FileName>target_reset.c</FileName>
@@ -1853,16 +1853,6 @@
               <FileName>usbd_core_msc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\source\usb\msc\usbd_core_msc.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_core_webusb.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\source\usb\webusb\usbd_core_webusb.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_core_winusb.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\..\..\source\usb\winusb\usbd_core_winusb.c</FilePath>
             </File>
             <File>
               <FileName>usbd_hid.c</FileName>

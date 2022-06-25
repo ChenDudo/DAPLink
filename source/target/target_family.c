@@ -152,13 +152,13 @@ uint8_t target_set_state(target_state_t state)
 
 void swd_set_target_reset(uint8_t asserted)
 {
-//    if (g_target_family && g_target_family->swd_set_target_reset) {
-//        g_target_family->swd_set_target_reset(asserted);
-//    } else {
-//        (asserted) ? PIN_nRESET_OUT(0) : PIN_nRESET_OUT(1);
-//    }
+    if (g_target_family && g_target_family->swd_set_target_reset) {
+        g_target_family->swd_set_target_reset(asserted);
+    } else {
+        (asserted) ? PIN_nRESET_OUT(0) : PIN_nRESET_OUT(1);
+    }
 	//chendo
-	(asserted) ? PIN_nRESET_OUT(0) : PIN_nRESET_OUT(1);
+	//(asserted) ? PIN_nRESET_OUT(0) : PIN_nRESET_OUT(1);
 }
 
 uint32_t target_get_apsel()
