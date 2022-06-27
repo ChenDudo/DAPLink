@@ -24,10 +24,25 @@
 #include "hal_gpio.h"
 #include "hal_tim.h"
 #include "hal_rcc.h"
+#include "hal_gpio.h"
 
+#include "IO_Config.h"
 #include "beep.h"
 
-
+/******************************************************************************/
+void InitGPIOBEEP(void)
+{
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+	GPIO_InitTypeDef GPIO_InitStructure;
+    // configure Beep
+    GPIO_PinAFConfig(BEEP_PORT, BEEP_Bit, GPIO_AF_2);
+    GPIO_ResetBits(BEEP_PORT, BEEP_PIN);
+    GPIO_InitStructure.GPIO_Pin = BEEP_PIN;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
+    GPIO_Init(BEEP_PORT, &GPIO_InitStructure);
+}
+	
 /******************************************************************************/
 void InitBeep(void)
 {
@@ -45,20 +60,22 @@ void InitBeep(void)
 	TIM_OCStructInit(&TIM_OCInitStructure);
 	TIM_OCInitStructure.TIM_OCMode          = TIM_OCMode_PWM2;
 	TIM_OCInitStructure.TIM_OutputState     = TIM_OutputState_Enable;
-	TIM_OCInitStructure.TIM_Pulse           = 0;
+	TIM_OCInitStructure.TIM_Pulse           = ARR_VALUE >> 1;
 	TIM_OCInitStructure.TIM_OCPolarity      = TIM_OCPolarity_High;
 	TIM_OC3Init(BEEP_TIMER, &TIM_OCInitStructure);
 	TIM_OC3PreloadConfig(BEEP_TIMER, TIM_OCPreload_Enable);
 
 	TIM_CtrlPWMOutputs(BEEP_TIMER, ENABLE);
 	TIM_ARRPreloadConfig(BEEP_TIMER, ENABLE);
+	
+	InitGPIOBEEP();
+	
 	BEEP_off();
 }
 
 /******************************************************************************/
 void BEEP_on(void)
 {
-	BEEP_Hz(ARR_VALUE >> 1);
 	TIM_Cmd(BEEP_TIMER, ENABLE);
 }
 
@@ -68,6 +85,7 @@ void BEEP_off(void)
 	TIM_Cmd(BEEP_TIMER, DISABLE);
 }
 
+/******************************************************************************/
 void BEEP_Hz(int pulse)
 {
 	TIM_SetCompare3(BEEP_TIMER, pulse);

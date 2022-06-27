@@ -101,14 +101,6 @@ void gpio_init(void)
     GPIO_InitStructure.GPIO_Pin = PIN_MSC_LED;
     GPIO_Init(PIN_MSC_LED_PORT, &GPIO_InitStructure);
 
-    // configure Beep
-    GPIO_PinAFConfig(BEEP_PORT, BEEP_Bit, GPIO_AF_2);
-    GPIO_ResetBits(BEEP_PORT, BEEP_PIN);
-    GPIO_InitStructure.GPIO_Pin = BEEP_PIN;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
-    GPIO_Init(BEEP_PORT, &GPIO_InitStructure);
-
 	// nRESET OUT
 	GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
 	GPIO_InitStructure.GPIO_Pin = nRESET_PIN;
@@ -136,15 +128,19 @@ void gpio_init(void)
     GPIO_InitStructure.GPIO_Pin = POWER_3V3_EN_PIN;
     GPIO_Init(POWER_3V3_EN_PIN_PORT, &GPIO_InitStructure);
 
+	InitBeep();
+	
     // Let the voltage rails stabilize.  This is especailly important
     // during software resets, since the target's 3.3v rail can take
     // 20-50ms to drain.  During this time the target could be driving
     // the reset pin low, causing the bootloader to think the reset
     // button is pressed.
     // Note: With optimization set to -O2 the value 1000000 delays for ~85ms
-	LED_on();BEEP_Hz(ARR_VALUE >> 1);
+	LED_on(); 
+	if(config_get_beep_en())
+		BEEP_on();
     busy_wait(1000000);
-	LED_off();BEEP_Hz(0);
+	LED_off(); BEEP_off();
 }
 
 void gpio_set_hid_led(gpio_led_state_t state)

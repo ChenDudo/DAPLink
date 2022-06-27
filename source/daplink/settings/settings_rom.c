@@ -47,10 +47,7 @@ typedef struct __attribute__((__packed__)) cfg_setting {
     uint8_t detect_incompatible_target;
 
     // Add new members here
-	uint8_t output5v_allowed; //chendo
-#if defined (USE_BEEP)	
-	uint8_t beep_allowed;
-#endif
+	uint8_t myOption; //bit 0: 3.3/5V; bit 1: beep off/on	
 } cfg_setting_t;
 
 // Make sure FORMAT in generate_config.py is updated if size changes
@@ -207,24 +204,24 @@ bool config_get_detect_incompatible_target()
 // TODO chendo new add
 void config_set_5v_output(bool on)
 {
-	config_rom_copy.output5v_allowed = on;
+	(on) ? (config_rom_copy.myOption |= 0x01) : \
+		(config_rom_copy.myOption &= 0xFE);
 	program_cfg(&config_rom_copy);
 }
 
 bool config_get_5v_output(void)
 {
-	return config_rom_copy.output5v_allowed;
+	return config_rom.myOption & 0x01;
 }
 
-#if defined (USE_BEEP)
 void config_set_beep_en(bool on)
 {
-	config_rom_copy.beep_allowed = on;
+	(on) ? (config_rom_copy.myOption |= 0x02) : \
+		(config_rom_copy.myOption &= 0xFD);
 	program_cfg(&config_rom_copy);
 }
 
 bool config_get_beep_en(void)
 {
-	return config_rom_copy.beep_allowed;
+	return config_rom_copy.myOption & 0x02;
 }
-#endif

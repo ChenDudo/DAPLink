@@ -73,9 +73,7 @@ typedef enum _magic_file {
 	k5VEnConfigFile,			//!< Enable 5V output
 	k5VDisEnConfigFile,         //!< Disable 5V output, default 3.3V
 	kBeepOnConfigFile,			//!< Enable Beep
-#if defined (USE_BEEP)
 	kBeepOffConfigFile,			//!< Disable Beep
-#endif
 } magic_file_t;
 
 //! @brief Mapping from filename string to magic file enum.
@@ -106,11 +104,9 @@ static const magic_file_info_t s_magic_file_info[] = {
         { "PAGE_OFFACT", kChipEraseActionFile       },
 		{ "PAGE_OFFACT", kChipEraseActionFile       },
 		{ "FIVE_ON CFG", k5VEnConfigFile            },
-		{ "FIVE_OFFCFG", k5VDisEnConfigFile         },
-#if defined (USE_BEEP)		
+		{ "FIVE_OFFCFG", k5VDisEnConfigFile         },	
 		{ "BEEP_ON CFG", kBeepOnConfigFile          },
-		{ "BEEP_OFFCFG", kBeepOffConfigFile         },
-#endif		
+		{ "BEEP_OFFCFG", kBeepOffConfigFile         },		
     };
 
 static char assert_buf[64 + 1];
@@ -286,15 +282,13 @@ void vfs_user_file_change_handler(const vfs_filename_t filename, vfs_file_change
                         break;
 					case k5VDisEnConfigFile:
                         config_set_5v_output(false);
-                        break;
-#if defined (USE_BEEP)					
+                        break;					
 					case kBeepOnConfigFile:
                         config_set_beep_en(true);
                         break;
 					case kBeepOffConfigFile:
                         config_set_beep_en(false);
-                        break;
-#endif					
+                        break;				
                     default:
                         util_assert(false);
                 }
