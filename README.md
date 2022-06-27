@@ -1,9 +1,5 @@
-# MM32-LINK MAX 
+# MM32-LINK Mini
 ----------
-**220520 内测版 发布说明**
-
-## 硬件示意图
-![MAX](./docs/images/正视图(1).jpg)
 
 ## MAIN FUNCTION
 
