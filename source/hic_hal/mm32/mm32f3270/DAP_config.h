@@ -356,6 +356,9 @@ called prior \ref PIN_SWDIO_OUT function calls.
 */
 __STATIC_FORCEINLINE void PIN_SWDIO_OUT_ENABLE(void)
 {
+	//pin_out_init(SWDIO_DIR_PIN_PORT, SWDIO_DIR_PIN_Bit);
+    SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
+	
     pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
     SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
 }
@@ -366,6 +369,9 @@ called prior \ref PIN_SWDIO_IN function calls.
 */
 __STATIC_FORCEINLINE void PIN_SWDIO_OUT_DISABLE(void)
 {
+	//pin_out_init(SWDIO_DIR_PIN_PORT, SWDIO_DIR_PIN_Bit);
+    SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
+	
     pin_in_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, 0);
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
 }
@@ -562,6 +568,14 @@ __STATIC_INLINE void DAP_SETUP(void)
     pin_out_od_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
 
+
+
+	GPIO_PinAFConfig(SWDIO_DIR_PIN_PORT, SWDIO_DIR_PIN_Bit, GPIO_AF_0);
+    pin_out_init(SWDIO_DIR_PIN_PORT, SWDIO_DIR_PIN_Bit);
+    SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
+	
+	
+	
     pin_out_init(CONNECTED_LED_PORT, CONNECTED_LED_PIN_Bit);
     CONNECTED_LED_PORT->BSRR = CONNECTED_LED_PIN;
 }
