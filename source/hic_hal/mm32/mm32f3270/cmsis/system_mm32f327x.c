@@ -30,7 +30,7 @@ uint32_t SystemCoreClock;
 ////////////////////////////////////////////////////////////////////////////////
 void SystemInit (void)
 {
-	SystemCoreClock = 8000000;
+	SystemCoreClock = HSE_FREQ;
 	
 	//Set HSION bit
 	RCC->CR |= (u32)0x00000001;

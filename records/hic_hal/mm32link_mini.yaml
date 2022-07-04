@@ -1,0 +1,4 @@
+common:
+    macros:
+        - MM32LINK_MINI
+        - HSE_FREQ=12000000

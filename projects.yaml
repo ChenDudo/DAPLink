@@ -38,25 +38,32 @@ module:
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
     # HICs
-    hic_mm32f3270: &module_hic_mm32f3270
+    hic_mm32f3270_max: &module_hic_mm32link_max
         - records/rtos/rtos-cm3.yaml
         - records/hic_hal/mm32f3270.yaml
-        #- records/usb/usb-hid.yaml
+        - records/hic_hal/mm32link_max.yaml
+
+    hic_mm32link_mini: &module_hic_mm32link_mini
+        - records/rtos/rtos-cm3.yaml
+        - records/hic_hal/mm32f3270.yaml
+        - records/hic_hal/mm32link_mini.yaml
 
 projects:
     # HIC bootloaders and all target interfaces
     mm32link_mini_bl:
         - *module_bl
         - records/hic_hal/mm32f3270.yaml
+        - records/hic_hal/mm32link_mini.yaml
         - records/board/mm32f3270_bl.yaml
 
     # Other projects
     mm32link_mini_mm32f0140_if:
         - *module_if
-        - *module_hic_mm32f3270
+        - *module_hic_mm32link_mini
         - records/board/mm32f3270_mm32f0140.yaml
     mm32link_mini_hid_if:
         - *module_tools
+        - *module_hic_mm32link_mini
         - records/usb/usb-core.yaml
         - records/usb/usb-msc.yaml
         - records/usb/usb-cdc.yaml
@@ -71,10 +78,10 @@ projects:
         - records/daplink/interface.yaml
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
-        - *module_hic_mm32f3270
         - records/board/mm32f3270_mm32f3270.yaml
     mm32link_mini_winusb_if:
         - *module_tools
+        - *module_hic_mm32link_mini
         - records/usb/usb-core.yaml
         - records/usb/usb-msc.yaml
         - records/usb/usb-cdc.yaml
@@ -90,5 +97,4 @@ projects:
         - records/daplink/interface.yaml
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
-        - *module_hic_mm32f3270
         - records/board/mm32f3270_mm32f3270.yaml
