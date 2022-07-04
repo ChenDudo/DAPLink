@@ -33,22 +33,38 @@
 #include "IO_Config.h"
 
 // For uart
-#define CDC_UART                     UART1
-#define CDC_UART_ENABLE()            RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE)
-#define CDC_UART_DISABLE()           RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE)
-#define CDC_UART_IRQn                UART1_IRQn
-#define CDC_UART_IRQn_Handler        UART1_IRQHandler
+#define CDC_UART UART1
+#define CDC_UART_ENABLE()       RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE)
+#define CDC_UART_DISABLE()      RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE)
+#define CDC_UART_IRQn           UART1_IRQn
+#define CDC_UART_IRQn_Handler   UART1_IRQHandler
 
-#define UART_PINS_PORT_ENABLE()      RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE)
-#define UART_PINS_PORT_DISABLE()     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE)
+#define UART_PINS_PORT_ENABLE()     (UART_TX_PORT == GPIOA) ? RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE)  : RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE)
+#define UART_PINS_PORT_DISABLE()    (UART_TX_PORT == GPIOA) ? RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, DISABLE) : RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, DISABLE)
 
-#define UART_TX_PORT                 GPIOB
-#define UART_TX_PIN                  GPIO_Pin_6
-#define UART_TX_PIN_Bit           	 6
+#if defined(MM32LINK_MAX)   /* MAX */
+#define UART_TX_PORT        GPIOB
+#define UART_TX_PIN         GPIO_Pin_6
+#define UART_TX_PIN_Bit     6
+#define UART_TX_AF          GPIO_AF_7
+#define UART_RX_PORT        GPIOB
+#define UART_RX_PIN         GPIO_Pin_7
+#define UART_RX_PIN_Bit     7
+#define UART_RX_AF          GPIO_AF_7
 
-#define UART_RX_PORT                 GPIOB
-#define UART_RX_PIN                  GPIO_Pin_7
-#define UART_RX_PIN_Bit           	 7
+#elif defined(MM32LINK_MINI) /* MINI */
+#define UART_TX_PORT        GPIOA
+#define UART_TX_PIN         GPIO_Pin_9
+#define UART_TX_PIN_Bit     9
+#define UART_TX_AF          GPIO_AF_7
+#define UART_RX_PORT        GPIOA
+#define UART_RX_PIN         GPIO_Pin_10
+#define UART_RX_PIN_Bit     10
+#define UART_RX_AF          GPIO_AF_7
+
+#else
+
+#endif
 
 // #define UART_CTS_PORT                GPIOA
 // #define UART_CTS_PIN                 GPIO_PIN_0
@@ -56,10 +72,9 @@
 // #define UART_RTS_PORT                GPIOA
 // #define UART_RTS_PIN                 GPIO_PIN_1
 
-
-#define RX_OVRF_MSG         "<DAPLink:Overflow>\n"
-#define RX_OVRF_MSG_SIZE    (sizeof(RX_OVRF_MSG) - 1)
-#define BUFFER_SIZE         (512)
+#define RX_OVRF_MSG "<DAPLink:Overflow>\n"
+#define RX_OVRF_MSG_SIZE (sizeof(RX_OVRF_MSG) - 1)
+#define BUFFER_SIZE (512)
 
 circ_buf_t write_buffer;
 uint8_t write_buffer_data[BUFFER_SIZE];
@@ -76,8 +91,6 @@ static UART_Configuration configuration = {
 
 extern uint32_t SystemCoreClock;
 
-
-
 static void clear_buffers(void)
 {
     circ_buf_init(&write_buffer, write_buffer_data, sizeof(write_buffer_data));
@@ -90,27 +103,27 @@ int32_t uart_initialize(void)
     NVIC_InitTypeDef NVIC_InitStructure;
 
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
-	CDC_UART_ENABLE();
+    CDC_UART_ENABLE();
     UART_PINS_PORT_ENABLE();
-	
-    UART_ITConfig(CDC_UART, UART_IT_RXIEN|UART_IT_TXIEN, DISABLE);
+
+    UART_ITConfig(CDC_UART, UART_IT_RXIEN | UART_IT_TXIEN, DISABLE);
     clear_buffers();
 
-    //TX pin
-    GPIO_PinAFConfig(UART_TX_PORT, UART_TX_PIN_Bit, GPIO_AF_7);
+    // TX pin
+    GPIO_PinAFConfig(UART_TX_PORT, UART_TX_PIN_Bit, UART_TX_AF);
     GPIO_InitStructure.GPIO_Pin = UART_TX_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
     GPIO_Init(UART_TX_PORT, &GPIO_InitStructure);
 
-    //RX pin
-    GPIO_PinAFConfig(UART_RX_PORT, UART_RX_PIN_Bit, GPIO_AF_7);
+    // RX pin
+    GPIO_PinAFConfig(UART_RX_PORT, UART_RX_PIN_Bit, UART_RX_AF);
     GPIO_InitStructure.GPIO_Pin = UART_RX_PIN;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
     GPIO_Init(UART_RX_PORT, &GPIO_InitStructure);
 
     NVIC_InitStructure.NVIC_IRQChannel = CDC_UART_IRQn;
-    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=2;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
     NVIC_InitStructure.NVIC_IRQChannelSubPriority = 3;
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
     NVIC_Init(&NVIC_InitStructure);
@@ -121,15 +134,15 @@ int32_t uart_initialize(void)
 
 int32_t uart_uninitialize(void)
 {
-    //UART_Cmd(CDC_UART, DISABLE);    // ??? ADD
-    UART_ITConfig(CDC_UART, UART_IT_RXIEN|UART_IT_TXIEN, DISABLE);
+    // UART_Cmd(CDC_UART, DISABLE);    // ??? ADD
+    UART_ITConfig(CDC_UART, UART_IT_RXIEN | UART_IT_TXIEN, DISABLE);
     clear_buffers();
     return 1;
 }
 
 int32_t uart_reset(void)
 {
-    UART_ITConfig(CDC_UART, UART_IT_RXIEN|UART_IT_TXIEN, DISABLE);
+    UART_ITConfig(CDC_UART, UART_IT_RXIEN | UART_IT_TXIEN, DISABLE);
     clear_buffers();
     UART_ITConfig(CDC_UART, UART_IT_TXIEN, DISABLE);
 
@@ -149,31 +162,33 @@ int32_t uart_set_configuration(UART_Configuration *config)
 
     // Disable uart and tx/rx interrupter
     UART_Cmd(CDC_UART, DISABLE);
-    UART_ITConfig(CDC_UART, UART_IT_RXIEN|UART_IT_TXIEN, DISABLE);
+    UART_ITConfig(CDC_UART, UART_IT_RXIEN | UART_IT_TXIEN, DISABLE);
     clear_buffers();
-    
-    //Only 8 bit support
+
+    // Only 8 bit support
     data_bits = UART_WordLength_8b;
     configuration.DataBits = UART_DATA_BITS_8;
     // parity
     configuration.Parity = config->Parity;
-    if(config->Parity == UART_PARITY_ODD)
+    if (config->Parity == UART_PARITY_ODD)
         parity = UART_Parity_Odd;
-    else if(config->Parity == UART_PARITY_EVEN)
+    else if (config->Parity == UART_PARITY_EVEN)
         parity = UART_Parity_Even;
-    else if(config->Parity == UART_PARITY_NONE)
+    else if (config->Parity == UART_PARITY_NONE)
         parity = UART_Parity_No;
-    else {   //Other not support
+    else
+    { // Other not support
         parity = UART_Parity_No;
         configuration.Parity = UART_PARITY_NONE;
     }
     // stop bits
     configuration.StopBits = config->StopBits;
-    if(config->StopBits == UART_STOP_BITS_2)
+    if (config->StopBits == UART_STOP_BITS_2)
         stop_bits = UART_StopBits_2;
-    else if(config->StopBits == UART_STOP_BITS_1)
+    else if (config->StopBits == UART_STOP_BITS_1)
         stop_bits = UART_StopBits_1;
-    else {
+    else
+    {
         stop_bits = UART_StopBits_1;
         configuration.StopBits = UART_STOP_BITS_1;
     }
@@ -202,7 +217,7 @@ int32_t uart_get_configuration(UART_Configuration *config)
 {
     config->Baudrate = configuration.Baudrate;
     config->DataBits = configuration.DataBits;
-    config->Parity   = configuration.Parity;
+    config->Parity = configuration.Parity;
     config->StopBits = configuration.StopBits;
     config->FlowControl = UART_FLOW_CONTROL_NONE;
 
@@ -221,7 +236,7 @@ int32_t uart_write_free(void)
 int32_t uart_write_data(uint8_t *data, uint16_t size)
 {
     uint32_t cnt = circ_buf_write(&write_buffer, data, size);
-    //CDC_UART->CR1 |= USART_IT_TXE;
+    // CDC_UART->CR1 |= USART_IT_TXE;
     UART_ITConfig(CDC_UART, UART_IT_TXIEN, ENABLE);
 
     return cnt;
@@ -236,23 +251,33 @@ void CDC_UART_IRQn_Handler(void)
 {
     const uint32_t sr = CDC_UART->ISR;
 
-    if (sr & UART_ISR_RX) {
+    if (sr & UART_ISR_RX)
+    {
         uint8_t dat = CDC_UART->RDR;
         uint32_t free = circ_buf_count_free(&read_buffer);
-        if (free > RX_OVRF_MSG_SIZE) {
+        if (free > RX_OVRF_MSG_SIZE)
+        {
             circ_buf_push(&read_buffer, dat);
-        } else if (RX_OVRF_MSG_SIZE == free) {
-            circ_buf_write(&read_buffer, (uint8_t*)RX_OVRF_MSG, RX_OVRF_MSG_SIZE);
-        } else {
+        }
+        else if (RX_OVRF_MSG_SIZE == free)
+        {
+            circ_buf_write(&read_buffer, (uint8_t *)RX_OVRF_MSG, RX_OVRF_MSG_SIZE);
+        }
+        else
+        {
             // Drop character
         }
     }
 
-    if (sr & UART_ISR_TX) {
-        if (circ_buf_count_used(&write_buffer) > 0) {
+    if (sr & UART_ISR_TX)
+    {
+        if (circ_buf_count_used(&write_buffer) > 0)
+        {
             CDC_UART->TDR = circ_buf_pop(&write_buffer);
-        } else {
-            //CDC_UART->CR1 &= ~USART_IT_TXE;
+        }
+        else
+        {
+            // CDC_UART->CR1 &= ~USART_IT_TXE;
             UART_ITConfig(CDC_UART, UART_IT_TXIEN, DISABLE);
         }
     }

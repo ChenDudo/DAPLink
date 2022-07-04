@@ -71,7 +71,11 @@ void sdk_init()
  	RCC_PCLK2Config(RCC_HCLK_Div1);                             /* APB2 = AHB */
  	RCC_PCLK1Config(RCC_HCLK_Div2);                             /* APB1 = AHB/2 */
     RCC_USBCLKConfig(RCC_USBCLKSource_PLLCLK_Div2);             /* USBCLK = PLLCLK/2 */
-	RCC_PLLConfig(RCC_HSE_Div1, RCC_PLLMul_12);                 /* 8MHz /1 * 12 = 96MHz */
+	
+	if(8000000 == HSE_FREQ)
+		RCC_PLLConfig(RCC_HSE_Div1, RCC_PLLMul_12);             /* 8MHz /1 * 12 = 96MHz */
+	else if(12000000 == HSE_FREQ)
+		RCC_PLLConfig(RCC_HSE_Div1, RCC_PLLMul_8);              /* 12MHz /1 * 8 = 96MHz */
 	RCC_PLLCmd(ENABLE);                                         /* Enable the PLL */
 
  	while(RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET);         /* Check if PLL is locked */

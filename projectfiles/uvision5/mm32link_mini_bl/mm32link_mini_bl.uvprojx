@@ -358,9 +358,9 @@
 						<useXO>0</useXO>
 						<VariousControls>
 							<MiscControls> --gnu --asm --interleave -g</MiscControls>
-							<Define>DAPLINK_VERSION=220520, MSC_ENDPOINT, DAPLINK_BL, DAPLINK_BUILD_KEY=0x9B939D93, DRAG_N_DROP_SUPPORT, OS_TICK=10000, INTERFACE_MM32F3270, MM32F3270, DAPLINK_HIC_ID=0x4D4D3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000</Define>
+							<Define>DAPLINK_VERSION=220520, MSC_ENDPOINT, DAPLINK_BL, DAPLINK_BUILD_KEY=0x9B939D93, DRAG_N_DROP_SUPPORT, OS_TICK=10000, INTERFACE_MM32F3270, MM32F3270, DAPLINK_HIC_ID=0x4D4D3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MINI, HSE_FREQ=12000000</Define>
 							<Undefine></Undefine>
-							<IncludePath>..\..\..\source\usb; ..\..\..\source\daplink; ..\..\..\source\daplink\bootloader; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\hic_hal\cmsis-driver; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\settings; ..\..\..\source\target; ..\..\..\source\rtos_none; ..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc</IncludePath>
+							<IncludePath>..\..\..\source\usb; ..\..\..\source\daplink; ..\..\..\source\daplink\bootloader; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\settings; ..\..\..\source\target; ..\..\..\source\rtos_none; ..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc</IncludePath>
 						</VariousControls>
 					</Cads>
 					<Aads>
@@ -374,7 +374,7 @@
 						<uSurpInc>0</uSurpInc>
 						<useXO>0</useXO>
 						<VariousControls>
-							<MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220520,-DMSC_ENDPOINT,-DDAPLINK_BL,-DDAPLINK_BUILD_KEY=0x9B939D93,-DDRAG_N_DROP_SUPPORT,-DOS_TICK=10000,-DINTERFACE_MM32F3270,-DMM32F3270,-DDAPLINK_HIC_ID=0x4D4D3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000 -g</MiscControls>
+							<MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220520,-DMSC_ENDPOINT,-DDAPLINK_BL,-DDAPLINK_BUILD_KEY=0x9B939D93,-DDRAG_N_DROP_SUPPORT,-DOS_TICK=10000,-DINTERFACE_MM32F3270,-DMM32F3270,-DDAPLINK_HIC_ID=0x4D4D3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DMM32LINK_MINI,-DHSE_FREQ=12000000 -g</MiscControls>
 							<Define></Define>
 							<Undefine></Undefine>
 							<IncludePath></IncludePath>
@@ -662,16 +662,6 @@
 							<FileType>5</FileType>
 							<FileName>device.h</FileName>
 							<FilePath>..\..\..\source\hic_hal\device.h</FilePath>
-						</File>
-						<File>
-							<FileType>5</FileType>
-							<FileName>Driver_Common.h</FileName>
-							<FilePath>..\..\..\source\hic_hal\cmsis-driver\Driver_Common.h</FilePath>
-						</File>
-						<File>
-							<FileType>5</FileType>
-							<FileName>Driver_USART.h</FileName>
-							<FilePath>..\..\..\source\hic_hal\cmsis-driver\Driver_USART.h</FilePath>
 						</File>
 						<File>
 							<FileType>5</FileType>
@@ -1282,6 +1272,11 @@
 							<FileType>5</FileType>
 							<FileName>validation.h</FileName>
 							<FilePath>..\..\..\source\daplink\validation.h</FilePath>
+						</File>
+						<File>
+							<FileType>5</FileType>
+							<FileName>version_git.h</FileName>
+							<FilePath>..\..\..\source\daplink\version_git.h</FilePath>
 						</File>
 						<File>
 							<FileType>5</FileType>
