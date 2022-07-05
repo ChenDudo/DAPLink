@@ -90,7 +90,7 @@ This information includes:
 /// This configuration settings is used to optimize the communication performance with the
 /// debugger and depends on the USB peripheral. For devices with limited RAM or USB buffer the
 /// setting can be reduced (valid range is 1 .. 255). Change setting to 4 for High-Speed USB.
-#define DAP_PACKET_COUNT        4U              ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
+#define DAP_PACKET_COUNT        64U              ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
 
 /// Indicate that UART Serial Wire Output (SWO) trace is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
@@ -356,6 +356,10 @@ called prior \ref PIN_SWDIO_OUT function calls.
 */
 __STATIC_FORCEINLINE void PIN_SWDIO_OUT_ENABLE(void)
 {
+#if defined(SWDIO_DIR_PIN_PORT)
+    SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
+#endif
+
     pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
     SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
 }
@@ -368,6 +372,10 @@ __STATIC_FORCEINLINE void PIN_SWDIO_OUT_DISABLE(void)
 {
     pin_in_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, 0);
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
+	
+#if defined(SWDIO_DIR_PIN_PORT)
+    SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
+#endif
 }
 
 
@@ -428,6 +436,9 @@ __STATIC_FORCEINLINE void PIN_nTRST_OUT(uint32_t bit)
 */
 __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 {
+#if defined(nRST_DIR_PIN_PORT)
+    nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
+#endif
     return ((nRESET_PIN_PORT->IDR >> nRESET_PIN_Bit) & 1);
 }
 
@@ -453,6 +464,9 @@ __STATIC_FORCEINLINE void     PIN_nRESET_OUT(uint32_t bit)
 		// chendo: add system reset
 		//swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
 	}
+#if defined(nRST_DIR_PIN_PORT)
+    nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
+#endif
 }
 
 //**************************************************************************************************
@@ -488,11 +502,10 @@ __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
 */
 __STATIC_INLINE void LED_RUNNING_OUT(uint32_t bit)
 {
-	;
-//	if (bit & 1)
-//        RUNNING_LED_PORT->BRR = RUNNING_LED_PIN; // LED on
-//    else
-//        RUNNING_LED_PORT->BSRR = RUNNING_LED_PIN;// LED off
+    //if (bit & 1)
+    //    RUNNING_LED_PORT->BRR = RUNNING_LED_PIN; // LED on
+    //else
+    //    RUNNING_LED_PORT->BSRR = RUNNING_LED_PIN;// LED off
 }
 
 ///@}
@@ -561,6 +574,18 @@ __STATIC_INLINE void DAP_SETUP(void)
 	GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, GPIO_AF_0);
     pin_out_od_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
+
+#if defined(SWDIO_DIR_PIN_PORT)
+    GPIO_PinAFConfig(SWDIO_DIR_PIN_PORT, SWDIO_DIR_PIN_Bit, GPIO_AF_0);
+    pin_out_init(SWDIO_DIR_PIN_PORT, SWDIO_DIR_PIN_Bit);
+    SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
+#endif
+
+#if defined(nRST_DIR_PIN_PORT)
+    GPIO_PinAFConfig(nRST_DIR_PIN_PORT, nRST_DIR_PIN, GPIO_AF_0);
+    pin_out_init(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+    nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
+#endif
 
     pin_out_init(CONNECTED_LED_PORT, CONNECTED_LED_PIN_Bit);
     CONNECTED_LED_PORT->BSRR = CONNECTED_LED_PIN;

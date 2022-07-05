@@ -167,9 +167,15 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB059);
 #define PIN_CDC_LED             LED2_PIN
 #define PIN_CDC_LED_Bit         LED2_Bit
 
+#if defined(MM32LINK_MAX)
+#define PIN_MSC_LED_PORT        LED3_PORT
+#define PIN_MSC_LED             LED3_PIN
+#define PIN_MSC_LED_Bit         LED3_Bit
+#else
 #define PIN_MSC_LED_PORT        LED2_PORT
 #define PIN_MSC_LED             LED2_PIN
 #define PIN_MSC_LED_Bit         LED2_Bit
+#endif
 
 // Beep: PB8
 #define BEEP_PORT               GPIOB

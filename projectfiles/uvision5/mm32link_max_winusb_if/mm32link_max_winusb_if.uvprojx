@@ -7,23 +7,23 @@
 
   <Targets>
     <Target>
-      <TargetName>mm32link_mini_bl</TargetName>
+      <TargetName>mm32link_max_winusb_if</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060960::V5.06 update 7 (build 960)::.\ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>MM32F3273E6P</Device>
+          <Device>MM32F3273E7P</Device>
           <Vendor>MindMotion</Vendor>
           <PackID>MindMotion.MM32F3270_DFP.1.0.6</PackID>
           <PackURL>http://www.mindmotion.com.cn/Download/MDK_KEIL/</PackURL>
           <Cpu>IRAM(0x20000000,0x18000) IROM(0x08000000,0x40000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0MM32F3270_256 -FS08000000 -FL040000 -FP0($$Device:MM32F3273E6P$Flash\MM32F3270_256.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0MM32F3270_256 -FS08000000 -FL040000 -FP0($$Device:MM32F3273E7P$Flash\MM32F3270_256.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:MM32F3273E6P$Device\MM32F327x\Include\mm32_device.h</RegisterFile>
+          <RegisterFile>$$Device:MM32F3273E7P$Device\MM32F327x\Include\mm32_device.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -33,7 +33,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:MM32F3273E6P$SVD\MM32F3270.svd</SFDFile>
+          <SFDFile>$$Device:MM32F3273E7P$SVD\MM32F3270.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -49,7 +49,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\build\</OutputDirectory>
-          <OutputName>mm32link_mini_bl</OutputName>
+          <OutputName>mm32link_max_winusb_if</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>0</CreateHexFile>
@@ -338,9 +338,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls> --gnu --asm --interleave -g</MiscControls>
-              <Define>DAPLINK_VERSION=220520, MSC_ENDPOINT, DAPLINK_BL, DAPLINK_BUILD_KEY=0x9B939D93, DRAG_N_DROP_SUPPORT, OS_TICK=10000, INTERFACE_MM32F3270, MM32F3270, DAPLINK_HIC_ID=0x4D4D3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MINI, HSE_FREQ=12000000</Define>
+              <Define>DAPLINK_VERSION=220520, OS_TICK_FREQ=100, INTERFACE_MM32F3270, MM32F3270, DAPLINK_HIC_ID=0x4D4D3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MAX, HSE_FREQ=8000000, MSC_ENDPOINT, CDC_ENDPOINT, BULK_ENDPOINT, WINUSB_INTERFACE, DRAG_N_DROP_SUPPORT, DAPLINK_IF, DAPLINK_BUILD_KEY=0x9B939E8F, HID_LED_DEF=GPIO_LED_ON, CDC_LED_DEF=GPIO_LED_ON, MSC_LED_DEF=GPIO_LED_ON, USE_LEGACY_CMSIS_RTOS, OS_TICK=10000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\source\usb; ..\..\..\source\daplink; ..\..\..\source\daplink\bootloader; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\settings; ..\..\..\source\target; ..\..\..\source\rtos_none; ..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc</IncludePath>
+              <IncludePath>..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc; ..\..\..\source\usb; ..\..\..\source\daplink\cmsis-dap; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\usb2uart; ..\..\..\source\daplink\settings; ..\..\..\source\daplink; ..\..\..\source\daplink\interface; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\target; ..\..\..\source\rtos</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -355,7 +355,7 @@
             <useXO>0</useXO>
             <ClangAsOpt>1</ClangAsOpt>
             <VariousControls>
-              <MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220520,-DMSC_ENDPOINT,-DDAPLINK_BL,-DDAPLINK_BUILD_KEY=0x9B939D93,-DDRAG_N_DROP_SUPPORT,-DOS_TICK=10000,-DINTERFACE_MM32F3270,-DMM32F3270,-DDAPLINK_HIC_ID=0x4D4D3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DMM32LINK_MINI,-DHSE_FREQ=12000000 -g</MiscControls>
+              <MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220520,-DOS_TICK_FREQ=100,-DINTERFACE_MM32F3270,-DMM32F3270,-DDAPLINK_HIC_ID=0x4D4D3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DMM32LINK_MAX,-DHSE_FREQ=8000000,-DMSC_ENDPOINT,-DCDC_ENDPOINT,-DBULK_ENDPOINT,-DWINUSB_INTERFACE,-DDRAG_N_DROP_SUPPORT,-DDAPLINK_IF,-DDAPLINK_BUILD_KEY=0x9B939E8F,-DHID_LED_DEF=GPIO_LED_ON,-DCDC_LED_DEF=GPIO_LED_ON,-DMSC_LED_DEF=GPIO_LED_ON,-DUSE_LEGACY_CMSIS_RTOS,-DOS_TICK=10000 -g</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
@@ -374,7 +374,7 @@
             <ScatterFile>..\..\..\source\daplink\daplink.sct</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc>--bestdebug --predefine=-DDAPLINK_BL --predefine="-I..\..\..\source\hic_hal\mm32\mm32f3270"</Misc>
+            <Misc> --bestdebug --predefine="-I..\..\..\source\hic_hal\mm32\mm32f3270" --predefine=-DDAPLINK_IF</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>
@@ -385,15 +385,60 @@
           <GroupName>board</GroupName>
           <Files>
             <File>
-              <FileName>mm32f3270_bl.c</FileName>
+              <FileName>mm32f3270.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\board\mm32f3270_bl.c</FilePath>
+              <FilePath>..\..\..\source\board\mm32f3270.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>daplink_bl</GroupName>
+          <GroupName>cmsis-dap</GroupName>
           <Files>
+            <File>
+              <FileName>DAP.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\DAP.c</FilePath>
+            </File>
+            <File>
+              <FileName>DAP_queue.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\DAP_queue.c</FilePath>
+            </File>
+            <File>
+              <FileName>DAP_UART.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\DAP_UART.c</FilePath>
+            </File>
+            <File>
+              <FileName>DAP_vendor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\DAP_vendor.c</FilePath>
+            </File>
+            <File>
+              <FileName>JTAG_DP.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\JTAG_DP.c</FilePath>
+            </File>
+            <File>
+              <FileName>SW_DP.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\SW_DP.c</FilePath>
+            </File>
+            <File>
+              <FileName>SWO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\SWO.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>daplink_if</GroupName>
+          <Files>
+            <File>
+              <FileName>bootloader_update.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\interface\bootloader_update.c</FilePath>
+            </File>
             <File>
               <FileName>circ_buf.c</FileName>
               <FileType>1</FileType>
@@ -412,7 +457,7 @@
             <File>
               <FileName>daplink.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\daplink\bootloader\daplink.c</FilePath>
+              <FilePath>..\..\..\source\daplink\interface\daplink.c</FilePath>
             </File>
             <File>
               <FileName>daplink_debug.c</FileName>
@@ -440,14 +485,29 @@
               <FilePath>..\..\..\source\daplink\info.c</FilePath>
             </File>
             <File>
-              <FileName>main_bootloader.c</FileName>
+              <FileName>main_interface.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\daplink\bootloader\main_bootloader.c</FilePath>
+              <FilePath>..\..\..\source\daplink\interface\main_interface.c</FilePath>
             </File>
             <File>
               <FileName>sdk_stub.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\source\daplink\sdk_stub.c</FilePath>
+            </File>
+            <File>
+              <FileName>swd_host.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\interface\swd_host.c</FilePath>
+            </File>
+            <File>
+              <FileName>swd_host_ca.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\interface\swd_host_ca.c</FilePath>
+            </File>
+            <File>
+              <FileName>target_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\interface\target_flash.c</FilePath>
             </File>
             <File>
               <FileName>util.c</FileName>
@@ -517,7 +577,7 @@
             <File>
               <FileName>cmsis_os2.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\source\rtos_none\cmsis_os2.h</FilePath>
+              <FilePath>..\..\..\source\rtos\cmsis_os2.h</FilePath>
             </File>
             <File>
               <FileName>cmsis_version.h</FileName>
@@ -615,9 +675,24 @@
               <FilePath>..\..\..\source\daplink\crc.h</FilePath>
             </File>
             <File>
+              <FileName>DAP.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\DAP.h</FilePath>
+            </File>
+            <File>
               <FileName>DAP_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\source\hic_hal\mm32\mm32f3270\DAP_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>DAP_queue.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\DAP_queue.h</FilePath>
+            </File>
+            <File>
+              <FileName>dap_strings.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\dap_strings.h</FilePath>
             </File>
             <File>
               <FileName>daplink.h</FileName>
@@ -638,6 +713,21 @@
               <FileName>daplink_defaults.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\source\daplink\daplink_defaults.h</FilePath>
+            </File>
+            <File>
+              <FileName>daplink_vendor_commands.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\daplink_vendor_commands.h</FilePath>
+            </File>
+            <File>
+              <FileName>debug_ca.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\debug_ca.h</FilePath>
+            </File>
+            <File>
+              <FileName>debug_cm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\daplink\cmsis-dap\debug_cm.h</FilePath>
             </File>
             <File>
               <FileName>device.h</FileName>
@@ -875,9 +965,9 @@
               <FilePath>..\..\..\source\hic_hal\mm32\mm32f3270\IO_Config.h</FilePath>
             </File>
             <File>
-              <FileName>main_bootloader.h</FileName>
+              <FileName>main_interface.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\source\daplink\bootloader\main_bootloader.h</FilePath>
+              <FilePath>..\..\..\source\daplink\interface\main_interface.h</FilePath>
             </File>
             <File>
               <FileName>mm32_device.h</FileName>
@@ -1060,9 +1150,84 @@
               <FilePath>..\..\..\source\usb\rl_usb.h</FilePath>
             </File>
             <File>
+              <FileName>rt_Event.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Event.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_HAL_CM.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_HAL_CM.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_List.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_List.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Mailbox.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Mailbox.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_MemBox.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_MemBox.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Mutex.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Mutex.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Robin.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Robin.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Semaphore.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Semaphore.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_System.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_System.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Task.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Task.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Time.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Time.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Timer.h</FilePath>
+            </File>
+            <File>
+              <FileName>rt_TypeDef.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\rt_TypeDef.h</FilePath>
+            </File>
+            <File>
               <FileName>RTE_Components.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\source\daplink\RTE_Components.h</FilePath>
+            </File>
+            <File>
+              <FileName>RTL.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\RTL.h</FilePath>
+            </File>
+            <File>
+              <FileName>RTX_Config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\rtos\RTX_Config.h</FilePath>
             </File>
             <File>
               <FileName>sdk.h</FileName>
@@ -1075,9 +1240,9 @@
               <FilePath>..\..\..\source\daplink\settings\settings.h</FilePath>
             </File>
             <File>
-              <FileName>SysTick_Handler.h</FileName>
+              <FileName>swd_host.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\..\..\source\rtos_none\SysTick_Handler.h</FilePath>
+              <FilePath>..\..\..\source\daplink\interface\swd_host.h</FilePath>
             </File>
             <File>
               <FileName>target_board.h</FileName>
@@ -1093,6 +1258,11 @@
               <FileName>target_family.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\source\target\target_family.h</FilePath>
+            </File>
+            <File>
+              <FileName>tasks.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\daplink\interface\tasks.h</FilePath>
             </File>
             <File>
               <FileName>types.h</FileName>
@@ -1327,6 +1497,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>family</GroupName>
+          <Files>
+            <File>
+              <FileName>target.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\family\mindmotion\mm32f3270\target.c</FilePath>
+            </File>
+            <File>
+              <FileName>target_reset.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\family\mindmotion\target_reset.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>hic_hal</GroupName>
           <Files>
             <File>
@@ -1522,12 +1707,77 @@
             <File>
               <FileName>cmsis_os2_port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\rtos_none\cmsis_os2_port.c</FilePath>
+              <FilePath>..\..\..\source\rtos\cmsis_os2_port.c</FilePath>
             </File>
             <File>
-              <FileName>SysTick_Handler.c</FileName>
+              <FileName>HAL_CM3.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\rtos_none\SysTick_Handler.c</FilePath>
+              <FilePath>..\..\..\source\rtos\cm3\HAL_CM3.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Event.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Event.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_List.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_List.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Mailbox.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Mailbox.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_MemBox.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_MemBox.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Mutex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Mutex.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Robin.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Robin.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Semaphore.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Semaphore.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_System.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_System.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Task.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Task.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Time.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Time.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_Timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\rt_Timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>RTX_Config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\rtos\RTX_Config.c</FilePath>
+            </File>
+            <File>
+              <FileName>SVC_Table.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>..\..\..\source\rtos\ARM\SVC_Table.s</FilePath>
             </File>
           </Files>
         </Group>
@@ -1540,9 +1790,9 @@
               <FilePath>..\..\..\source\daplink\settings\settings.c</FilePath>
             </File>
             <File>
-              <FileName>settings_rom_stub.c</FileName>
+              <FileName>settings_rom.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\daplink\settings\settings_rom_stub.c</FilePath>
+              <FilePath>..\..\..\source\daplink\settings\settings_rom.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1559,15 +1809,35 @@
               <FileType>1</FileType>
               <FilePath>..\..\..\source\target\target_default.c</FilePath>
             </File>
+            <File>
+              <FileName>target_family.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\target\target_family.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>usb</GroupName>
           <Files>
             <File>
+              <FileName>usbd_bulk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\usb\bulk\usbd_bulk.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_cdc_acm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\usb\cdc\usbd_cdc_acm.c</FilePath>
+            </File>
+            <File>
               <FileName>usbd_core.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\source\usb\usbd_core.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_core_cdc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\usb\cdc\usbd_core_cdc.c</FilePath>
             </File>
             <File>
               <FileName>usbd_core_msc.c</FileName>
@@ -1575,9 +1845,24 @@
               <FilePath>..\..\..\source\usb\msc\usbd_core_msc.c</FilePath>
             </File>
             <File>
+              <FileName>usbd_core_winusb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\usb\winusb\usbd_core_winusb.c</FilePath>
+            </File>
+            <File>
               <FileName>usbd_msc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\source\usb\msc\usbd_msc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>usb2uart</GroupName>
+          <Files>
+            <File>
+              <FileName>usbd_user_cdc_acm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\daplink\usb2uart\usbd_user_cdc_acm.c</FilePath>
             </File>
           </Files>
         </Group>

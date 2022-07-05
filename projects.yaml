@@ -50,6 +50,11 @@ module:
 
 projects:
     # HIC bootloaders and all target interfaces
+    mm32link_max_bl:
+        - *module_bl
+        - records/hic_hal/mm32f3270.yaml
+        - records/hic_hal/mm32link_max.yaml
+        - records/board/mm32f3270_bl.yaml
     mm32link_mini_bl:
         - *module_bl
         - records/hic_hal/mm32f3270.yaml
@@ -79,9 +84,46 @@ projects:
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
         - records/board/mm32f3270_mm32f3270.yaml
+    mm32link_max_hid_if:
+        - *module_tools
+        - *module_hic_mm32link_max
+        - records/usb/usb-core.yaml
+        - records/usb/usb-msc.yaml
+        - records/usb/usb-cdc.yaml
+        #- records/usb/usb-webusb.yaml
+        #- records/usb/usb-winusb.yaml
+        - records/usb/usb-hid.yaml
+        - records/daplink/cmsis-dap.yaml
+        - records/daplink/drag-n-drop.yaml
+        - records/daplink/usb2uart.yaml
+        - records/daplink/settings.yaml
+        - records/daplink/settings_rom.yaml
+        - records/daplink/interface.yaml
+        - records/daplink/target_family.yaml
+        - records/daplink/target_board.yaml
+        - records/board/mm32f3270_mm32f3270.yaml
     mm32link_mini_winusb_if:
         - *module_tools
         - *module_hic_mm32link_mini
+        - records/usb/usb-core.yaml
+        - records/usb/usb-msc.yaml
+        - records/usb/usb-cdc.yaml
+        #- records/usb/usb-webusb.yaml
+        #- records/usb/usb-hid.yaml
+        - records/usb/usb-bulk.yaml
+        - records/usb/usb-winusb.yaml
+        - records/daplink/cmsis-dap.yaml
+        - records/daplink/drag-n-drop.yaml
+        - records/daplink/usb2uart.yaml
+        - records/daplink/settings.yaml
+        - records/daplink/settings_rom.yaml
+        - records/daplink/interface.yaml
+        - records/daplink/target_family.yaml
+        - records/daplink/target_board.yaml
+        - records/board/mm32f3270_mm32f3270.yaml
+    mm32link_max_winusb_if:
+        - *module_tools
+        - *module_hic_mm32link_max
         - records/usb/usb-core.yaml
         - records/usb/usb-msc.yaml
         - records/usb/usb-cdc.yaml

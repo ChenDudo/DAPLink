@@ -55,7 +55,7 @@ typedef enum _reset_type {
 //!
 //! The vendor IDs are the same as those used for the _DeviceVendorEnum_ defined for the PDSC file
 //! format from CMSIS-Packs. See the [DeviceVendorEnum
-//! documentation](https://arm-software.github.io/CMSIS_5/Pack/html/pdsc_family_pg.html#DeviceVendorEnum)
+//! documentation](https://open-cmsis-pack.github.io/Open-CMSIS-Pack-Spec/main/html/pdsc_family_pg.html#DeviceVendorEnum)
 //! for the list of ID values.
 enum _vendor_ids {
     kStub_VendorID = 0,

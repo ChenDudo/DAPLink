@@ -23,12 +23,18 @@
 #include "swd_host.h"
 #include "target_family.h"
 #include "cmsis_os2.h"
-/*
+
+#define TESTRESET   1
+#include "IO_Config.h"
+
 static void target_before_init_debug(void)
 {
-    // any target specific sequences needed before attaching
-    //	to the DAP across JTAG or SWD
-    PIN_nRESET_OUT(0);
+#if TESTRESET
+    //GPIO_ResetBits(LED3_PORT, LED3_PIN);
+#endif
+
+    // any target specific sequences needed before attaching to the DAP across JTAG or SWD
+    swd_set_target_reset(1);
 }
 
 static uint8_t target_unlock_sequence(void)
@@ -38,7 +44,7 @@ static uint8_t target_unlock_sequence(void)
     return 1;
 }
 
-static uint8_t target_set_state(TARGET_RESET_STATE state)
+static uint8_t target_set_state(target_state_t state)
 {
     // if a custom state machine is needed to set the TARGET_RESET_STATE state
     return 1;
@@ -54,7 +60,7 @@ static uint8_t security_bits_set(uint32_t addr, uint8_t *data, uint32_t size)
     return 0;
 }
 
-const target_family_descriptor_t g_target_family = {
+const target_family_descriptor_t g_target_family_mm32 = {
     //.version                    = kTargetFamilyVersion,
     .family_id                  = kMindMotion_FamilyID,
     .default_reset_type         = kHardwareReset,
@@ -63,4 +69,5 @@ const target_family_descriptor_t g_target_family = {
     .target_set_state           = target_set_state,
     .security_bits_set          = security_bits_set,
 };
-*/
+
+const target_family_descriptor_t *g_target_family = &g_target_family_mm32;

@@ -25,7 +25,7 @@
 
 // TIM4 CH3
 #define BEEP_TIMER      TIM4
-#define ARR_VALUE       104 //416
+#define ARR_VALUE       208//104 //416
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @defgroup BEEP_Exported_Variables
