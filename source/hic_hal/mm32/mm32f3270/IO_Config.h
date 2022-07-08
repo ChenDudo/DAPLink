@@ -35,14 +35,14 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB059);
 
 #if defined(MM32LINK_MAX) /* MAX */
 // 1. Power
-#define POWER_5V_EN_PIN_PORT    GPIOB
-#define POWER_5V_EN_PIN         GPIO_Pin_12
-#define POWER_5V_EN_Bit         12
-#define POWER_5V_EN_AF          GPIO_AF_2
-#define POWER_3V3_EN_PIN_PORT   GPIOB
-#define POWER_3V3_EN_PIN        GPIO_Pin_13
-#define POWER_3V3_EN_Bit        13
-#define POWER_3V3_EN_AF         GPIO_AF_0
+#define POWER_5V_EN_PIN_PORT    GPIOC
+#define POWER_5V_EN_PIN         GPIO_Pin_10
+#define POWER_5V_EN_Bit         10
+#define POWER_5V_EN_AF          GPIO_AF_0
+#define POWER_3V3_EN_PIN_PORT   GPIOA
+#define POWER_3V3_EN_PIN        GPIO_Pin_15
+#define POWER_3V3_EN_Bit        15
+#define POWER_3V3_EN_AF         GPIO_AF_2
 
 // 2. nRESET OUT
 #define nRESET_PIN_PORT         GPIOC
@@ -136,10 +136,10 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB059);
 
 // 7. LEDs PA0 / PA1
 #define LED1_PORT               GPIOA
-#define LED1_PIN                GPIO_Pin_0
+#define LED1_PIN                GPIO_Pin_1
 #define LED1_Bit                0
 #define LED2_PORT               GPIOA
-#define LED2_PIN                GPIO_Pin_1
+#define LED2_PIN                GPIO_Pin_0
 #define LED2_Bit                1
 
 #else
