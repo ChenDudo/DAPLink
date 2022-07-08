@@ -128,6 +128,14 @@ void gpio_init(void)
     GPIO_Init(K1_PIN_PORT, &GPIO_InitStructure);
 #endif
 
+#if defined(nRST_DIR_PIN_PORT)
+    GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+    GPIO_InitStructure.GPIO_Pin = nRST_DIR_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(nRST_DIR_PIN_PORT, &GPIO_InitStructure);
+	GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+#endif
+
     /* Turn on power to the board. */
     // When the target is unpowered, it holds the reset line low.
     config_get_5v_output() ? Power_5v_En() : Power_3v3_En();

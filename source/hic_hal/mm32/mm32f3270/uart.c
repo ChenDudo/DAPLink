@@ -35,7 +35,7 @@
 // For uart
 #define CDC_UART UART1
 #define CDC_UART_ENABLE()       RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE)
-#define CDC_UART_DISABLE()      RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, ENABLE)
+#define CDC_UART_DISABLE()      RCC_APB2PeriphClockCmd(RCC_APB2Periph_UART1, DISABLE)
 #define CDC_UART_IRQn           UART1_IRQn
 #define CDC_UART_IRQn_Handler   UART1_IRQHandler
 
@@ -53,13 +53,22 @@
 #define UART_RX_AF          GPIO_AF_7
 
 #elif defined(MM32LINK_MINI) /* MINI */
-#define UART_TX_PORT        GPIOA
-#define UART_TX_PIN         GPIO_Pin_9
-#define UART_TX_PIN_Bit     9
+//#define UART_TX_PORT        GPIOA
+//#define UART_TX_PIN         GPIO_Pin_9
+//#define UART_TX_PIN_Bit     9
+//#define UART_TX_AF          GPIO_AF_7
+//#define UART_RX_PORT        GPIOA
+//#define UART_RX_PIN         GPIO_Pin_10
+//#define UART_RX_PIN_Bit     10
+//#define UART_RX_AF          GPIO_AF_7
+
+#define UART_TX_PORT        GPIOB
+#define UART_TX_PIN         GPIO_Pin_6
+#define UART_TX_PIN_Bit     6
 #define UART_TX_AF          GPIO_AF_7
-#define UART_RX_PORT        GPIOA
-#define UART_RX_PIN         GPIO_Pin_10
-#define UART_RX_PIN_Bit     10
+#define UART_RX_PORT        GPIOB
+#define UART_RX_PIN         GPIO_Pin_7
+#define UART_RX_PIN_Bit     7
 #define UART_RX_AF          GPIO_AF_7
 
 #else
@@ -72,7 +81,7 @@
 // #define UART_RTS_PORT                GPIOA
 // #define UART_RTS_PIN                 GPIO_PIN_1
 
-#define RX_OVRF_MSG "<DAPLink:Overflow>\n"
+#define RX_OVRF_MSG "<MM32Link: Overflow>\n"
 #define RX_OVRF_MSG_SIZE (sizeof(RX_OVRF_MSG) - 1)
 #define BUFFER_SIZE (512)
 
@@ -82,11 +91,11 @@ circ_buf_t read_buffer;
 uint8_t read_buffer_data[BUFFER_SIZE];
 
 static UART_Configuration configuration = {
-    .Baudrate = 9600,
-    .DataBits = UART_DATA_BITS_8,
-    .Parity = UART_PARITY_NONE,
-    .StopBits = UART_STOP_BITS_1,
-    .FlowControl = UART_FLOW_CONTROL_NONE,
+    .Baudrate		= 9600,
+    .DataBits 		= UART_DATA_BITS_8,
+    .Parity 		= UART_PARITY_NONE,
+    .StopBits 		= UART_STOP_BITS_1,
+    .FlowControl 	= UART_FLOW_CONTROL_NONE,
 };
 
 extern uint32_t SystemCoreClock;
@@ -145,11 +154,6 @@ int32_t uart_reset(void)
     UART_ITConfig(CDC_UART, UART_IT_RXIEN | UART_IT_TXIEN, DISABLE);
     clear_buffers();
     UART_ITConfig(CDC_UART, UART_IT_TXIEN, DISABLE);
-
-    // const uint32_t cr1 = CDC_UART->CR1;
-    // CDC_UART->CR1 = cr1 & ~(USART_IT_TXE | USART_IT_RXNE);
-    // clear_buffers();
-    // CDC_UART->CR1 = cr1 & ~USART_IT_TXE;
     return 1;
 }
 
@@ -164,47 +168,70 @@ int32_t uart_set_configuration(UART_Configuration *config)
     UART_Cmd(CDC_UART, DISABLE);
     UART_ITConfig(CDC_UART, UART_IT_RXIEN | UART_IT_TXIEN, DISABLE);
     clear_buffers();
-
-    // Only 8 bit support
-    data_bits = UART_WordLength_8b;
-    configuration.DataBits = UART_DATA_BITS_8;
+	
+    // length
+    configuration.DataBits = config->DataBits;
+	switch (config->DataBits) {
+		case UART_DATA_BITS_5:
+			data_bits = UART_WordLength_5b;
+			break;
+		case UART_DATA_BITS_6:
+			data_bits = UART_WordLength_6b;
+			break;
+		case UART_DATA_BITS_7:
+			data_bits = UART_WordLength_7b;
+			break;
+		default:
+			data_bits= UART_WordLength_8b;
+			configuration.DataBits = UART_DATA_BITS_8;
+			break;
+	}
+	
     // parity
     configuration.Parity = config->Parity;
-    if (config->Parity == UART_PARITY_ODD)
-        parity = UART_Parity_Odd;
-    else if (config->Parity == UART_PARITY_EVEN)
-        parity = UART_Parity_Even;
-    else if (config->Parity == UART_PARITY_NONE)
-        parity = UART_Parity_No;
-    else
-    { // Other not support
-        parity = UART_Parity_No;
-        configuration.Parity = UART_PARITY_NONE;
-    }
+	switch (config->Parity) {
+		case UART_PARITY_ODD:
+			parity = UART_Parity_Odd;
+			break;
+		case UART_PARITY_EVEN:
+			parity = UART_Parity_Even;
+			break;
+		default:
+			parity = UART_Parity_No;
+			configuration.Parity = UART_PARITY_NONE;
+			break;
+	}
+	
     // stop bits
-    configuration.StopBits = config->StopBits;
-    if (config->StopBits == UART_STOP_BITS_2)
-        stop_bits = UART_StopBits_2;
-    else if (config->StopBits == UART_STOP_BITS_1)
-        stop_bits = UART_StopBits_1;
-    else
-    {
-        stop_bits = UART_StopBits_1;
-        configuration.StopBits = UART_STOP_BITS_1;
-    }
+	configuration.StopBits = config->StopBits;
+	switch (config->StopBits) {
+		case UART_STOP_BITS_2:
+			stop_bits = UART_StopBits_2;
+			break;
+		case UART_STOP_BITS_1_5:
+			stop_bits = UART_StopBits_1_5;
+		default:
+			stop_bits = UART_StopBits_1;
+			configuration.StopBits = UART_STOP_BITS_1;
+			break;
+	}
+	
+	// others
     configuration.Baudrate = config->Baudrate;
     configuration.FlowControl = UART_FLOW_CONTROL_NONE;
-    //
-    UART_InitStructure.UART_BaudRate = config->Baudrate;
-    UART_InitStructure.UART_WordLength = data_bits;
-    UART_InitStructure.UART_StopBits = stop_bits;
-    UART_InitStructure.UART_Parity = parity;
+	
+	// configure UART
+    UART_InitStructure.UART_BaudRate	= config->Baudrate;
+    UART_InitStructure.UART_WordLength	= data_bits;
+    UART_InitStructure.UART_StopBits	= stop_bits;
+    UART_InitStructure.UART_Parity		= parity;
     UART_InitStructure.UART_HardwareFlowControl = UART_HardwareFlowControl_None;
-    UART_InitStructure.UART_Mode = UART_Mode_Rx | UART_Mode_Tx;
+    UART_InitStructure.UART_Mode 		= UART_Mode_Rx | UART_Mode_Tx;
     UART_Init(CDC_UART, &UART_InitStructure);
 
     // Enable RX interrupt
     UART_ITConfig(CDC_UART, UART_IT_RXIEN, ENABLE);
+	
     // Initially disable TxEmpty Interrupt
     UART_ITConfig(CDC_UART, UART_IT_TXIEN, DISABLE);
 
@@ -215,11 +242,11 @@ int32_t uart_set_configuration(UART_Configuration *config)
 
 int32_t uart_get_configuration(UART_Configuration *config)
 {
-    config->Baudrate = configuration.Baudrate;
-    config->DataBits = configuration.DataBits;
-    config->Parity = configuration.Parity;
-    config->StopBits = configuration.StopBits;
-    config->FlowControl = UART_FLOW_CONTROL_NONE;
+    config->Baudrate	= configuration.Baudrate;
+    config->DataBits	= configuration.DataBits;
+    config->Parity		= configuration.Parity;
+    config->StopBits 	= configuration.StopBits;
+    config->FlowControl	= UART_FLOW_CONTROL_NONE;
 
     return 1;
 }
@@ -236,7 +263,6 @@ int32_t uart_write_free(void)
 int32_t uart_write_data(uint8_t *data, uint16_t size)
 {
     uint32_t cnt = circ_buf_write(&write_buffer, data, size);
-    // CDC_UART->CR1 |= USART_IT_TXE;
     UART_ITConfig(CDC_UART, UART_IT_TXIEN, ENABLE);
 
     return cnt;
@@ -277,7 +303,6 @@ void CDC_UART_IRQn_Handler(void)
         }
         else
         {
-            // CDC_UART->CR1 &= ~USART_IT_TXE;
             UART_ITConfig(CDC_UART, UART_IT_TXIEN, DISABLE);
         }
     }
