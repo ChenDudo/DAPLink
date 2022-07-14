@@ -29,7 +29,26 @@ ERROR_TIMEOUT_SECONDS = 10.0
 
 def _same(d1, d2):
     #Do a string or bytearray compare
+    if type(d1) == bytearray:
+        bytes_d1 = bytes(d1)
+    elif type(d1) == bytes:
+        bytes_d1 = bytes(d1)
+    else:
+        bytes_d1 = bytes(d1, 'utf-8')
+
+    if type(d2) == bytes:
+        bytes_d2 = bytes(d2)
+    elif type(d2) == bytearray:
+        bytes_d2 = bytes(d2)
+    else:
+        bytes_d2 = bytes(d2, 'utf-8')
+
+    if bytes_d1 == bytes_d2:
+        pass
+
     if d1 != d2:
+        print(bytes_d1)
+        print(bytes_d2)
         return False
     return True
 
