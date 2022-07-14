@@ -351,12 +351,16 @@ def test_mass_storage(workspace, parent_test, quick=False):
     addresses.sort()
     start = addresses[0]
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
     # Test loading a binary file with shutils
     if not bad_vector_table:
         test = MassStorageTester(board, test_info, "Shutil binary file load")
         test.set_shutils_copy(bin_file)
         test.set_expected_data(bin_file_contents, start)
         test.run()
+
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
     # Test loading a binary file with flushes
     if not bad_vector_table and not quick:
@@ -366,12 +370,14 @@ def test_mass_storage(workspace, parent_test, quick=False):
         test.set_flush_size(0x1000)
         test.run()
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     # Test loading a hex file with shutils
     test = MassStorageTester(board, test_info, "Shutil hex file load")
     test.set_shutils_copy(hex_file)
     test.set_expected_data(bin_file_contents, start)
     test.run()
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     # Test loading a hex file with flushes
     if not quick:
         test = MassStorageTester(board, test_info, "Load hex with flushes")
@@ -380,6 +386,7 @@ def test_mass_storage(workspace, parent_test, quick=False):
         test.set_flush_size(0x1000)
         test.run()
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     # Test loading a binary smaller than a sector
     if not bad_vector_table and not quick:
         test = MassStorageTester(board, test_info, "Load .bin smaller than sector")
@@ -389,6 +396,7 @@ def test_mass_storage(workspace, parent_test, quick=False):
         test.set_expected_data(test_data, start)
         test.run()
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     # Test loading a blank binary - this image should cause a timeout
     #    since it doesn't have a valid vector table
     if not quick:
@@ -398,6 +406,7 @@ def test_mass_storage(workspace, parent_test, quick=False):
         test.set_expected_data(None, start)
         test.run()
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     # Test loading a blank binary with a vector table but padded with 0xFF.
     #    A blank image can lock some devices.
     if not bad_vector_table and not quick:
@@ -410,6 +419,7 @@ def test_mass_storage(workspace, parent_test, quick=False):
             test.set_expected_data(vectors_and_pad, start)
         test.run()
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     # Test a normal load with dummy files created beforehand
     if not quick:
         test = MassStorageTester(board, test_info, "Extra Files")
@@ -424,6 +434,7 @@ def test_mass_storage(workspace, parent_test, quick=False):
     #        when a binary file is loaded, since there is no way to
     #        tell where the end of the file is.
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     if page_erase_supported and not quick:
         # Test page erase, a.k.a. sector erase by generating iHex with discrete addresses,
         # programing the device then comparing device memory against expected content.
@@ -482,6 +493,7 @@ def test_mass_storage(workspace, parent_test, quick=False):
         test.set_expected_data(expected_bin_contents, start)
         test.run()
 
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
     # Finally, load a good binary
     test = MassStorageTester(board, test_info, "Load good file to restore state")
     test.set_programming_data(hex_file_contents, 'image.hex')

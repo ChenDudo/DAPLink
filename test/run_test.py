@@ -88,10 +88,10 @@ VERB_VERBOSE = 'Verbose'    # All errors and warnings
 VERB_ALL = 'All'            # All errors
 VERB_LEVELS = [VERB_MINIMAL, VERB_NORMAL, VERB_VERBOSE, VERB_ALL]
 
-TEST_HID = False
+TEST_HID = True
 TEST_SERIAL = True
 TEST_MASS_STORAGE = True
-TEST_USB = True
+TEST_USB = False
 
 def test_endpoints(workspace, parent_test, quick=False):
     """Run tests to validate DAPLINK fimrware"""
@@ -409,12 +409,9 @@ class TestManager(object):
                 assert False, 'Unsupported firmware type "%s"' % firmware.type
 
         # Create a table mapping name to object with that name
-        TARGET_NAME_TO_TARGET = {target.name: target for target in
-                                 self._target_list}
-        FIRMWARE_NAME_TO_FIRMWARE = {firmware.name: firmware for firmware in
-                                     filtered_interface_firmware_list}
-        BL_NAME_TO_BL = {firmware.name: firmware for firmware in
-                         bootloader_firmware_list}
+        TARGET_NAME_TO_TARGET = {target.name: target for target in self._target_list}
+        FIRMWARE_NAME_TO_FIRMWARE = {firmware.name: firmware for firmware in filtered_interface_firmware_list}
+        BL_NAME_TO_BL = {firmware.name: firmware for firmware in bootloader_firmware_list}
 
         # Explicitly specified boards must be present
         fw_name_set = set(fw.name for fw in filtered_interface_firmware_list)
@@ -425,6 +422,10 @@ class TestManager(object):
         test_conf_list = []
         untested_firmware = set(filtered_interface_firmware_list)
         for board_id, family_id, fw_name, bl_fw_name, target_name in info.SUPPORTED_CONFIGURATIONS:
+            # ~~~~ TEST BOARD ID ~~~~~
+            if board_id == 4594:
+                pass
+
             target = None
             if_firmware = None
             bl_firmware = None

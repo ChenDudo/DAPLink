@@ -142,7 +142,7 @@ def test_hid(workspace, parent_test, quick=False):
         if res != val:
             test_info.failure("ERROR in READ/WRITE 32")
 
-        test_info.info("\r\nREAD16/WRITE16")
+        test_info.info("READ16/WRITE16")
         val = randrange(0, 0xffff)
         test_info.info("write16 0x%X at 0x%X" % (val, addr + 2))
         target.write16(addr + 2, val)
@@ -151,7 +151,7 @@ def test_hid(workspace, parent_test, quick=False):
         if res != val:
             test_info.failure("ERROR in READ/WRITE 16")
 
-        test_info.info("\r\nREAD8/WRITE8")
+        test_info.info("READ8/WRITE8")
         val = randrange(0, 0xff)
         test_info.info("write8 0x%X at 0x%X" % (val, addr + 1))
         target.write8(addr + 1, val)
