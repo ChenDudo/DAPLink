@@ -11,7 +11,7 @@ module:
         - records/tools/gcc_arm.yaml
         - records/tools/armcc.yaml
         - records/tools/armclang.yaml
-        - records/tools/version.yaml
+        #- records/tools/version.yaml
     bl: &module_bl
         - *module_tools
         - records/usb/usb-core.yaml
@@ -22,6 +22,7 @@ module:
         - records/daplink/settings_rom_stub.yaml
         - records/daplink/target_board.yaml
         - records/rtos/rtos-none.yaml
+        - records/tools/version.yaml
     if: &module_if
         - *module_tools
         - records/usb/usb-core.yaml
@@ -37,6 +38,7 @@ module:
         - records/daplink/interface.yaml
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
+        - records/tools/version_if.yaml
     # HICs
     hic_mm32f3270_max: &module_hic_mm32link_max
         - records/rtos/rtos-cm3.yaml
@@ -65,10 +67,12 @@ projects:
     mm32link_mini_mm32f0140_if:
         - *module_if
         - *module_hic_mm32link_mini
+        - records/tools/version_if.yaml
         - records/board/mm32f3270_mm32f0140.yaml
     mm32link_mini_hid_if:
         - *module_tools
         - *module_hic_mm32link_mini
+        - records/tools/version_if.yaml
         - records/usb/usb-core.yaml
         - records/usb/usb-msc.yaml
         - records/usb/usb-cdc.yaml
@@ -87,6 +91,7 @@ projects:
     mm32link_max_hid_if:
         - *module_tools
         - *module_hic_mm32link_max
+        - records/tools/version_if.yaml
         - records/usb/usb-core.yaml
         - records/usb/usb-msc.yaml
         - records/usb/usb-cdc.yaml
@@ -105,6 +110,7 @@ projects:
     mm32link_mini_winusb_if:
         - *module_tools
         - *module_hic_mm32link_mini
+        - records/tools/version_if.yaml
         - records/usb/usb-core.yaml
         - records/usb/usb-msc.yaml
         - records/usb/usb-cdc.yaml
@@ -124,6 +130,7 @@ projects:
     mm32link_max_winusb_if:
         - *module_tools
         - *module_hic_mm32link_max
+        - records/tools/version_if.yaml
         - records/usb/usb-core.yaml
         - records/usb/usb-msc.yaml
         - records/usb/usb-cdc.yaml

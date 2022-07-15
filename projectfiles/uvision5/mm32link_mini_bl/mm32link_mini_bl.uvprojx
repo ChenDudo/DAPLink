@@ -14,16 +14,16 @@
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>MM32F3273E6P</Device>
+          <Device>MM32F3273G6P</Device>
           <Vendor>MindMotion</Vendor>
           <PackID>MindMotion.MM32F3270_DFP.1.0.6</PackID>
           <PackURL>http://www.mindmotion.com.cn/Download/MDK_KEIL/</PackURL>
-          <Cpu>IRAM(0x20000000,0x18000) IROM(0x08000000,0x40000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
+          <Cpu>IRAM(0x20000000,0x20000) IROM(0x08000000,0x80000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0MM32F3270_256 -FS08000000 -FL040000 -FP0($$Device:MM32F3273E6P$Flash\MM32F3270_256.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0MM32F3270_512 -FS08000000 -FL080000 -FP0($$Device:MM32F3273G6P$Flash\MM32F3270_512.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:MM32F3273E6P$Device\MM32F327x\Include\mm32_device.h</RegisterFile>
+          <RegisterFile>$$Device:MM32F3273G6P$Device\MM32F327x\Include\mm32_device.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -33,7 +33,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:MM32F3273E6P$SVD\MM32F3270.svd</SFDFile>
+          <SFDFile>$$Device:MM32F3273G6P$SVD\MM32F3270.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -247,12 +247,12 @@
               <IRAM>
                 <Type>0</Type>
                 <StartAddress>0x20000000</StartAddress>
-                <Size>0x18000</Size>
+                <Size>0x20000</Size>
               </IRAM>
               <IROM>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x40000</Size>
+                <Size>0x80000</Size>
               </IROM>
               <XRAM>
                 <Type>0</Type>
@@ -277,7 +277,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x40000</Size>
+                <Size>0x80000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -302,7 +302,7 @@
               <OCR_RVCT9>
                 <Type>0</Type>
                 <StartAddress>0x20000000</StartAddress>
-                <Size>0x18000</Size>
+                <Size>0x20000</Size>
               </OCR_RVCT9>
               <OCR_RVCT10>
                 <Type>0</Type>
@@ -338,7 +338,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls> --gnu --asm --interleave -g</MiscControls>
-              <Define>DAPLINK_VERSION=220520, MSC_ENDPOINT, DAPLINK_BL, DAPLINK_BUILD_KEY=0x9B939D93, DRAG_N_DROP_SUPPORT, OS_TICK=10000, INTERFACE_MM32F3270, MM32F3270, DAPLINK_HIC_ID=0x4D4D3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MINI, HSE_FREQ=12000000</Define>
+              <Define>MSC_ENDPOINT, DAPLINK_BL, DAPLINK_BUILD_KEY=0x9B939D93, DRAG_N_DROP_SUPPORT, OS_TICK=10000, DAPLINK_VERSION=220520, INTERFACE_MM32F3270, MM32F3270, DAPLINK_HIC_ID=0x4D4D3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MINI, HSE_FREQ=12000000</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\source\usb; ..\..\..\source\daplink; ..\..\..\source\daplink\bootloader; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\settings; ..\..\..\source\target; ..\..\..\source\rtos_none; ..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc</IncludePath>
             </VariousControls>
@@ -355,7 +355,7 @@
             <useXO>0</useXO>
             <ClangAsOpt>1</ClangAsOpt>
             <VariousControls>
-              <MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220520,-DMSC_ENDPOINT,-DDAPLINK_BL,-DDAPLINK_BUILD_KEY=0x9B939D93,-DDRAG_N_DROP_SUPPORT,-DOS_TICK=10000,-DINTERFACE_MM32F3270,-DMM32F3270,-DDAPLINK_HIC_ID=0x4D4D3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DMM32LINK_MINI,-DHSE_FREQ=12000000 -g</MiscControls>
+              <MiscControls>--cpreproc --cpreproc_opts=-DMSC_ENDPOINT,-DDAPLINK_BL,-DDAPLINK_BUILD_KEY=0x9B939D93,-DDRAG_N_DROP_SUPPORT,-DOS_TICK=10000,-DDAPLINK_VERSION=220520,-DINTERFACE_MM32F3270,-DMM32F3270,-DDAPLINK_HIC_ID=0x4D4D3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DMM32LINK_MINI,-DHSE_FREQ=12000000 -g</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>

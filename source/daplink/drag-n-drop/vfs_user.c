@@ -544,7 +544,13 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
     uint32_t pos = 0;
 
     pos += util_write_string_in_region(buf, size, start, pos,
+#if defined(MM32LINK_MAX)
         "# MM32-LINK MAX Firmware\r\n"
+#elif defined(MM32LINK_MINI)
+		"# MM32-LINK Mini Firmware\r\n"
+#else
+		"# MM32-LINK Series Firmware\r\n"
+#endif
         // Build ID
         "Build ID: " GIT_DESCRIPTION " (" COMPILER_DESCRIPTION LOCAL_MODS ")\r\n");
     // Unique ID
