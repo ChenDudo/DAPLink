@@ -24,12 +24,18 @@
 
 const board_info_t g_board_info = {
     .info_version       = kBoardInfoVersion,
-    .board_id           = "3270",
+#if defined(MM32LINK_MINI)
+    .board_id           = "088",
+#elif defined(MM32LINK_MAX)
+    .board_id           = "059",
+#else
+    .board_id           = "001",
+#endif
     .family_id          = kMindMotion_FamilyID,
     .daplink_url_name   = "PRODINFOHTM",
     .daplink_drive_name = "MM32-LINK",
     .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/",
     .target_cfg         = &target_device,
     .board_vendor       = "MindMotion",
-    .board_name         = "MB059",
+    .board_name         = "MM32LINK Series",
 };

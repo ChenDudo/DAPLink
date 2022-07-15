@@ -45,7 +45,7 @@ This information includes:
 
 /// Processor Clock of the Cortex-M MCU used in the Debug Unit.
 /// This value is used to calculate the SWD/JTAG clock speed.
-#define CPU_CLOCK               SystemCoreClock        ///< Specifies the CPU Clock in Hz
+#define CPU_CLOCK SystemCoreClock ///< Specifies the CPU Clock in Hz
 
 /// Number of processor cycles for I/O Port write operations.
 /// This value is used to calculate the SWD/JTAG clock speed that is generated with I/O
@@ -53,151 +53,151 @@ This information includes:
 /// require 2 processor cycles for a I/O Port Write operation.  If the Debug Unit uses
 /// a Cortex-M0+ processor with high-speed peripheral I/O only 1 processor cycle might be
 /// required.
-#define IO_PORT_WRITE_CYCLES    2U              ///< I/O Cycles: 2=default, 1=Cortex-M0+ fast I/0
+#define IO_PORT_WRITE_CYCLES 2U ///< I/O Cycles: 2=default, 1=Cortex-M0+ fast I/0
 
 /// Indicate that Serial Wire Debug (SWD) communication mode is available at the Debug Access Port.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define DAP_SWD                 1               ///< SWD Mode:  1 = available, 0 = not available
+#define DAP_SWD 1 ///< SWD Mode:  1 = available, 0 = not available
 
 /// Indicate that JTAG communication mode is available at the Debug Port.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define DAP_JTAG                0               ///< JTAG Mode: 1 = available, 0 = not available.
+#define DAP_JTAG 0 ///< JTAG Mode: 1 = available, 0 = not available.
 
 /// Configure maximum number of JTAG devices on the scan chain connected to the Debug Access Port.
 /// This setting impacts the RAM requirements of the Debug Unit. Valid range is 1 .. 255.
-#define DAP_JTAG_DEV_CNT        0               ///< Maximum number of JTAG devices on scan chain
+#define DAP_JTAG_DEV_CNT 0 ///< Maximum number of JTAG devices on scan chain
 
 /// Default communication mode on the Debug Access Port.
 /// Used for the command \ref DAP_Connect when Port Default mode is selected.
-#define DAP_DEFAULT_PORT        1               ///< Default JTAG/SWJ Port Mode: 1 = SWD, 2 = JTAG.
+#define DAP_DEFAULT_PORT 1 ///< Default JTAG/SWJ Port Mode: 1 = SWD, 2 = JTAG.
 
 /// Default communication speed on the Debug Access Port for SWD and JTAG mode.
 /// Used to initialize the default SWD/JTAG clock frequency.
 /// The command \ref DAP_SWJ_Clock can be used to overwrite this default setting.
-#define DAP_DEFAULT_SWJ_CLOCK   5000000         ///< Default SWD/JTAG clock frequency in Hz.
+#define DAP_DEFAULT_SWJ_CLOCK 5000000 ///< Default SWD/JTAG clock frequency in Hz.
 
 /// Maximum Package Size for Command and Response data.
 /// This configuration settings is used to optimize the communication performance with the
 /// debugger and depends on the USB peripheral. Typical vales are 64 for Full-speed USB HID or WinUSB,
 /// 1024 for High-speed USB HID and 512 for High-speed USB WinUSB.
-#ifndef HID_ENDPOINT            //HID end points currently set limits to 64
-#define DAP_PACKET_SIZE         64              ///< Specifies Packet Size in bytes.
+#ifndef HID_ENDPOINT       // HID end points currently set limits to 64
+#define DAP_PACKET_SIZE 64 ///< Specifies Packet Size in bytes.
 #else
-#define DAP_PACKET_SIZE         64              ///< Specifies Packet Size in bytes.
+#define DAP_PACKET_SIZE 64 ///< Specifies Packet Size in bytes.
 #endif
 
 /// Maximum Package Buffers for Command and Response data.
 /// This configuration settings is used to optimize the communication performance with the
 /// debugger and depends on the USB peripheral. For devices with limited RAM or USB buffer the
 /// setting can be reduced (valid range is 1 .. 255). Change setting to 4 for High-Speed USB.
-#define DAP_PACKET_COUNT        64U              ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
+#define DAP_PACKET_COUNT 64U ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
 
 /// Indicate that UART Serial Wire Output (SWO) trace is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define SWO_UART                0               ///< SWO UART:  1 = available, 0 = not available
+#define SWO_UART 0 ///< SWO UART:  1 = available, 0 = not available
 
 /// USART Driver instance number for the UART SWO.
-#define SWO_UART_DRIVER         0               ///< USART Driver instance number (Driver_USART#).
+#define SWO_UART_DRIVER 0 ///< USART Driver instance number (Driver_USART#).
 
 /// Maximum SWO UART Baudrate
-#define SWO_UART_MAX_BAUDRATE   10000000U       ///< SWO UART Maximum Baudrate in Hz
+#define SWO_UART_MAX_BAUDRATE 10000000U ///< SWO UART Maximum Baudrate in Hz
 
 /// Indicate that Manchester Serial Wire Output (SWO) trace is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define SWO_MANCHESTER          0               ///< SWO Manchester:  1 = available, 0 = not available.
+#define SWO_MANCHESTER 0 ///< SWO Manchester:  1 = available, 0 = not available.
 
 /// SWO Trace Buffer Size.
-#define SWO_BUFFER_SIZE         4096U           ///< SWO Trace Buffer Size in bytes (must be 2^n).
+#define SWO_BUFFER_SIZE 4096U ///< SWO Trace Buffer Size in bytes (must be 2^n).
 
 /// SWO Streaming Trace.
-#define SWO_STREAM              0               ///< SWO Streaming Trace: 1 = available, 0 = not available.
+#define SWO_STREAM 0 ///< SWO Streaming Trace: 1 = available, 0 = not available.
 
 /// Clock frequency of the Test Domain Timer. Timer value is returned with \ref TIMESTAMP_GET.
-#define TIMESTAMP_CLOCK         1000000U      ///< Timestamp clock in Hz (0 = timestamps not supported).
+#define TIMESTAMP_CLOCK 1000000U ///< Timestamp clock in Hz (0 = timestamps not supported).
 
 /// Indicate that UART Communication Port is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define DAP_UART                0               ///< DAP UART:  1 = available, 0 = not available.
+#define DAP_UART 0 ///< DAP UART:  1 = available, 0 = not available.
 
 /// USART Driver instance number for the UART Communication Port.
-#define DAP_UART_DRIVER         1               ///< USART Driver instance number (Driver_USART#).
+#define DAP_UART_DRIVER 1 ///< USART Driver instance number (Driver_USART#).
 
 /// UART Receive Buffer Size.
-#define DAP_UART_RX_BUFFER_SIZE 1024U           ///< Uart Receive Buffer Size in bytes (must be 2^n).
+#define DAP_UART_RX_BUFFER_SIZE 1024U ///< Uart Receive Buffer Size in bytes (must be 2^n).
 
 /// UART Transmit Buffer Size.
-#define DAP_UART_TX_BUFFER_SIZE 1024U           ///< Uart Transmit Buffer Size in bytes (must be 2^n).
+#define DAP_UART_TX_BUFFER_SIZE 1024U ///< Uart Transmit Buffer Size in bytes (must be 2^n).
 
 /// Indicate that UART Communication via USB COM Port is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define DAP_UART_USB_COM_PORT   1               ///< USB COM Port:  1 = available, 0 = not available.
+#define DAP_UART_USB_COM_PORT 1 ///< USB COM Port:  1 = available, 0 = not available.
 
 /// Debug Unit is connected to fixed Target Device.
 /// The Debug Unit may be part of an evaluation board and always connected to a fixed
 /// known device. In this case a Device Vendor, Device Name, Board Vendor and Board Name strings
 /// are stored and may be used by the debugger or IDE to configure device parameters.
-#define TARGET_FIXED            0               ///< Target: 1 = known, 0 = unknown;
+#define TARGET_FIXED 0 ///< Target: 1 = known, 0 = unknown;
 
 ///@}
 
-
-__STATIC_INLINE void pin_out_init(GPIO_TypeDef* GPIOx, uint8_t pin_bit)
+__STATIC_INLINE void pin_out_init(GPIO_TypeDef *GPIOx, uint8_t pin_bit)
 {
-    if(pin_bit >= 8)
+    if (pin_bit >= 8)
     {
-        GPIOx->CRH &= ~(0x0000000F << ((pin_bit-8) << 2));
-        GPIOx->CRH |= ( ((uint32_t)(0x00|0x03) & 0x0F) << ((pin_bit-8) << 2) );
+        GPIOx->CRH &= ~(0x0000000F << ((pin_bit - 8) << 2));
+        GPIOx->CRH |= (((uint32_t)(0x00 | 0x03) & 0x0F) << ((pin_bit - 8) << 2));
     }
     else
     {
         GPIOx->CRL &= ~(0x0000000F << ((pin_bit) << 2));
-        GPIOx->CRL |= ( ((uint32_t)(0x00|0x03) & 0x0F) << ((pin_bit) << 2) );
+        GPIOx->CRL |= (((uint32_t)(0x00 | 0x03) & 0x0F) << ((pin_bit) << 2));
     }
 }
 
-__STATIC_INLINE void pin_out_od_init(GPIO_TypeDef* GPIOx, uint8_t pin_bit)
+__STATIC_INLINE void pin_out_od_init(GPIO_TypeDef *GPIOx, uint8_t pin_bit)
 {
-    if(pin_bit >= 8)
+    if (pin_bit >= 8)
     {
-        GPIOx->CRH &= ~(0x0000000F << ((pin_bit-8) << 2));
-        GPIOx->CRH |= ( ((uint32_t)(0x04|0x01) & 0x0F) << ((pin_bit-8) << 2) );
+        GPIOx->CRH &= ~(0x0000000F << ((pin_bit - 8) << 2));
+        GPIOx->CRH |= (((uint32_t)(0x04 | 0x01) & 0x0F) << ((pin_bit - 8) << 2));
     }
     else
     {
         GPIOx->CRL &= ~(0x0000000F << ((pin_bit) << 2));
-        GPIOx->CRL |= ( ((uint32_t)(0x04|0x01) & 0x0F) << ((pin_bit) << 2) );
+        GPIOx->CRL |= (((uint32_t)(0x04 | 0x01) & 0x0F) << ((pin_bit) << 2));
     }
 }
 
-__STATIC_INLINE void pin_in_init(GPIO_TypeDef* GPIOx, uint8_t pin_bit, uint8_t mode)
+__STATIC_INLINE void pin_in_init(GPIO_TypeDef *GPIOx, uint8_t pin_bit, uint8_t mode)
 {
     uint8_t config;
-    if(mode == 1)
-        config = 0x08; //Up
-    else if(mode == 2)
-        config = 0x08; //down
+    if (mode == 1)
+        config = 0x08; // Up
+    else if (mode == 2)
+        config = 0x08; // down
     else
-        config = 0x00; //GPIO_Mode_AIN
+        config = 0x00; // GPIO_Mode_AIN
 
-    if(pin_bit >= 8)
+    if (pin_bit >= 8)
     {
-        GPIOx->CRH &= ~(0x0000000F << ((pin_bit-8) << 2));
-        GPIOx->CRH |= ( ((uint32_t)(config) & 0x0F) << ((pin_bit-8) << 2) );
-        if(mode == 1)
+        GPIOx->CRH &= ~(0x0000000F << ((pin_bit - 8) << 2));
+        GPIOx->CRH |= (((uint32_t)(config)&0x0F) << ((pin_bit - 8) << 2));
+        if (mode == 1)
             GPIOx->BSRR = (((uint32_t)0x01) << pin_bit);
-        else if(mode == 2)
+        else if (mode == 2)
             GPIOx->BRR = (((uint32_t)0x01) << pin_bit);
     }
     else
     {
         GPIOx->CRL &= ~(0x0000000F << ((pin_bit) << 2));
-        GPIOx->CRL |= ( ((uint32_t)(config) & 0x0F) << ((pin_bit) << 2) );
-        if(mode == 1)
+        GPIOx->CRL |= (((uint32_t)(config)&0x0F) << ((pin_bit) << 2));
+        if (mode == 1)
             GPIOx->BSRR = (((uint32_t)0x01) << pin_bit);
-        else if(mode == 2)
+        else if (mode == 2)
             GPIOx->BRR = (((uint32_t)0x01) << pin_bit);
     }
 }
+
 //**************************************************************************************************
 /**
 \defgroup DAP_Config_PortIO_gr CMSIS-DAP Hardware I/O Pin Access
@@ -233,7 +233,6 @@ of the same I/O port. The following SWDIO I/O Pin functions are provided:
  - \ref PIN_SWDIO_OUT to write to the SWDIO I/O pin with utmost possible speed.
 */
 
-
 // Configure DAP I/O pins ------------------------------
 
 /** Setup JTAG I/O pins: TCK, TMS, TDI, TDO, nTRST, and nRESET.
@@ -263,9 +262,13 @@ __STATIC_INLINE void PORT_SWD_SETUP(void)
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
 
     pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
+
     // Set RESET HIGH
-    pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit);//TODO - fix reset logic
+    pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit); // TODO - fix reset logic
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
+// #if defined(nRST_DIR_PIN_PORT)
+//     nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
+// #endif
 }
 
 /** Disable JTAG/SWD I/O Pins.
@@ -372,12 +375,11 @@ __STATIC_FORCEINLINE void PIN_SWDIO_OUT_DISABLE(void)
 {
     pin_in_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, 0);
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
-	
+
 #if defined(SWDIO_DIR_PIN_PORT)
     SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
 #endif
 }
-
 
 // TDI Pin I/O ---------------------------------------------
 
@@ -386,7 +388,7 @@ __STATIC_FORCEINLINE void PIN_SWDIO_OUT_DISABLE(void)
 */
 __STATIC_FORCEINLINE uint32_t PIN_TDI_IN(void)
 {
-    return (0);   // Not available
+    return (0); // Not available
 }
 
 /** TDI I/O pin: Set Output.
@@ -394,9 +396,8 @@ __STATIC_FORCEINLINE uint32_t PIN_TDI_IN(void)
 */
 __STATIC_FORCEINLINE void PIN_TDI_OUT(uint32_t bit)
 {
-    ;             // Not available
+    ; // Not available
 }
-
 
 // TDO Pin I/O ---------------------------------------------
 
@@ -405,9 +406,8 @@ __STATIC_FORCEINLINE void PIN_TDI_OUT(uint32_t bit)
 */
 __STATIC_FORCEINLINE uint32_t PIN_TDO_IN(void)
 {
-    return (0);   // Not available
+    return (0); // Not available
 }
-
 
 // nTRST Pin I/O -------------------------------------------
 
@@ -416,7 +416,7 @@ __STATIC_FORCEINLINE uint32_t PIN_TDO_IN(void)
 */
 __STATIC_FORCEINLINE uint32_t PIN_nTRST_IN(void)
 {
-    return (0);   // Not available
+    return (0); // Not available
 }
 
 /** nTRST I/O pin: Set Output.
@@ -426,7 +426,7 @@ __STATIC_FORCEINLINE uint32_t PIN_nTRST_IN(void)
 */
 __STATIC_FORCEINLINE void PIN_nTRST_OUT(uint32_t bit)
 {
-    ;             // Not available
+    ; // Not available
 }
 
 // nRESET Pin I/O------------------------------------------
@@ -436,8 +436,11 @@ __STATIC_FORCEINLINE void PIN_nTRST_OUT(uint32_t bit)
 */
 __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 {
-#if defined(nRST_DIR_PIN_PORT)
+#if defined(MM32LINK_MINI)
     nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
+    // pin_in_init(nRESET_PIN_PORT, nRESET_PIN_Bit, 1);
+    nRESET_PIN_PORT->CRH &= ~0x000F0000;
+    nRESET_PIN_PORT->CRH |= 0x00080000;
 #endif
     return ((nRESET_PIN_PORT->IDR >> nRESET_PIN_Bit) & 1);
 }
@@ -449,24 +452,49 @@ __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 */
 // TODO - sw specific implementation should be created
 extern uint8_t swd_write_word(uint32_t addr, uint32_t val);
-__STATIC_FORCEINLINE void     PIN_nRESET_OUT(uint32_t bit)
+__STATIC_FORCEINLINE void PIN_nRESET_OUT(uint32_t bit)
 {
+//     GPIO_InitTypeDef GPIO_InitStructure;
+// 	GPIO_StructInit(&GPIO_InitStructure);
+//     /* rst pin output od = high, dir = input(GND) */
+//     if (bit & 1)
+//     {
+//         GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
+// 	    GPIO_InitStructure.GPIO_Pin		= nRESET_PIN;
+//         GPIO_InitStructure.GPIO_Mode	= GPIO_Mode_Out_PP;
+//         GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
+// #if defined(nRST_DIR_PIN_PORT)
+//         GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+// #endif
+//     }
+//     else
+//     {
+//         GPIO_ResetBits(nRESET_PIN_PORT, nRESET_PIN);
+// 	    GPIO_InitStructure.GPIO_Pin		= nRESET_PIN;
+//         GPIO_InitStructure.GPIO_Mode	= GPIO_Mode_Out_PP;
+//         GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
+// #if defined(nRST_DIR_PIN_PORT)
+//         GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+// #endif
+//         //add sw reset
+//         swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+//     }
+
     if (bit & 1){
-		//PC 12
-		nRESET_PIN_PORT->BSRR = nRESET_PIN;
-		nRESET_PIN_PORT->CRH &= ~0x000F0000;
-		nRESET_PIN_PORT->CRH |= 0x00080000;
+        nRESET_PIN_PORT->BSRR = nRESET_PIN;
+//  #if defined(nRST_DIR_PIN_PORT)
+//          GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+//  #endif		
 	}
-    else {
-		nRESET_PIN_PORT->BRR = nRESET_PIN;
-		nRESET_PIN_PORT->CRH &= ~0x000F0000;
-		nRESET_PIN_PORT->CRH |= 0x00010000;
-		// chendo: add system reset
-		//swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
-	}
-#if defined(nRST_DIR_PIN_PORT)
-    nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
+    else{
+#if defined(MM32LINK_MINI)
+        swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
 #endif
+        nRESET_PIN_PORT->BRR = nRESET_PIN;
+//   #if defined(nRST_DIR_PIN_PORT)
+//         GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+//   #endif
+	}		
 }
 
 //**************************************************************************************************
@@ -492,7 +520,7 @@ __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
     if (bit & 1)
         CONNECTED_LED_PORT->BRR = CONNECTED_LED_PIN; // LED on
     else
-        CONNECTED_LED_PORT->BSRR = CONNECTED_LED_PIN;// LED off
+        CONNECTED_LED_PORT->BSRR = CONNECTED_LED_PIN; // LED off
 }
 
 /** Debug Unit: Set status Target Running LED.
@@ -502,14 +530,13 @@ __STATIC_INLINE void LED_CONNECTED_OUT(uint32_t bit)
 */
 __STATIC_INLINE void LED_RUNNING_OUT(uint32_t bit)
 {
-    //if (bit & 1)
-    //    RUNNING_LED_PORT->BRR = RUNNING_LED_PIN; // LED on
-    //else
-    //    RUNNING_LED_PORT->BSRR = RUNNING_LED_PIN;// LED off
+    // if (bit & 1)
+    //     RUNNING_LED_PORT->BRR = RUNNING_LED_PIN; // LED on
+    // else
+    //     RUNNING_LED_PORT->BSRR = RUNNING_LED_PIN;// LED off
 }
 
 ///@}
-
 
 //**************************************************************************************************
 /**
@@ -526,12 +553,12 @@ default, the DWT timer is used.  The frequency of this timer is configured with 
 /** Get timestamp of Test Domain Timer.
 \return Current timestamp value.
 */
-__STATIC_INLINE uint32_t TIMESTAMP_GET (void) {
-  return (DWT->CYCCNT) / (CPU_CLOCK / TIMESTAMP_CLOCK);
+__STATIC_INLINE uint32_t TIMESTAMP_GET(void)
+{
+    return (DWT->CYCCNT) / (CPU_CLOCK / TIMESTAMP_CLOCK);
 }
 
 ///@}
-
 
 //**************************************************************************************************
 /**
@@ -557,21 +584,21 @@ __STATIC_INLINE void DAP_SETUP(void)
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
     RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOD, ENABLE);
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_SYSCFG, ENABLE);
 
     /* Configure I/O pin SWCLK */
     GPIO_PinAFConfig(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, GPIO_AF_0);
-	pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
-	SWCLK_TCK_PIN_PORT->BSRR = SWCLK_TCK_PIN;
+    pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
+    SWCLK_TCK_PIN_PORT->BSRR = SWCLK_TCK_PIN;
 
-	GPIO_PinAFConfig(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, GPIO_AF_0);
+    GPIO_PinAFConfig(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, GPIO_AF_0);
     pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
 
-	GPIO_PinAFConfig(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, GPIO_AF_0);
+    GPIO_PinAFConfig(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, GPIO_AF_0);
     pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
 
-	GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, GPIO_AF_0);
+    GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, GPIO_AF_0);
     pin_out_od_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
 
@@ -600,10 +627,9 @@ when a device needs a time-critical unlock sequence that enables the debug port.
 */
 __STATIC_INLINE uint32_t RESET_TARGET(void)
 {
-    return (0);              // change to '1' when a device reset sequence is implemented
+    return (0); // change to '1' when a device reset sequence is implemented
 }
 
 ///@}
-
 
 #endif /* __DAP_CONFIG_H__ */

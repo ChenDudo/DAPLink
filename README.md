@@ -1,26 +1,63 @@
-# MM32-LINK Mini
+# MM32-LINK Series
+
 ----------
 
-## MAIN FUNCTION
+# **Version: 220715**
 
-| Func | Details | Note |
+## Release Note
+- Import **MM32-LINK MINI** project
+  - added `SWDIO` Dir Control
+  - added `nRst` Dir Control
+  - ... more
+- Supported 3.3V/5V Target Power output
+- Supported Beep control
+- Serial Num (Unique ID) Format
+  ```
+  Unique_ID[25] = Board_ID[3] + Version[6] + chip_UID[16]
+  ```
+  Such as Unique ID = `088`-`220715`-`0ff20f17004c75fd`
+
+  - BoardID 
+    - [ ] 059 = MM32-LINK MAX  (MB-059)
+    - [ ] 088 = MM32-LINK MINI (MB-088)
+    - [ ] ...
+- Udisk Size = **512MB**
+- Fix up some bugs
+
+---
+
+
+# **Version: 220520**
+
+This Version is only supported for MM32LINK-MAX.
+
+### MAIN FUNCTION
+
+| NAME | Function | Note |
 |:--:|:--:|:--:|
 | HID | MM32-V1 Debug | Done|
 | CDC | Virtual com port | Done |
 | MSC | Drag-n-drop firmware update | Done |
 
-### HID: 
-- CMSIS 兼容的调试通道，支持 SW 调试接口
-- Windows 免驱，兼容 Windows/Mac OSX/Linux 所有已知版本
+#### Details
+
+- HID
+
+- [x] CMSIS 兼容的调试通道，支持 SW 调试接口
+- [x] Windows 免驱，兼容 Windows/Mac OSX/Linux 所有已知版本
   
-### MSC:
-- 拖拽式升级固件
-- 其他功能待开放
+- MSC
 
-### CDC:
-- 虚拟串口，收发波特率、数据长度、校验位、停止位可配置
+- [x] 拖拽式升级固件
+- [ ] 其他功能待开放
 
-## SUPPORT LISTS
+- CDC
+
+- [ ] 虚拟串口
+  - 可配置收发波特率、数据长度、校验位、停止位
+
+
+**SUPPORT LISTS**
 
 | Target Chip | Keil(download) |ARM Kernel | Note |
 |-------------|:--------------:|-----------|------|
@@ -36,43 +73,3 @@
 | MM32L073 | Ok | Cortex-M0 | MZ306 |
 | MM32L373 | Ok | Cortex-M3 | MT304 |
 
----
-2022.5.20
-
-
-# 2022-0624 
-
-修订后测试
-## reset_out 逻辑
-reset为高，pin为输入，配置上拉
-reset为低，pin为输出，输出低电平
-
-### 测试芯片 MB032(F0010)
-
-IAR 测试(Freq = 1MHz)：
-
-1.不加软复位（正常情况）
-复位模式：
-- [x] Disable(no reset)
-- [x] Software: **降低频率后OK**
-- [x] Hardware: **降低频率。重试后OK**
-- [x] System
-- [x] Connect during reset(default)
-
-2.带软复位
-
-- [x] Disable(no reset)
-- [ ] Software: **Call to _ExecDeviceCoreConnect: macro undefined**
-- [x] Hardware
-- [x] System
-- [x] Connect during reset(default)
-
-### 测试芯片 MM32F0270
-
-IAR 测试(Freq = 1MHz)：
-
-- [x] Disable(no reset)
-- [x] Software: **切换其他成功下载模式，再次切回下载OK**
-- [x] Hardware: 
-- [x] System
-- [ ] Connect during reset(default)： **ERROR**

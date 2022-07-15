@@ -113,13 +113,21 @@ void gpio_init(void)
     GPIO_ResetBits(PIN_MSC_LED_PORT, PIN_MSC_LED);
     GPIO_InitStructure.GPIO_Pin = PIN_MSC_LED;
     GPIO_Init(PIN_MSC_LED_PORT, &GPIO_InitStructure);
-
+	
+#if defined(nRST_DIR_PIN_PORT)
+	// DIR=Input
+    GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+    GPIO_InitStructure.GPIO_Pin = nRST_DIR_PIN;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(nRST_DIR_PIN_PORT, &GPIO_InitStructure);
+    GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+#endif
     // nRESET OUT
     GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
     GPIO_InitStructure.GPIO_Pin = nRESET_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
-
+	
 // K1
 #if defined(K1_PIN_PORT)
     GPIO_SetBits(K1_PIN_PORT, K1_PIN);
@@ -128,27 +136,17 @@ void gpio_init(void)
     GPIO_Init(K1_PIN_PORT, &GPIO_InitStructure);
 #endif
 
-#if defined(nRST_DIR_PIN_PORT)
-    GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
-    GPIO_InitStructure.GPIO_Pin = nRST_DIR_PIN;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-    GPIO_Init(nRST_DIR_PIN_PORT, &GPIO_InitStructure);
-	GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
-#endif
-
     /* Turn on power to the board. */
     // When the target is unpowered, it holds the reset line low.
     config_get_5v_output() ? Power_5v_En() : Power_3v3_En();
 
     GPIO_PinAFConfig(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_Bit, POWER_3V3_EN_AF);
     GPIO_PinAFConfig(POWER_5V_EN_PIN_PORT, POWER_5V_EN_Bit, POWER_5V_EN_AF);
-
-    GPIO_InitStructure.GPIO_Pin = POWER_5V_EN_PIN;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_InitStructure.GPIO_Pin		= POWER_5V_EN_PIN;
+    GPIO_InitStructure.GPIO_Speed	= GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode	= GPIO_Mode_Out_PP;
     GPIO_Init(POWER_5V_EN_PIN_PORT, &GPIO_InitStructure);
-
-    GPIO_InitStructure.GPIO_Pin = POWER_3V3_EN_PIN;
+    GPIO_InitStructure.GPIO_Pin		= POWER_3V3_EN_PIN;
     GPIO_Init(POWER_3V3_EN_PIN_PORT, &GPIO_InitStructure);
 
     InitBeep();

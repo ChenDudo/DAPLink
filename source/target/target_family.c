@@ -157,8 +157,6 @@ void swd_set_target_reset(uint8_t asserted)
     } else {
         (asserted) ? PIN_nRESET_OUT(0) : PIN_nRESET_OUT(1);
     }
-	//chendo
-	//(asserted) ? PIN_nRESET_OUT(0) : PIN_nRESET_OUT(1);
 }
 
 uint32_t target_get_apsel()

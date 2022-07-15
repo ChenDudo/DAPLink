@@ -57,7 +57,8 @@ enum _board_info_flags {
 typedef struct board_info {
     uint16_t info_version;              /*!< Version number of the board info */
     uint16_t family_id;                 /*!< Use to select or identify target family from defined target family or custom ones */
-    char board_id[5];                   /*!< 4-char board ID plus null terminator */
+    //char board_id[5];                   /*!< 4-char board ID plus null terminator */
+	char board_id[4];
     uint8_t _padding[3];
     uint32_t flags;                     /*!< Flags from #_board_info_flags */
     target_cfg_t *target_cfg;           /*!< Specific chip configuration for the target and enables MSD when non-NULL */

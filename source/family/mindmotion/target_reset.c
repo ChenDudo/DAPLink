@@ -24,23 +24,53 @@
 #include "target_family.h"
 #include "cmsis_os2.h"
 
-#define TESTRESET   1
+#include "hal_gpio.h"
 #include "IO_Config.h"
 
-static void target_before_init_debug(void)
+static void target_before_init_debug_mm32(void)
 {
-#if TESTRESET
-    //GPIO_ResetBits(LED3_PORT, LED3_PIN);
-#endif
+    // any target specific sequences needed before attaching to the DAP across JTAG or SWD 
+    swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+}
 
-    // any target specific sequences needed before attaching to the DAP across JTAG or SWD
-    swd_set_target_reset(1);
+uint8_t readRstInput;
+static void prerun_target_config_mm32(void)
+{
+    /* In some case the CPU will enter "cannot debug" state (low power, SWD pin mux changed, etc.). 
+	Doing a hardware reset will clear those states (probably, depends on app). 
+	Also, if the external flash's data is not a valid bootable image, DAPLink cannot attached to target. 
+	A hardware reset will increase the chance to connect in this situation. */
+
+	// nReset out mode: Low level
+	GPIO_ResetBits(nRESET_PIN_PORT, nRESET_PIN);
+
+	// nReset Dir Output
+// #if defined(nRST_DIR_PIN_PORT)	
+// 	GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+// #endif
+	
+	osDelay(4);
+
+	// nReset input mode: Pull up input
+	GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
+    // nReset Dir Input
+// #if defined(nRST_DIR_PIN_PORT)
+// 	GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+// #endif
+
+	osDelay(2);
+}
+
+/*
+static void swd_set_target_reset_mm32(uint8_t asserted)
+{
+	if (asserted)
+		swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
 }
 
 static uint8_t target_unlock_sequence(void)
 {
-    // if the device can secure the flash and there is a way to
-    //	erase all it should be implemented here.
+    // if the device can secure the flash and there is a way to erase all it should be implemented here.
     return 1;
 }
 
@@ -49,25 +79,30 @@ static uint8_t target_set_state(target_state_t state)
     // if a custom state machine is needed to set the TARGET_RESET_STATE state
     return 1;
 }
+*/
 
-static uint8_t security_bits_set(uint32_t addr, uint8_t *data, uint32_t size)
-{
-    // if there are security bits in the programmable flash region
-    //	a check should be performed. This method is used when programming
-    //	by drag-n-drop and should refuse to program an image requesting
-    //	to set the device security. This can be performed with the debug channel
-    //	if needed.
-    return 0;
-}
+//static uint8_t security_bits_set(uint32_t addr, uint8_t *data, uint32_t size)
+//{
+//    /* if there are security bits in the programmable flash region a check should be performed. 
+//	This method is used when programming by drag-n-drop and should refuse to program an image requesting to set the device security. 
+//	This can be performed with the debug channel if needed. */
+//    return 0;
+//}
+
 
 const target_family_descriptor_t g_target_family_mm32 = {
-    //.version                    = kTargetFamilyVersion,
-    .family_id                  = kMindMotion_FamilyID,
-    .default_reset_type         = kHardwareReset,
-    .target_before_init_debug   = target_before_init_debug,
-    .target_unlock_sequence     = target_unlock_sequence,
-    .target_set_state           = target_set_state,
-    .security_bits_set          = security_bits_set,
+    //.family_id                  = kMindMotion_FamilyID,
+    .default_reset_type         = kHardwareReset,	//kHardwareReset,
+    .soft_reset_type            = SYSRESETREQ,
+    .target_before_init_debug   = target_before_init_debug_mm32,
+    .prerun_target_config       = prerun_target_config_mm32,
+    //.target_unlock_sequence     = target_unlock_sequence,
+    //.security_bits_set          = security_bits_set,
+    //.target_set_state           = target_set_state,
+    //.swd_set_target_reset       = swd_set_target_reset_mm32,
+    //.validate_bin_nvic          = ,
+    //.validate_hexfile           = ,
+    //.apsel                      = 0,
 };
 
 const target_family_descriptor_t *g_target_family = &g_target_family_mm32;
