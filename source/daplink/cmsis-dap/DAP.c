@@ -73,12 +73,12 @@ static uint8_t DAP_Info(uint8_t id, uint8_t *info) {
   uint8_t length = 0U;
 
   switch (id) {
-//    case DAP_ID_VENDOR:
-//      length = DAP_GetVendorString((char *)info);
-//      break;
-//    case DAP_ID_PRODUCT:
-//      length = DAP_GetProductString((char *)info);
-//      break;
+   case DAP_ID_VENDOR:
+     length = DAP_GetVendorString((char *)info);
+     break;
+   case DAP_ID_PRODUCT:
+     length = DAP_GetProductString((char *)info);
+     break;
     case DAP_ID_SER_NUM:
       length = DAP_GetSerNumString((char *)info);
       break;
