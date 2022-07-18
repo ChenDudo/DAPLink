@@ -43,7 +43,7 @@
 //!
 //! Must be bigger than 4x the flash size of the biggest supported
 //! device.  This is to accomodate for hex file programming.
-#define VFS_DISK_SIZE (KB(512))	// old is MB(64)
+#define VFS_DISK_SIZE (MB(16))	// old is MB(64)
 
 //! @brief Constants for magic action or config files.
 //!

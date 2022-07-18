@@ -34,7 +34,7 @@
 //   - data should only be read once
 
 // FAT16 limitations +- safety margin
-#define FAT_CLUSTERS_MAX (65535 - 100)	// old is 65535 - 100
+#define FAT_CLUSTERS_MAX (65525 - 100)	// old is 65525 - 100
 #define FAT_CLUSTERS_MIN (0)	// old is 4086 + 100
 
 typedef struct {
@@ -336,7 +336,7 @@ void vfs_init(const vfs_filename_t drive_name, uint32_t disk_size)
     data_start = 0;
     // Initialize MBR
     memcpy(&mbr, &mbr_tmpl, sizeof(mbr_t));
-    total_sectors = ((disk_size + KB(4)) / mbr.bytes_per_sector);
+    total_sectors = ((disk_size + KB(64)) / mbr.bytes_per_sector);
     // Make sure this is the right size for a FAT16 volume
     if (total_sectors < FAT_CLUSTERS_MIN * mbr.sectors_per_cluster) {
         util_assert(0);
