@@ -88,8 +88,8 @@ VERB_VERBOSE = 'Verbose'    # All errors and warnings
 VERB_ALL = 'All'            # All errors
 VERB_LEVELS = [VERB_MINIMAL, VERB_NORMAL, VERB_VERBOSE, VERB_ALL]
 
-TEST_HID = True
-TEST_SERIAL = True
+TEST_HID = False
+TEST_SERIAL = False
 TEST_MASS_STORAGE = True
 TEST_USB = False
 
@@ -422,10 +422,6 @@ class TestManager(object):
         test_conf_list = []
         untested_firmware = set(filtered_interface_firmware_list)
         for board_id, family_id, fw_name, bl_fw_name, target_name in info.SUPPORTED_CONFIGURATIONS:
-            # ~~~~ TEST BOARD ID ~~~~~
-            if board_id == 4594:
-                pass
-
             target = None
             if_firmware = None
             bl_firmware = None
@@ -578,6 +574,8 @@ def main():
                         'actually run tests.')
     parser.add_argument('--force', action='store_true', default=False,
                         help='Try to run tests even if there are problems. Delete logs from previous run.')
+    parser.add_argument('--newlog', action='store_true', default=True,
+                        help='Delete logs from previous run.')
     args = parser.parse_args()
 
     use_prebuilt = args.targetdir is not None
@@ -614,7 +612,7 @@ def main():
         all_targets = target_bundle.get_target_list()
 
     if os.path.exists(args.logdir):
-        if args.force:
+        if args.force or args.newlog:
             shutil.rmtree(args.logdir)
         else:
             print('[ERROR] Error - test results directory "%s" already exists' %

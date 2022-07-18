@@ -85,7 +85,7 @@ def _unique_id_to_host_id(unique_id):
     Version  - 4 bytes
     Host ID  - Everything else
     """
-    return unique_id[8:8 + 32]
+    return unique_id[-8:]
 
 
 def _get_board_endpoints(unique_id):
@@ -625,7 +625,7 @@ class DaplinkBoard(object):
                 if exptn_on_fail:
                     raise Exception("Mount point is null")
                 return False
-            self.board_id = int(self.unique_id[0:4], 16)
+            self.board_id = int(self.unique_id[0:3], 16)
             self._hic_id = int(self.unique_id[-8:], 16)
 
             # Note - Some legacy boards might not have details.txt
@@ -718,7 +718,7 @@ class DaplinkBoard(object):
                                   "details.txt=%s, usb=%s" %
                                   (details_unique_id, self.unique_id))
             if details_hic_id is not None:
-                usb_hic = details_unique_id[-8:]
+                usb_hic = details_txt[DaplinkBoard.KEY_HIC_ID]
                 if details_hic_id != usb_hic:
                     test_info.failure("HIC ID is not the last 8 "
                                       "digits of unique ID "
