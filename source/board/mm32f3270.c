@@ -24,16 +24,23 @@
 
 const board_info_t g_board_info = {
     .info_version       = kBoardInfoVersion,
-#if defined(MM32LINK_MINI)
-    .board_id           = "088",
-#elif defined(MM32LINK_MAX)
+	.flags				= kEnableUnderResetConnect,
+#if defined(MM32LINK_MAX)
     .board_id           = "059",
+#elif defined(MM32LINK_MINI)
+    .board_id           = "088",
 #else
     .board_id           = "001",
 #endif
     .family_id          = kMindMotion_FamilyID,
     .daplink_url_name   = "PRODINFOHTM",
+#if defined(MM32LINK_MAX)   
+    .daplink_drive_name = "MM32-LINK A",
+#elif defined(MM32LINK_MINI)
+    .daplink_drive_name = "MM32-LINK I",
+#else
     .daplink_drive_name = "MM32-LINK",
+#endif    
     .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/",
     .target_cfg         = &target_device,
     .board_vendor       = "MindMotion",

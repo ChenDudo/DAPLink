@@ -92,7 +92,13 @@
 #define USBD_STRDESC_LANGID         0x0409
 #define USBD_STRDESC_MAN            L"MindMotion"
 #ifndef USB_PROD_STR
+#if defined(MM32LINK_MAX)
 #define USBD_STRDESC_PROD           L"MM32-LINK MAX"
+#elif defined(MM32LINK_MINI)
+#define USBD_STRDESC_PROD           L"MM32-LINK MINI"
+#else
+#define USBD_STRDESC_PROD           L"MM32-LINK Series"
+#endif
 #else
 #define _TOWIDE(x)                   L ## #x
 #define TOWIDE(x)                   _TOWIDE(x)
@@ -100,9 +106,6 @@
 #endif
 #define USBD_STRDESC_SER_ENABLE     1
 #define USBD_STRDESC_SER            L"0001A0000000"
-
-
-// #define CMSIS_DAP_PRODUCT_NAME     L"MM32-LINK MAX CMSIS-DAP" //TODO new add
 
 //   <e0> Class Support
 //     <i> Enables USB Device Class specific Requests

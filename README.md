@@ -21,8 +21,11 @@
     - [ ] 059 = MM32-LINK MAX  (MB-059)
     - [ ] 088 = MM32-LINK MINI (MB-088)
     - [ ] ...
-- Udisk Size = **512MB**
+
 - Fix up some bugs
+  - MSC `.bin` file Supported
+  - MSC Storage fix: Available Size of U-disk changed to 16 MB
+
 
 ---
 

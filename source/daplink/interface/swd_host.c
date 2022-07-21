@@ -902,12 +902,11 @@ uint8_t swd_set_target_state_hw(target_state_t state)
     switch (state) {
         case RESET_HOLD:
             swd_set_target_reset(1);
-            osDelay(4);
             break;
 
         case RESET_RUN:
             swd_set_target_reset(1);
-            osDelay(4);
+            osDelay(2);
             swd_set_target_reset(0);
             osDelay(2);
             swd_off();
@@ -921,7 +920,7 @@ uint8_t swd_set_target_state_hw(target_state_t state)
             if (reset_connect == CONNECT_UNDER_RESET) {
                 // Assert reset
                 swd_set_target_reset(1);
-                osDelay(4);
+                osDelay(2);
             }
 
             // Enable debug
@@ -930,7 +929,7 @@ uint8_t swd_set_target_state_hw(target_state_t state)
                     return 0;
                 // Target is in invalid state?
                 swd_set_target_reset(1);
-                osDelay(4);
+                osDelay(2);
                 swd_set_target_reset(0);
                 osDelay(2);
             }
@@ -943,7 +942,7 @@ uint8_t swd_set_target_state_hw(target_state_t state)
             if (reset_connect == CONNECT_NORMAL) {
                 // Assert reset
                 swd_set_target_reset(1);
-                osDelay(4);
+                osDelay(2);
             }
 
             // Deassert reset
@@ -1044,12 +1043,11 @@ uint8_t swd_set_target_state_sw(target_state_t state)
     switch (state) {
         case RESET_HOLD:
             swd_set_target_reset(1);
-            osDelay(4);
             break;
 
         case RESET_RUN:
             swd_set_target_reset(1);
-            osDelay(4);
+            osDelay(2);
             swd_set_target_reset(0);
             osDelay(2);
 
@@ -1100,7 +1098,7 @@ uint8_t swd_set_target_state_sw(target_state_t state)
                 }
                 // Target is in invalid state?
                 swd_set_target_reset(1);
-                osDelay(4);
+                osDelay(2);
                 swd_set_target_reset(0);
                 osDelay(2);
             }

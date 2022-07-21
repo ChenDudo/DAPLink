@@ -436,12 +436,12 @@ __STATIC_FORCEINLINE void PIN_nTRST_OUT(uint32_t bit)
 */
 __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 {
-#if defined(MM32LINK_MINI)
-    nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
-    // pin_in_init(nRESET_PIN_PORT, nRESET_PIN_Bit, 1);
-    nRESET_PIN_PORT->CRH &= ~0x000F0000;
-    nRESET_PIN_PORT->CRH |= 0x00080000;
-#endif
+// #if defined(nRST_DIR_PIN_PORT)
+//     nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
+//     // pin_in_init(nRESET_PIN_PORT, nRESET_PIN_Bit, 1);
+//     nRESET_PIN_PORT->CRH &= ~0x000F0000;
+//     nRESET_PIN_PORT->CRH |= 0x00080000;
+// #endif
     return ((nRESET_PIN_PORT->IDR >> nRESET_PIN_Bit) & 1);
 }
 
@@ -450,51 +450,13 @@ __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
            - 0: issue a device hardware reset.
            - 1: release device hardware reset.
 */
-// TODO - sw specific implementation should be created
+/* sw specific implementation may be created: 
+	swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+*/
 extern uint8_t swd_write_word(uint32_t addr, uint32_t val);
 __STATIC_FORCEINLINE void PIN_nRESET_OUT(uint32_t bit)
 {
-//     GPIO_InitTypeDef GPIO_InitStructure;
-// 	GPIO_StructInit(&GPIO_InitStructure);
-//     /* rst pin output od = high, dir = input(GND) */
-//     if (bit & 1)
-//     {
-//         GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
-// 	    GPIO_InitStructure.GPIO_Pin		= nRESET_PIN;
-//         GPIO_InitStructure.GPIO_Mode	= GPIO_Mode_Out_PP;
-//         GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
-// #if defined(nRST_DIR_PIN_PORT)
-//         GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
-// #endif
-//     }
-//     else
-//     {
-//         GPIO_ResetBits(nRESET_PIN_PORT, nRESET_PIN);
-// 	    GPIO_InitStructure.GPIO_Pin		= nRESET_PIN;
-//         GPIO_InitStructure.GPIO_Mode	= GPIO_Mode_Out_PP;
-//         GPIO_Init(nRESET_PIN_PORT, &GPIO_InitStructure);
-// #if defined(nRST_DIR_PIN_PORT)
-//         GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
-// #endif
-//         //add sw reset
-//         swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
-//     }
-
-    if (bit & 1){
-        nRESET_PIN_PORT->BSRR = nRESET_PIN;
-//  #if defined(nRST_DIR_PIN_PORT)
-//          GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
-//  #endif		
-	}
-    else{
-#if defined(MM32LINK_MINI)
-        swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
-#endif
-        nRESET_PIN_PORT->BRR = nRESET_PIN;
-//   #if defined(nRST_DIR_PIN_PORT)
-//         GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
-//   #endif
-	}		
+    (bit & 1) ? (nRESET_PIN_PORT->BSRR = nRESET_PIN) : (nRESET_PIN_PORT->BRR = nRESET_PIN);
 }
 
 //**************************************************************************************************
@@ -599,7 +561,7 @@ __STATIC_INLINE void DAP_SETUP(void)
     pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
 
     GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, GPIO_AF_0);
-    pin_out_od_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
+    pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
 
 #if defined(SWDIO_DIR_PIN_PORT)
@@ -614,8 +576,8 @@ __STATIC_INLINE void DAP_SETUP(void)
     nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
 #endif
 
-    pin_out_init(CONNECTED_LED_PORT, CONNECTED_LED_PIN_Bit);
-    CONNECTED_LED_PORT->BSRR = CONNECTED_LED_PIN;
+    //pin_out_init(CONNECTED_LED_PORT, CONNECTED_LED_PIN_Bit);
+    //CONNECTED_LED_PORT->BSRR = CONNECTED_LED_PIN;
 }
 
 /** Reset Target Device with custom specific I/O pin or command sequence.
