@@ -88,8 +88,8 @@ VERB_VERBOSE = 'Verbose'    # All errors and warnings
 VERB_ALL = 'All'            # All errors
 VERB_LEVELS = [VERB_MINIMAL, VERB_NORMAL, VERB_VERBOSE, VERB_ALL]
 
-TEST_HID = False
-TEST_SERIAL = False
+TEST_HID = True
+TEST_SERIAL = True
 TEST_MASS_STORAGE = True
 TEST_USB = False
 
