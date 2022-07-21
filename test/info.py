@@ -42,9 +42,9 @@ def VENDOR_TO_FAMILY(x, y) : return (VENDOR_ID[x] <<8) | y
 # All supported configurations
 SUPPORTED_CONFIGURATIONS = [
     #   Board ID    Family ID                           Firmware                                    Bootloader          Target
-    (   0x059,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_max_hid_if',                      'mm32link_max_bl',  'mm32f3270_uart_00_ff'                  ),
-    (   0x000,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_max_winusb_if',                   'mm32link_max_bl',  'mm32f3270_uart_00_ff'                  ),
-    (   0x088,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_mini_hid_if',                     'mm32link_mini_bl', 'mm32f3270_uart_00_ff'                  ),
+    (   0x059,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_max_hid_if',                      'mm32link_max_bl',  'mb039_daplink_serial_validation'                  ),
+    (   0x000,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_max_winusb_if',                   'mm32link_max_bl',  'mb039_daplink_serial_validation'                  ),
+    (   0x088,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_mini_hid_if',                     'mm32link_mini_bl', 'mb039_daplink_serial_validation'                  ),
 
     # Test projects
 ]

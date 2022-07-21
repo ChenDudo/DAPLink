@@ -24,8 +24,9 @@ import serial
 import threading
 import time
 
-ERROR_TIMEOUT_SECONDS = 10.0
+from pyocd.core.helpers import ConnectHelper
 
+ERROR_TIMEOUT_SECONDS = 10.0
 
 def _same(d1, d2):
     #Do a string or bytearray compare
@@ -104,7 +105,7 @@ class SerialTester(object):
         self.raw_serial = None
         return False
 
-    def new_session_with_baud(self, baud, parent_test):
+    def new_session_with_baud(self, board, baud, parent_test):
         """Start a new session by restarting target and setting baud"""
         test_info = parent_test.create_subtest("Set Baud")
 
@@ -116,6 +117,10 @@ class SerialTester(object):
         self.raw_serial.sendBreak()
         self.raw_serial.reset_output_buffer()
         self.raw_serial.reset_input_buffer()
+        with ConnectHelper.session_with_chosen_probe(unique_id=board.get_unique_id()) as session:
+            mbed_board = session.board
+            target = mbed_board.target
+            target.reset()
 
         # Wait until the target is initialized
         expected_resp = "{init}"
@@ -216,7 +221,7 @@ def test_serial(workspace, parent_test, quick=False):
         for baud in test_baud_rates:
 
             test_info.info("Testing baud %i" % baud)
-            success = sp.new_session_with_baud(baud, test_info)
+            success = sp.new_session_with_baud(board, baud, test_info)
             if not success:
                 test_info.failure("Unable to setup session")
                 continue
@@ -242,7 +247,7 @@ def test_serial(workspace, parent_test, quick=False):
         for baud in timing_baud_rates:
 
             test_info.info("Timing test baud %i" % baud)
-            success = sp.new_session_with_baud(baud, test_info)
+            success = sp.new_session_with_baud(board, baud, test_info)
             if not success:
                 test_info.failure("Unable to setup session")
                 continue
@@ -277,7 +282,7 @@ def test_serial(workspace, parent_test, quick=False):
         # in the middle of a transfer and verify nothing bad
         test_data = [i for i in range(0, 128)]
         test_data = bytearray(test_data)
-        sp.new_session_with_baud(115200, test_info)
+        sp.new_session_with_baud(board, 115200, test_info)
         sp.set_read_timeout(0)
         for baud in test_baud_rates:
             sp.raw_serial.baudrate = baud
@@ -296,7 +301,7 @@ def test_serial(workspace, parent_test, quick=False):
         # and test a large block transfer
         test_data = [i for i in range(0, 256)] * 4 * 8
         test_data = bytearray(test_data)
-        sp.new_session_with_baud(115200, test_info)
+        sp.new_session_with_baud(board, 115200, test_info)
 
         sp.write(test_data)
         resp = sp.read(len(test_data))
