@@ -41,23 +41,10 @@ static void prerun_target_config_mm32(void)
 	Also, if the external flash's data is not a valid bootable image, DAPLink cannot attached to target. 
 	A hardware reset will increase the chance to connect in this situation. */
 
-	// nReset out mode: Low level
 	GPIO_ResetBits(nRESET_PIN_PORT, nRESET_PIN);
-
-	// nReset Dir Output
-// #if defined(nRST_DIR_PIN_PORT)	
-// 	GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
-// #endif
-	
 	osDelay(4);
 
-	// nReset input mode: Pull up input
 	GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
-    // nReset Dir Input
-// #if defined(nRST_DIR_PIN_PORT)
-// 	GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
-// #endif
-
 	osDelay(2);
 }
 
@@ -92,7 +79,7 @@ static uint8_t target_set_state(target_state_t state)
 
 const target_family_descriptor_t g_target_family_mm32 = {
     //.family_id                  = kMindMotion_FamilyID,
-    .default_reset_type         = kHardwareReset,	//kHardwareReset,
+    .default_reset_type         = kSoftwareReset,	//kHardwareReset,
     .soft_reset_type            = SYSRESETREQ,
     .target_before_init_debug   = target_before_init_debug_mm32,
     .prerun_target_config       = prerun_target_config_mm32,

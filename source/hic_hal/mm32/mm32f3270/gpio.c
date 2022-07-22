@@ -116,13 +116,15 @@ void gpio_init(void)
 	
 #if defined(nRST_DIR_PIN_PORT)
 	// DIR=Input
-    GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+	GPIO_PinAFConfig(nRST_DIR_PIN_PORT, nRST_DIR_PIN_Bit, 0);
+    GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
     GPIO_InitStructure.GPIO_Pin = nRST_DIR_PIN;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(nRST_DIR_PIN_PORT, &GPIO_InitStructure);
-    GPIO_ResetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
+    GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
 #endif
     // nRESET OUT
+	GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, 0);
     GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
     GPIO_InitStructure.GPIO_Pin = nRESET_PIN;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;

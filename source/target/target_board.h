@@ -106,13 +106,28 @@ uint16_t get_family_id(void);
 uint8_t flash_algo_valid(void);
 
 //! @brief Returns the MSD HTML help filename or a default.
-static inline const char * get_daplink_url_name ( void ) { return ((g_board_info.daplink_url_name[0] != 0) ? g_board_info.daplink_url_name : "MBED    HTM"); }
+static inline const char * get_daplink_url_name ( void ) { 
+return "PRODINFOHTM";
+//return ((g_board_info.daplink_url_name[0] != 0) ? g_board_info.daplink_url_name : "MBED    HTM"); 
+}
 
 //! @brief Returns the MSD volume name or a default.
-static inline const char * get_daplink_drive_name ( void ) { return ((g_board_info.daplink_drive_name[0] != 0) ? g_board_info.daplink_drive_name : "DAPLINK    "); }
+static inline const char * get_daplink_drive_name ( void ) { 
+#if defined(MM32LINK_MAX)   
+    return "MM32-LINK A";
+#elif defined(MM32LINK_MINI)
+    return "MM32-LINK I";
+#else
+    return "MM32-LINK";
+#endif
+//return ((g_board_info.daplink_drive_name[0] != 0) ? g_board_info.daplink_drive_name : "DAPLINK    "); 
+}
 
 //! @brief Returns the target information URL or a default.
-static inline const char * get_daplink_target_url ( void ) { return ((g_board_info.daplink_target_url[0] != 0) ? g_board_info.daplink_target_url : "https://mbed.org/device/?code=@U?version=@V?target_id=@T"); }
+static inline const char * get_daplink_target_url ( void ) { 
+return "https://www.mindmotion.com.cn/support/development_tools/";
+//return ((g_board_info.daplink_target_url[0] != 0) ? g_board_info.daplink_target_url : "https://mbed.org/device/?code=@U?version=@V?target_id=@T"); 
+}
 
 #ifdef __cplusplus
 }

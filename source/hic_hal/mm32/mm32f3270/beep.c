@@ -35,7 +35,7 @@ void InitGPIOBEEP(void)
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	GPIO_InitTypeDef GPIO_InitStructure;
     // configure Beep
-    GPIO_PinAFConfig(BEEP_PORT, BEEP_Bit, GPIO_AF_2);
+    GPIO_PinAFConfig(BEEP_PORT, BEEP_PIN_Bit, GPIO_AF_2);
     GPIO_ResetBits(BEEP_PORT, BEEP_PIN);
     GPIO_InitStructure.GPIO_Pin = BEEP_PIN;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
