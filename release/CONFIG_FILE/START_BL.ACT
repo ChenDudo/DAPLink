@@ -1,0 +1,20 @@
+# MM32-LINK MAX Firmware
+Build ID: v0.90-4-g404571dc (armcc, local mods)
+Unique ID: 0af1af0e0077ca684d4d3270
+HIC ID: 4d4d3270
+Auto Reset: 1
+Automation allowed: 1
+Overflow detection: 1
+Incompatible image detection: 0
+Page erasing: 0
+MM32-LINK Mode: Interface
+Interface Version: 220520
+Bootloader Version: 220520
+Git SHA: 404571
+Local Mods: 1
+USB Interfaces: MSD, CDC, HID, WebUSB
+Bootloader CRC: 0x9710d21a
+Interface CRC: 0x9360c0ca
+Remount count: 0
+Target Power output: 5V
+URL: https://www.mindmotion.com.cn/support/development_tools/
