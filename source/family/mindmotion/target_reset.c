@@ -27,26 +27,26 @@
 #include "hal_gpio.h"
 #include "IO_Config.h"
 
-static void target_before_init_debug_mm32(void)
-{
-    // any target specific sequences needed before attaching to the DAP across JTAG or SWD 
-    swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
-}
+// static void target_before_init_debug_mm32(void)
+// {
+//     // any target specific sequences needed before attaching to the DAP across JTAG or SWD 
+//     swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+// }
 
-uint8_t readRstInput;
-static void prerun_target_config_mm32(void)
-{
-    /* In some case the CPU will enter "cannot debug" state (low power, SWD pin mux changed, etc.). 
-	Doing a hardware reset will clear those states (probably, depends on app). 
-	Also, if the external flash's data is not a valid bootable image, DAPLink cannot attached to target. 
-	A hardware reset will increase the chance to connect in this situation. */
+// uint8_t readRstInput;
+// static void prerun_target_config_mm32(void)
+// {
+//     /* In some case the CPU will enter "cannot debug" state (low power, SWD pin mux changed, etc.). 
+// 	Doing a hardware reset will clear those states (probably, depends on app). 
+// 	Also, if the external flash's data is not a valid bootable image, DAPLink cannot attached to target. 
+// 	A hardware reset will increase the chance to connect in this situation. */
 
-	GPIO_ResetBits(nRESET_PIN_PORT, nRESET_PIN);
-	osDelay(4);
+// 	GPIO_ResetBits(nRESET_PIN_PORT, nRESET_PIN);
+// 	osDelay(4);
 
-	GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
-	osDelay(2);
-}
+// 	GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
+// 	osDelay(2);
+// }
 
 /*
 static void swd_set_target_reset_mm32(uint8_t asserted)
@@ -81,8 +81,8 @@ const target_family_descriptor_t g_target_family_mm32 = {
     //.family_id                  = kMindMotion_FamilyID,
     .default_reset_type         = kSoftwareReset,	//kHardwareReset,
     .soft_reset_type            = SYSRESETREQ,
-    .target_before_init_debug   = target_before_init_debug_mm32,
-    .prerun_target_config       = prerun_target_config_mm32,
+    //.target_before_init_debug   = target_before_init_debug_mm32,
+    //.prerun_target_config       = prerun_target_config_mm32,
     //.target_unlock_sequence     = target_unlock_sequence,
     //.security_bits_set          = security_bits_set,
     //.target_set_state           = target_set_state,

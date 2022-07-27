@@ -25,7 +25,14 @@
 
 // TIM4 CH3
 #define BEEP_TIMER      TIM4
-#define ARR_VALUE       208//104 //416
+#define ARR_VALUE       416 //208//104 //416
+
+typedef enum {
+	modeN = 0x00,
+    mode0 = 0x02,
+    mode1 = 0x05,
+    mode2 = 0x07   
+} embeepMode;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @defgroup BEEP_Exported_Variables
@@ -36,6 +43,10 @@
 #else
 #define GLOBAL extern
 #endif
+
+GLOBAL bool     beepEn;
+GLOBAL bool     beepCount;
+GLOBAL embeepMode beepMode;
 
 #undef GLOBAL
 
@@ -48,6 +59,7 @@ void BEEP_on(void);
 void BEEP_off(void);
 void InitBeep(void);
 void BEEP_Hz(int pulse);
+void Beep_Tick(void);
 
 /// @}
 

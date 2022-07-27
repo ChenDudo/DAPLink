@@ -26,6 +26,7 @@
 #include "rl_usb.h"
 #include "main_interface.h"
 #include "gpio.h"
+#include "beep.h"
 #include "uart.h"
 #include "tasks.h"
 #include "swd_host.h"
@@ -272,6 +273,7 @@ void main_task(void * arg)
 {
     // State processing
     uint16_t flags = 0;
+	uint16_t beepicnt = 0;
     // LED
     gpio_led_state_t hid_led_value = HID_LED_DEF;
     gpio_led_state_t cdc_led_value = CDC_LED_DEF;
@@ -426,7 +428,6 @@ void main_task(void * arg)
                     if (usbd_configured()) {
                         // Let the HIC enable power to the target now that high power has been negotiated.
                         gpio_set_board_power(true);
-
                         usb_state = USB_CONNECTED;
                     }
                     else if (DECZERO(usb_no_config_count) == 0) {
@@ -436,12 +437,13 @@ void main_task(void * arg)
                         gpio_set_board_power(true);
                         usb_state = USB_DISCONNECTED;
                     }
-
                     break;
 
                 case USB_CONNECTED:
                 case USB_DISCONNECTED:
                     if (usbd_configured()) {
+						if(usb_state == USB_DISCONNECTED)
+							{beepMode = mode2; beepCount = 5;}
                         usb_state = USB_CONNECTED;
                     }
                     else {
@@ -452,9 +454,14 @@ void main_task(void * arg)
                 default:
                     break;
             }
-			//chendo
-			config_get_5v_output() ? Power_5v_En() : Power_3v3_En();
-			//config_get_beep_en() ? Beep_En(true) : Beep_En(false);
+
+			Power_Supply();
+			Beep_Tick();
+			
+			if (beepicnt++ > 10){
+				beepicnt = 0;
+				beepEn = config_get_beep_en() ? true : false;
+			}
         }
 
         // 30mS tick used for flashing LED when USB is busy

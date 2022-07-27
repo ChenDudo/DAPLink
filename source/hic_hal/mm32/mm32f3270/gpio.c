@@ -53,6 +53,21 @@ void Power_3v3_En(void)
     GPIO_SetBits(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_PIN);
 }
 
+void Power_Off(void)
+{
+    GPIO_ResetBits(POWER_5V_EN_PIN_PORT, POWER_5V_EN_PIN);
+    GPIO_ResetBits(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_PIN);
+}
+
+void Power_Supply(void)
+{
+    if (config_get_power_output()){
+		config_get_5v_output() ? Power_5v_En() : Power_3v3_En();
+	}
+	else
+		Power_Off();
+}
+
 void Beep_En(bool enable)
 {
     enable ? BEEP_on() : BEEP_off();
@@ -140,7 +155,7 @@ void gpio_init(void)
 
     /* Turn on power to the board. */
     // When the target is unpowered, it holds the reset line low.
-    config_get_5v_output() ? Power_5v_En() : Power_3v3_En();
+    Power_Supply();
 
     GPIO_PinAFConfig(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_Bit, POWER_3V3_EN_AF);
     GPIO_PinAFConfig(POWER_5V_EN_PIN_PORT, POWER_5V_EN_Bit, POWER_5V_EN_AF);
@@ -152,7 +167,15 @@ void gpio_init(void)
     GPIO_Init(POWER_3V3_EN_PIN_PORT, &GPIO_InitStructure);
 
     InitBeep();
-
+	if(config_get_beep_en()){
+		beepEn = true;
+		BEEP_on();
+	}
+	else {
+		beepEn = false;
+		BEEP_off();
+	}
+		
     // Let the voltage rails stabilize.  This is especailly important
     // during software resets, since the target's 3.3v rail can take
     // 20-50ms to drain.  During this time the target could be driving
@@ -160,11 +183,10 @@ void gpio_init(void)
     // button is pressed.
     // Note: With optimization set to -O2 the value 1000000 delays for ~85ms
     LED_on();
-    if (config_get_beep_en())
-        BEEP_on();
     busy_wait(1000000);
     LED_off();
     BEEP_off();
+	beepMode = modeN; beepCount = 0;
 }
 
 void gpio_set_hid_led(gpio_led_state_t state)

@@ -52,15 +52,5 @@ const target_family_descriptor_t *g_target_family = NULL;
 
 const board_info_t g_board_info = {
     .info_version       = kBoardInfoVersion,
-#if defined(MM32LINK_MINI)
-    .board_id           = "088",
-#elif defined(MM32LINK_MAX)
-    .board_id           = "059",
-#else
-    .board_id           = "001",
-#endif
-    .daplink_url_name   = "MM32_DBTHTM",
-    .daplink_drive_name = "BootLoader",
-    .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/",
     .target_cfg         = &target_device,
 };

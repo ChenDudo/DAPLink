@@ -100,19 +100,28 @@ void config_set_5v_output(bool on)
 {
 	// Do nothing
 }
-
+// return 1: 5V, return 0: 3.3V
 bool config_get_5v_output(void)
 {
 	return config_rom.myOption & 0x01;
 }
 
+void config_set_power_output(bool on)
+{
+	// Do nothing
+}
+// return 1: on, return 0: off 
+bool config_get_power_output(void)
+{
+	return (config_rom.myOption & 0x04);
+}
 
 void config_set_beep_en(bool on)
 {
 	// Do nothing
 }
-
+// return 1: on, return 0: off 
 bool config_get_beep_en(void)
 {
-	return config_rom.myOption & 0x02;
+	return (config_rom.myOption & 0x02);
 }

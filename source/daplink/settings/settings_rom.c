@@ -204,24 +204,35 @@ bool config_get_detect_incompatible_target()
 // TODO chendo new add
 void config_set_5v_output(bool on)
 {
-	(on) ? (config_rom_copy.myOption |= 0x01) : \
-		(config_rom_copy.myOption &= 0xFE);
+	// on = 5V, off = 3.3v
+	(on) ? (config_rom_copy.myOption |= 0x01) : (config_rom_copy.myOption &= ~0x01);
+	config_set_power_output(true);
 	program_cfg(&config_rom_copy);
 }
 
 bool config_get_5v_output(void)
 {
-	return config_rom.myOption & 0x01;
+	return (config_rom.myOption & 0x01);
+}
+
+void config_set_power_output(bool on)
+{
+	(on) ? (config_rom_copy.myOption |= 0x04) : (config_rom_copy.myOption &= ~0x04);
+	program_cfg(&config_rom_copy);
+}
+
+bool config_get_power_output(void)
+{
+	return (config_rom.myOption & 0x04);
 }
 
 void config_set_beep_en(bool on)
 {
-	(on) ? (config_rom_copy.myOption |= 0x02) : \
-		(config_rom_copy.myOption &= 0xFD);
+	(on) ? (config_rom_copy.myOption |= 0x02) : (config_rom_copy.myOption &= ~0x02);
 	program_cfg(&config_rom_copy);
 }
 
 bool config_get_beep_en(void)
 {
-	return config_rom_copy.myOption & 0x02;
+	return (config_rom.myOption & 0x02);
 }

@@ -29,5 +29,5 @@ const board_info_t g_board_info = {
     .family_id          = kMindMotion_FamilyID,
     .target_cfg         = &target_device,
     .board_vendor       = "MindMotion",
-    .board_name         = "MM32LINK Series",
+    .board_name         = "MM32LINK Series",   
 };

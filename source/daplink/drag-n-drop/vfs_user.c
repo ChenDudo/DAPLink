@@ -70,8 +70,9 @@ typedef enum _magic_file {
     kImageCheckOffConfigFile,   //!< Disable Incompatible target image detection.
     kPageEraseActionFile,       //!< Enable page programming and sector erase for drag and drop.
     kChipEraseActionFile,       //!< Enable page programming and chip erase for drag and drop.
-	k5VEnConfigFile,			//!< Enable 5V output
-	k5VDisEnConfigFile,         //!< Disable 5V output, default 3.3V
+	kVTarget5VConfigFile,		//!< Enable 5V output
+	kVTarget3V3ConfigFile,      //!< Enable 3.3V Output
+	kVTargetOFFConfigFile,		//!< Disbale Power Output
 	kBeepOnConfigFile,			//!< Enable Beep
 	kBeepOffConfigFile,			//!< Disable Beep
 } magic_file_t;
@@ -103,8 +104,9 @@ static const magic_file_info_t s_magic_file_info[] = {
         { "PAGE_ON ACT", kPageEraseActionFile       },
         { "PAGE_OFFACT", kChipEraseActionFile       },
 		{ "PAGE_OFFACT", kChipEraseActionFile       },
-		{ "FIVE_ON CFG", k5VEnConfigFile            },
-		{ "FIVE_OFFCFG", k5VDisEnConfigFile         },	
+		{ "VT_5V   CFG", kVTarget5VConfigFile       },
+		{ "VT_3V3  CFG", kVTarget3V3ConfigFile      },
+		{ "VT_OFF  CFG", kVTargetOFFConfigFile      },
 		{ "BEEP_ON CFG", kBeepOnConfigFile          },
 		{ "BEEP_OFFCFG", kBeepOffConfigFile         },		
     };
@@ -277,12 +279,15 @@ void vfs_user_file_change_handler(const vfs_filename_t filename, vfs_file_change
                     case kChipEraseActionFile:
                         config_ram_set_page_erase(false);
                         break;
-					case k5VEnConfigFile:
+					case kVTarget5VConfigFile:
                         config_set_5v_output(true);
                         break;
-					case k5VDisEnConfigFile:
+					case kVTarget3V3ConfigFile:
                         config_set_5v_output(false);
-                        break;					
+                        break;				
+					case kVTargetOFFConfigFile:
+                        config_set_power_output(false);
+                        break;				
 					case kBeepOnConfigFile:
                         config_set_beep_en(true);
                         break;
@@ -547,22 +552,18 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
 #if defined(MM32LINK_MAX)
         "# MM32-LINK MAX Firmware\r\n"
 #elif defined(MM32LINK_MINI)
-		"# MM32-LINK Mini Firmware\r\n"
+		"# MM32-LINK MINI Firmware\r\n"
 #else
 		"# MM32-LINK Series Firmware\r\n"
 #endif
-        // Build ID
-        "Build ID: " GIT_DESCRIPTION " (" COMPILER_DESCRIPTION LOCAL_MODS ")\r\n");
+        //// Build ID
+        //"Build ID: " GIT_DESCRIPTION " (" COMPILER_DESCRIPTION LOCAL_MODS ")\r\n"
+	);
     // Unique ID
     pos += expand_string_in_region(buf, size, start, pos, "Unique ID: @U\r\n");
     // HIC ID
     pos += expand_string_in_region(buf, size, start, pos, "HIC ID: @D\r\n");
-    // Settings
-    pos += setting_in_region(buf, size, start, pos, "Auto Reset", config_get_auto_rst());
-    pos += setting_in_region(buf, size, start, pos, "Automation allowed", config_get_automation_allowed());
-    pos += setting_in_region(buf, size, start, pos, "Overflow detection", config_get_overflow_detect());
-    pos += setting_in_region(buf, size, start, pos, "Incompatible image detection", config_get_detect_incompatible_target());
-    pos += setting_in_region(buf, size, start, pos, "Page erasing", config_ram_get_page_erase());
+
 
     // Current mode and version
 #if defined(DAPLINK_BL)
@@ -627,21 +628,28 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
     // Number of remounts that have occurred
     pos += uint32_field_in_region(buf, size, start, pos, "Remount count", remount_count);
 
+	// Settings
+    pos += setting_in_region(buf, size, start, pos, "Auto Reset", config_get_auto_rst());
+    pos += setting_in_region(buf, size, start, pos, "Automation allowed", config_get_automation_allowed());
+    pos += setting_in_region(buf, size, start, pos, "Overflow detection", config_get_overflow_detect());
+    pos += setting_in_region(buf, size, start, pos, "Incompatible image detection", config_get_detect_incompatible_target());
+    pos += setting_in_region(buf, size, start, pos, "Page erasing", config_ram_get_page_erase());
+	
 	// chendo newadd 5v/beep
-	if (config_get_5v_output())
+	if (!config_get_power_output())
+		pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: OFF\r\n");
+	else if (config_get_5v_output())
 		pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 5V\r\n");
 	else
 		pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 3.3V\r\n");
 	
-#if defined (USE_BEEP)
 	if (config_get_beep_en())
-		pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: On\r\n");
+		pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: ON\r\n");
 	else
-		pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: Off\r\n");
-#endif
+		pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: OFF\r\n");
 	
     //Target URL
-    pos += expand_string_in_region(buf, size, start, pos, "URL: @R\r\n");
+    //pos += expand_string_in_region(buf, size, start, pos, "URL: @R\r\n");
 
     return pos;
 }

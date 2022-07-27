@@ -90,3 +90,22 @@ void BEEP_Hz(int pulse)
 {
 	TIM_SetCompare3(BEEP_TIMER, pulse);
 }
+
+//GLOBAL bool			beepEn;
+//GLOBAL uint8_t		beepCount;
+//GLOBAL embeepMode	beepMode;
+
+/******************************************************************************/
+void Beep_Tick(void)
+{
+	if (beepEn){
+		if (beepCount){
+			beepCount --;
+			((uint8_t)beepMode >> beepCount) ? BEEP_on() : BEEP_off();
+		}
+		else
+			BEEP_off();
+    }
+	else
+		BEEP_off();
+}

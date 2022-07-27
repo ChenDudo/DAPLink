@@ -107,9 +107,9 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB059);
 #define nRESET_PIN_Bit          (4)
 #define nRESET_PIN              (1 << nRESET_PIN_Bit)
 
-// nRST DIR: 					PB2
+// nRST DIR: 					PB10
 #define nRST_DIR_PIN_PORT       GPIOB
-#define nRST_DIR_PIN_Bit        (2)
+#define nRST_DIR_PIN_Bit        (10)
 #define nRST_DIR_PIN            (1 << nRST_DIR_PIN_Bit)
 
 // 3. K1

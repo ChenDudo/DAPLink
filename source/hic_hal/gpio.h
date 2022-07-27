@@ -47,7 +47,7 @@ uint8_t gpio_get_pbon_btn(void);
 #endif
 void Power_3v3_En(void);
 void Power_5v_En(void);
-void Beep_En(bool enable);
+void Power_Supply(void);
 
 static inline uint8_t gpio_get_reset_btn(void)
 {

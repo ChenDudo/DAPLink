@@ -51,6 +51,9 @@ bool config_get_detect_incompatible_target(void);
 // chendo: new add 5v output config
 void config_set_5v_output(bool on);
 bool config_get_5v_output(void);
+void config_set_power_output(bool on);
+bool config_get_power_output(void);
+
 // chendo: new add beep config
 void config_set_beep_en(bool on);
 bool config_get_beep_en(void);

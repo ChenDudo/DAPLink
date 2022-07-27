@@ -55,12 +55,12 @@ static uint32_t crc_interface;
 static uint32_t crc_config_user;
 
 // Strings
-static char string_unique_id[24 + 1];
+static char string_unique_id[19 + 1];
 static char string_board_id[3 + 1];		// old = 4
-static char string_version[6 + 1];
 static char string_host_id[16 + 1];
 
 //no use
+static char string_version[6 + 1];
 static char string_mac[12 + 1];
 static char string_target_id[32 + 1];
 static char string_hic_id[8 + 1];
@@ -178,7 +178,7 @@ static void setup_unique_id()
 {
     memset(string_unique_id, 0, sizeof(string_unique_id));
     strcat(string_unique_id, string_board_id);
-	strcat(string_unique_id, string_version);
+	//strcat(string_unique_id, string_version);
     strcat(string_unique_id, string_host_id);
     //strcat(string_unique_id, string_hic_id);
 	//strcat(string_unique_id, string_family_id);
