@@ -129,14 +129,27 @@ void gpio_init(void)
     GPIO_InitStructure.GPIO_Pin = PIN_MSC_LED;
     GPIO_Init(PIN_MSC_LED_PORT, &GPIO_InitStructure);
 	
+    // configure reset
+    GPIO_PinAFConfig(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, GPIO_AF_0);
+    SWCLK_TCK_PIN_PORT->BRR = SWCLK_TCK_PIN;
+    GPIO_InitStructure.GPIO_Pin = SWCLK_TCK_PIN;
+    GPIO_Init(SWCLK_TCK_PIN_PORT, &GPIO_InitStructure);
+    GPIO_PinAFConfig(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, GPIO_AF_0);
+    SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
+    GPIO_InitStructure.GPIO_Pin = SWDIO_OUT_PIN;
+    GPIO_Init(SWDIO_OUT_PIN_PORT, &GPIO_InitStructure);
+#if defined(SWDIO_DIR_PIN_PORT)
+    SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
+    GPIO_InitStructure.GPIO_Pin = SWDIO_DIR_PIN;
+    GPIO_Init(SWDIO_DIR_PIN_PORT, &GPIO_InitStructure);
+#endif
+
 #if defined(nRST_DIR_PIN_PORT)
-	// DIR=Input
 	GPIO_PinAFConfig(nRST_DIR_PIN_PORT, nRST_DIR_PIN_Bit, 0);
     GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
     GPIO_InitStructure.GPIO_Pin = nRST_DIR_PIN;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(nRST_DIR_PIN_PORT, &GPIO_InitStructure);
-    GPIO_SetBits(nRST_DIR_PIN_PORT, nRST_DIR_PIN);
 #endif
     // nRESET OUT
 	GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, 0);

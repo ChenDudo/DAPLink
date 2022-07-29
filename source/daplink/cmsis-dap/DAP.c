@@ -35,7 +35,7 @@
 #include "DAP.h"
 #include "info.h"
 #include "dap_strings.h"
-
+#include "beep.h"
 
 #if (DAP_PACKET_SIZE < 64U)
 #error "Minimum Packet Size is 64!"
@@ -206,6 +206,8 @@ static uint32_t DAP_HostStatus(const uint8_t *request, uint8_t *response) {
 
   switch (*request) {
     case DAP_DEBUGGER_CONNECTED:
+		//chendo
+		{beepMode = mode2; beepCount = 5;}
       LED_CONNECTED_OUT((*(request+1) & 1U));
       break;
     case DAP_TARGET_RUNNING:

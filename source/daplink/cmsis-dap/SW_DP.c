@@ -234,6 +234,7 @@ static uint8_t SWD_Transfer##speed (uint32_t request, uint32_t *data) {         
       }                                                                         \
     }                                                                           \
     PIN_SWDIO_OUT(1U);                                                          \
+	PIN_SWCLK_CLR();	/*chendo new add*/\
     return ((uint8_t)ack);                                                      \
   }                                                                             \
                                                                                 \
@@ -256,6 +257,7 @@ static uint8_t SWD_Transfer##speed (uint32_t request, uint32_t *data) {         
       }                                                                         \
     }                                                                           \
     PIN_SWDIO_OUT(1U);                                                          \
+	PIN_SWCLK_CLR();	/*chendo new add*/\
     return ((uint8_t)ack);                                                      \
   }                                                                             \
                                                                                 \
@@ -265,6 +267,7 @@ static uint8_t SWD_Transfer##speed (uint32_t request, uint32_t *data) {         
   }                                                                             \
   PIN_SWDIO_OUT_ENABLE();                                                       \
   PIN_SWDIO_OUT(1U);                                                            \
+  PIN_SWCLK_CLR();	/*chendo new add*/\
   return ((uint8_t)ack);                                                        \
 }
 

@@ -342,6 +342,9 @@ __STATIC_FORCEINLINE void PIN_SWDIO_TMS_CLR(void)
 */
 __STATIC_FORCEINLINE uint32_t PIN_SWDIO_IN(void)
 {
+#if defined(SWDIO_DIR_PIN_PORT)
+    SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
+#endif
     return ((SWDIO_IN_PIN_PORT->IDR & SWDIO_IN_PIN) ? 1 : 0);
 }
 
@@ -350,6 +353,9 @@ __STATIC_FORCEINLINE uint32_t PIN_SWDIO_IN(void)
 */
 __STATIC_FORCEINLINE void PIN_SWDIO_OUT(uint32_t bit)
 {
+#if defined(SWDIO_DIR_PIN_PORT)
+    SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
+#endif	
     if (bit & 1)
         SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
     else
@@ -366,8 +372,8 @@ __STATIC_FORCEINLINE void PIN_SWDIO_OUT_ENABLE(void)
     SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
 #endif
 
+	SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
     pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
-    SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
 }
 
 /** SWDIO I/O pin: Switch to Input mode (used in SWD mode only).
@@ -464,7 +470,7 @@ __STATIC_FORCEINLINE void PIN_nRESET_OUT(uint32_t bit)
 	}
 	else {
 		nRESET_PIN_PORT->BRR = nRESET_PIN;
-		swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+		//swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
 	}
 }
 
