@@ -114,7 +114,7 @@ class SerialTester(object):
         self.raw_serial.timeout = 1.0
 
         # Reset the target
-        self.raw_serial.sendBreak()
+        # self.raw_serial.sendBreak()
         self.raw_serial.reset_output_buffer()
         self.raw_serial.reset_input_buffer()
         with ConnectHelper.session_with_chosen_probe(unique_id=board.get_unique_id()) as session:

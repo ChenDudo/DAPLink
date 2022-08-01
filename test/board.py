@@ -658,7 +658,7 @@ class DaplinkBoard(object):
         """Check that details.txt has all requied fields"""
         test_info = parent_test.create_subtest('test_details_txt')
         required_key_and_format = {
-            DaplinkBoard.KEY_UNIQUE_ID: re.compile("^[a-f0-9]{24,48}$"),
+            DaplinkBoard.KEY_UNIQUE_ID: re.compile("^[a-f0-9]{18,48}$"),
             DaplinkBoard.KEY_HIC_ID: re.compile("^[a-f0-9]{8}$"),
             DaplinkBoard.KEY_GIT_SHA: re.compile("^[a-f0-9]{6}$"),
             DaplinkBoard.KEY_LOCAL_MODS: re.compile("^[01]{1}$"),
