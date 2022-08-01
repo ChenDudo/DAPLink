@@ -10,8 +10,8 @@
   | Power |  MSC Configure File| Note|
   |--|--|--|
   | Power off|"VT_OFF.CFG"| Target Power OFF |
-  | 3.3V output | "VT_OFF.CFG"| Target Power 3.3V |
-  | 5V output |"VT_OFF.CFG"| Target Power 5V |
+  | 3.3V output | "VT_3V3.CFG"| Target Power 3.3V |
+  | 5V output |"VT_5V.CFG"| Target Power 5V |
 - New BEEP configure:
   - MSC Configure File
     - "BEEP_ON.CFG": Open Beep
