@@ -1,10 +1,27 @@
 # MM32-LINK Series
-
+## Release Note
 ----------
+# **Version: 220729**
+- New Serial Num (Unique ID) Format:
+  ```
+  Unique_ID[19] = Board_ID[3] + chip_UID[16]
+  ```
+- New Target Power configure: 
+  | Power |  MSC Configure File| Note|
+  |--|--|--|
+  | Power off|"VT_OFF.CFG"| Target Power OFF |
+  | 3.3V output | "VT_OFF.CFG"| Target Power 3.3V |
+  | 5V output |"VT_OFF.CFG"| Target Power 5V |
+- New BEEP configure:
+  - MSC Configure File
+    - "BEEP_ON.CFG": Open Beep
+    - "BEEP_OFF.CFG"
+  - BEEP when USB connected / Debug connected
+- Fix MM32F0020 debug exception
+  - SWCLK Idle state Defalut = Low 
 
 # **Version: 220715**
 
-## Release Note
 - Import **MM32-LINK MINI** project
   - added `SWDIO` Dir Control
   - added `nRst` Dir Control
