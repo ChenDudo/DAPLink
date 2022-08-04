@@ -2,3 +2,4 @@ common:
     macros:
         - MM32LINK_MINI
         - HSE_FREQ=12000000
+        - DAPLINK_HIC_ID=0x4D4D3270
