@@ -47,6 +47,9 @@ typedef enum {
 GLOBAL bool     beepEn;
 GLOBAL bool     beepCount;
 GLOBAL embeepMode beepMode;
+GLOBAL uint16_t	adcValue[2];
+GLOBAL float	targetVDD;
+GLOBAL float	targetVCC;
 
 #undef GLOBAL
 
@@ -60,6 +63,9 @@ void BEEP_off(void);
 void InitBeep(void);
 void BEEP_Hz(int pulse);
 void Beep_Tick(void);
+
+void initADC(void);
+void adcTick(void);
 
 /// @}
 

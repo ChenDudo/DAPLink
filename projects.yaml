@@ -64,11 +64,6 @@ projects:
         - records/board/mm32f3270_bl.yaml
 
     # Other projects
-    mm32link_mini_mm32f0140_if:
-        - *module_if
-        - *module_hic_mm32link_mini
-        - records/tools/version_if.yaml
-        - records/board/mm32f3270_mm32f0140.yaml
     mm32link_mini_hid_if:
         - *module_tools
         - *module_hic_mm32link_mini
@@ -87,7 +82,7 @@ projects:
         - records/daplink/interface.yaml
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
-        - records/board/mm32f3270_mm32f3270.yaml
+        - records/board/mm32link_board.yaml
     mm32link_max_hid_if:
         - *module_tools
         - *module_hic_mm32link_max
@@ -106,7 +101,7 @@ projects:
         - records/daplink/interface.yaml
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
-        - records/board/mm32f3270_mm32f3270.yaml
+        - records/board/mm32link_board.yaml
     mm32link_mini_winusb_if:
         - *module_tools
         - *module_hic_mm32link_mini
@@ -126,7 +121,7 @@ projects:
         - records/daplink/interface.yaml
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
-        - records/board/mm32f3270_mm32f3270.yaml
+        - records/board/mm32link_board.yaml
     mm32link_max_winusb_if:
         - *module_tools
         - *module_hic_mm32link_max
@@ -146,4 +141,4 @@ projects:
         - records/daplink/interface.yaml
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
-        - records/board/mm32f3270_mm32f3270.yaml
+        - records/board/mm32link_board.yaml

@@ -28,8 +28,13 @@
 
 #include "hal_gpio.h"
 
+#if defined(MM32LINK_MAX) 
 COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB059);
-
+#elif defined(MM32LINK_MINI) 
+COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB088);
+#else
+COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB088);
+#endif
 
 // When bootloader, disable the target port(not used)
 
@@ -149,6 +154,15 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB059);
 #define LED2_PORT               GPIOA
 #define LED2_PIN_Bit        	(0)
 #define LED2_PIN                (1 << LED2_PIN_Bit)
+
+// 8. ADC PA2 / PA3
+#define DET_TVDD_PORT          	GPIOA
+#define DET_TVDD_PIN_Bit		(2)
+#define DET_TVDD_PIN           	(1 << DET_TVDD_PIN_Bit)
+
+#define DET_TVCC_PORT          	GPIOA
+#define DET_TVCC_PIN_Bit		(3)
+#define DET_TVCC_PIN           	(1 << DET_TVCC_PIN_Bit)
 
 #else
 

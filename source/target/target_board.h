@@ -126,8 +126,8 @@ static inline const char * get_daplink_drive_name ( void ) {
 }
 
 //! @brief Returns the target information URL or a default.
-static inline const char * get_daplink_target_url ( void ) { 
-    return "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/";
+static inline const char * get_daplink_target_url ( void ) {
+    return "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/mm32_link_mini";
 //return ((g_board_info.daplink_target_url[0] != 0) ? g_board_info.daplink_target_url : "https://mbed.org/device/?code=@U?version=@V?target_id=@T"); 
 }
 

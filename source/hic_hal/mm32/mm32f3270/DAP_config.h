@@ -445,9 +445,9 @@ __STATIC_FORCEINLINE void PIN_nTRST_OUT(uint32_t bit)
 */
 __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 {
-// #if defined(nRST_DIR_PIN_PORT)
-// 	nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
-// #endif
+#if defined(nRST_DIR_PIN_PORT)
+	nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
+#endif
     return ((nRESET_PIN_PORT->IDR & nRESET_PIN) ? 1 : 0);
 }
 
@@ -462,9 +462,9 @@ __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 __STATIC_FORCEINLINE void PIN_nRESET_OUT(uint32_t bit)
 {
     //(bit & 1) ? (nRESET_PIN_PORT->BSRR = nRESET_PIN) : (nRESET_PIN_PORT->BRR = nRESET_PIN);
-// #if defined(nRST_DIR_PIN_PORT)
-// 		nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
-// #endif	
+#if defined(nRST_DIR_PIN_PORT)
+		nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
+#endif	
     if (bit & 1) {
 		nRESET_PIN_PORT->BSRR = nRESET_PIN;
 	}

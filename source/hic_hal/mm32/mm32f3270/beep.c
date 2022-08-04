@@ -20,11 +20,13 @@
  */
 #define _BEEP_C_
 
+#include <string.h>
 #include "mm32_device.h"
 #include "hal_gpio.h"
 #include "hal_tim.h"
 #include "hal_rcc.h"
 #include "hal_gpio.h"
+#include "hal_adc.h"
 
 #include "IO_Config.h"
 #include "beep.h"
@@ -108,4 +110,53 @@ void Beep_Tick(void)
     }
 	else
 		BEEP_off();
+}
+
+/******************************************************************************/
+void initADC(void)
+{
+	GPIO_InitTypeDef GPIO_InitStructure;
+	
+	// enable clock to ports
+    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2ENR_ADC1, ENABLE);
+	
+	GPIO_InitStructure.GPIO_Pin 	= DET_TVDD_PIN;
+    GPIO_InitStructure.GPIO_Speed 	= GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode 	= GPIO_Mode_AIN;
+    GPIO_Init(DET_TVDD_PORT , &GPIO_InitStructure);
+	GPIO_InitStructure.GPIO_Pin 	= DET_TVCC_PIN;
+    GPIO_Init(DET_TVCC_PORT , &GPIO_InitStructure);
+	
+	ADC_InitTypeDef  ADC_InitStruct;
+    ADC_StructInit(&ADC_InitStruct);
+
+    ADC_InitStruct.ADC_Resolution	= ADC_Resolution_12b;
+    ADC_InitStruct.ADC_PRESCARE		= ADC_PCLK2_PRESCARE_16;                        //ADC prescale factor
+    ADC_InitStruct.ADC_Mode			= ADC_Mode_Continue;                                //ADC continue scan convert mode
+    ADC_InitStruct.ADC_DataAlign	= ADC_DataAlign_Right;                         //AD data right-justified
+    ADC_InitStruct.ADC_ExternalTrigConv = ADC_ExternalTrigConv_T1_CC1;
+    ADC_Init(ADC1, &ADC_InitStruct);
+	
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_2,  1, ADC_Samctl_240_5);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_3,  2, ADC_Samctl_240_5);
+    
+    ADC_Cmd(ADC1, ENABLE);
+}
+
+/******************************************************************************/
+void adcTick()
+{
+	uint16_t adctempValue[2];
+
+	if (ADC_GetFlagStatus(ADC1, ADC_IT_EOC)) {
+		adctempValue[0] = ADC1->CH2DR & 0xFFF;
+		adctempValue[1] = ADC1->CH3DR & 0xFFF;
+		adcValue[0] = (u16)((float)(adcValue[0] * 5 + adctempValue[0] * 5) / 10);
+		adcValue[1] = (u16)((float)(adcValue[1] * 5 + adctempValue[1] * 5) / 10);
+	}
+
+	targetVDD = 3300 * adcValue[0] / 0x0FFF * 3;
+	targetVCC = 3300 * adcValue[1] / 0x0FFF * 3;
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
 }

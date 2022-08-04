@@ -178,8 +178,10 @@ void gpio_init(void)
     GPIO_Init(POWER_5V_EN_PIN_PORT, &GPIO_InitStructure);
     GPIO_InitStructure.GPIO_Pin		= POWER_3V3_EN_PIN;
     GPIO_Init(POWER_3V3_EN_PIN_PORT, &GPIO_InitStructure);
-
+	
+	initADC();
     InitBeep();
+	
 	if(config_get_beep_en()){
 		beepEn = true;
 		BEEP_on();

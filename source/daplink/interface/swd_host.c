@@ -20,6 +20,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#define _SWD_HOST_C_
 
 #ifndef TARGET_MCU_CORTEX_A
 #include "device.h"
@@ -29,6 +30,7 @@
 #include "DAP.h"
 #include "target_family.h"
 #include "swd_host.h"
+#include "IO_Config.h"
 
 // Default NVIC and Core debug base addresses
 // TODO: Read these addresses from ROM.
@@ -113,11 +115,18 @@ void swd_set_soft_reset(uint32_t soft_reset_type)
 
 uint8_t swd_init(void)
 {
+    // static uint8_t s_first_run = 0;
     //TODO - DAP_Setup puts GPIO pins in a hi-z state which can
     //       cause problems on re-init.  This needs to be investigated
     //       and fixed.
     DAP_Setup();
     PORT_SWD_SETUP();
+
+    // if (s_first_run == 0){
+    //     s_first_run = 1;
+    //     nRESET_PIN_PORT->BSRR = nRESET_PIN;
+    // }
+
     return 1;
 }
 
@@ -795,7 +804,7 @@ uint8_t JTAG2SWD()
     if (!swd_read_idcode(&tmp)) {
         return 0;
     }
-
+	
     return 1;
 }
 
@@ -1042,6 +1051,7 @@ uint8_t swd_set_target_state_sw(target_state_t state)
 
     switch (state) {
         case RESET_HOLD:
+            //swd_init(); //chendo0728
             swd_set_target_reset(1);
             break;
 

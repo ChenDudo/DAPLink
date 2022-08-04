@@ -46,6 +46,18 @@ typedef enum {
     FLASHALGO_RETURN_POINTER
 } flash_algo_return_t;
 
+
+#ifdef _SWD_HOST_C_
+#define GLOBAL
+#else
+#define GLOBAL extern
+#endif
+
+GLOBAL uint32_t IDCODE;
+
+#undef GLOBAL
+
+
 uint8_t swd_init(void);
 uint8_t swd_off(void);
 uint8_t swd_init_debug(void);

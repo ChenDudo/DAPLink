@@ -150,6 +150,8 @@ void swd_set_target_reset(uint8_t asserted);
 //! @brief Get the APSEL for the AHB-AP to use for controlling the target.
 uint32_t target_get_apsel(void);
 
+int8_t handleMCU(void);	//chendo new add 0804
+
 #ifdef __cplusplus
 }
 #endif

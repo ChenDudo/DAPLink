@@ -455,6 +455,8 @@ void main_task(void * arg)
                     break;
             }
 
+			handleMCU();
+
 			Power_Supply();
 			Beep_Tick();
 			
@@ -466,7 +468,7 @@ void main_task(void * arg)
 
         // 30mS tick used for flashing LED when USB is busy
         if (flags & FLAGS_MAIN_30MS) {
-
+			adcTick();
             handle_reset_button();
 
 #ifdef PBON_BUTTON
