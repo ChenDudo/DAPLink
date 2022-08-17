@@ -50,6 +50,7 @@ GLOBAL embeepMode beepMode;
 GLOBAL uint16_t	adcValue[2];
 GLOBAL float	targetVDD;
 GLOBAL float	targetVCC;
+GLOBAL uint16_t	targetCurrent;
 
 #undef GLOBAL
 

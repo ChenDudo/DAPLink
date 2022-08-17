@@ -177,6 +177,8 @@ __STATIC_INLINE void pin_in_init(GPIO_TypeDef *GPIOx, uint8_t pin_bit, uint8_t m
         config = 0x08; // Up
     else if (mode == 2)
         config = 0x08; // down
+	else if (mode == 3)
+        config = 0x01; // floating
     else
         config = 0x00; // GPIO_Mode_AIN
 
@@ -260,8 +262,8 @@ __STATIC_INLINE void PORT_SWD_SETUP(void)
     SWCLK_TCK_PIN_PORT->BRR = SWCLK_TCK_PIN;
 	pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
     
-    // Set SWDIO LOW
-    SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
+    // Set SWDIO HIGH
+    SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
     pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
     
     pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
@@ -448,7 +450,7 @@ __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 #if defined(nRST_DIR_PIN_PORT)
 	nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
 #endif
-    return ((nRESET_PIN_PORT->IDR & nRESET_PIN) ? 1 : 0);
+	return (nRESET_PIN_PORT->IDR & nRESET_PIN);
 }
 
 /** nRESET I/O pin: Set Output.
@@ -464,13 +466,12 @@ __STATIC_FORCEINLINE void PIN_nRESET_OUT(uint32_t bit)
     //(bit & 1) ? (nRESET_PIN_PORT->BSRR = nRESET_PIN) : (nRESET_PIN_PORT->BRR = nRESET_PIN);
 #if defined(nRST_DIR_PIN_PORT)
 		nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
-#endif	
-    if (bit & 1) {
+#endif
+	if (bit & 1) {
 		nRESET_PIN_PORT->BSRR = nRESET_PIN;
 	}
 	else {
 		nRESET_PIN_PORT->BRR = nRESET_PIN;
-		//swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
 	}
 }
 
@@ -568,7 +569,7 @@ __STATIC_INLINE void DAP_SETUP(void)
     GPIO_PinAFConfig(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, GPIO_AF_0);
     pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
     
-    SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
+    SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
     GPIO_PinAFConfig(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, GPIO_AF_0);
     pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
     
@@ -578,7 +579,12 @@ __STATIC_INLINE void DAP_SETUP(void)
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
     GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, GPIO_AF_0);
     pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
-    
+	
+#if defined(nRESET_IN_PIN_PORT)
+	GPIO_PinAFConfig(nRESET_IN_PIN_PORT, nRESET_IN_PIN_Bit, GPIO_AF_0);
+	pin_in_init(nRESET_IN_PIN_PORT, nRESET_IN_PIN_Bit, 3);
+#endif
+
 #if defined(SWDIO_DIR_PIN_PORT)
     SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
     GPIO_PinAFConfig(SWDIO_DIR_PIN_PORT, SWDIO_DIR_PIN_Bit, GPIO_AF_0);

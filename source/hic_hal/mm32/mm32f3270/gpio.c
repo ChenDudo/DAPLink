@@ -135,7 +135,7 @@ void gpio_init(void)
     GPIO_InitStructure.GPIO_Pin = SWCLK_TCK_PIN;
     GPIO_Init(SWCLK_TCK_PIN_PORT, &GPIO_InitStructure);
     GPIO_PinAFConfig(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, GPIO_AF_0);
-    SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
+    SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
     GPIO_InitStructure.GPIO_Pin = SWDIO_OUT_PIN;
     GPIO_Init(SWDIO_OUT_PIN_PORT, &GPIO_InitStructure);
 #if defined(SWDIO_DIR_PIN_PORT)
