@@ -29,6 +29,7 @@
 #include "hal_gpio.h"
 #include "IO_Config.h"
 #include "beep.h"
+#include "gpio.h"
 
 // static void target_before_init_debug(void)
 // {
@@ -98,74 +99,6 @@ const target_family_descriptor_t g_target_family_mm32 = {
 
 const target_family_descriptor_t *g_target_family = &g_target_family_mm32;
 
-/******************************************************************************/
-int8_t swd_init_debug_mm32(void)
-{
-	uint32_t tmp;
-    uint8_t i, retries = 3, timeout = 10;
-	int8_t do_abort = 0;
-    
-    do {
-        if (do_abort) {
-            swd_write_dp(DP_ABORT, DAPABORT);
-            PIN_nRESET_OUT(0); osDelay(2);
-            do_abort = 0;
-        }
-        swd_init();
-		
-        /* call a target dependant function this function can do several stuff before really initing the debug */
-		//target_before_init_debug();
-
-        if (!JTAG2SWD()) {
-            do_abort = 1;
-            continue;
-        }
-        if (!swd_clear_errors()) {
-            do_abort = 1;
-            continue;
-        }
-        if (!swd_write_dp(DP_SELECT, 0)) {
-            do_abort = 1;
-            continue;
-        }
-        // Power up
-        if (!swd_write_dp(DP_CTRL_STAT, CSYSPWRUPREQ | CDBGPWRUPREQ)) {
-            do_abort = 1;
-            continue;
-        }
-        for (i = 0; i < timeout; i++) {
-            if (!swd_read_dp(DP_CTRL_STAT, &tmp)) {
-                do_abort = 1;
-                break;
-            }
-            if ((tmp & (CDBGPWRUPACK | CSYSPWRUPACK)) == (CDBGPWRUPACK | CSYSPWRUPACK)) {
-                // Break from loop if powerup is complete
-                break;
-            }
-        }
-        if ((i == timeout) || (do_abort == 1)) {
-            // Unable to powerup DP
-            do_abort = 1;
-            continue;
-        }
-        if (!swd_write_dp(DP_CTRL_STAT, CSYSPWRUPREQ | CDBGPWRUPREQ | TRNNORMAL | MASKLANE)) {
-            do_abort = 1;
-            continue;
-        }
-
-        /* call a target dependant function: some target can enter in a lock state this function can unlock these targets */
-        //target_unlock_sequence();
-		
-        if (!swd_write_dp(DP_SELECT, 0)) {
-            do_abort = 1;
-            continue;
-        }
-        return 1;
-    } while (--retries > 0);
-
-    return 0;
-}
-
 #define NVIC_Addr    (0xe000e000)
 #define DBG_Addr     (0xe000edf0)
 
@@ -177,37 +110,116 @@ int8_t swd_init_debug_mm32(void)
 #define DHCSR 0xE000EDF0
 #define REGWnR (1 << 16)
 
-int8_t swd_halt_mm32(void)
+/******************************************************************************/
+uint8_t read_mcu_Halt(void)
 {
-	uint32_t val;
-    uint8_t ap_retries = 5;
-
-    // Enable debug
-    while (swd_write_word(DBG_HCSR, DBGKEY | C_DEBUGEN) == 0) {
-        if (--ap_retries <= 0)
-            return 0;
-        // Target is in invalid state?
-        //PIN_nRESET_OUT(0); osDelay(2);
-        //PIN_nRESET_OUT(1); osDelay(2);
-    }
-
-    // Enable halt on reset
-    if (!swd_write_word(DBG_EMCR, VC_CORERESET)) {
-        return 0;
-    }
+	uint32_t tmp;
+	uint8_t retry = 5;
 	
-    do {
-        if (!swd_read_word(DBG_HCSR, &val)) {
-            return 0;
-        }
-    } while ((val & S_HALT) == 0);
+	do {
+		if (!swd_read_word(DBG_HCSR, &tmp)) {
+			continue;
+		};
+		if ((tmp & S_HALT) == 0){
+			continue;
+		};
+		return 1;
+	} while(--retry);
+	return 0;
+}
 
-    // Disable halt on reset
-    if (!swd_write_word(DBG_EMCR, 0)){
-        return 0;
-    }
+/*
+if (do_abort != 0) {
+	//do an abort on stale target, then reset the device
+	swd_write_dp(DP_ABORT, DAPABORT);
+	PIN_nRESET_OUT(0); osDelay(20);
+	PIN_nRESET_OUT(1); osDelay(20);
+	do_abort = 0;
+}
+*/
+/******************************************************************************/
+int8_t swd_init_debug_mm32(void)
+{
+	uint32_t tmp;
+	uint8_t retries = 100, times = 5;
+	//uint8_t specialFlag = 0;
 
-    return 1;
+	swd_init();
+
+	do{
+		// LINERESET + JTAG2SWD + read IDCODE
+		times = 20;
+		while (!JTAG2SWD() && --times) {
+			if (times == 10) {
+				//specialFlag = 1;
+				PIN_nRESET_OUT(0);
+			}
+		};
+		if (!JTAG2SWD() && (times == 0)) {
+			//specialFlag = 0;
+			PIN_nRESET_OUT(1);
+			//Power_Off();
+			//osDelay(20);
+			//Power_Supply();
+			return 2;
+		}
+
+		// W_DP_ABORT = 0x0000_001e
+		times = 5;
+		while (!swd_clear_errors() && --times) {
+			;
+		};
+
+		// W_DP_SELECT = 0x0000_0000; 		Ensure CTRL/STAT selected in DP_BANKSel, if yes pass.
+		times = 5;
+		while (!swd_write_dp(DP_SELECT, 0) && --times) {
+			;
+		};
+
+		// R_DP_CTRL/STAT ?= 0xA000_0000;	Read and Check Power Up ACK
+		times = 5;
+		while (!((tmp & (CDBGPWRUPACK | CSYSPWRUPACK)) == (CDBGPWRUPACK | CSYSPWRUPACK) && --times)) {
+			// W_DP_STRL/STAT = 0x5000_0000;	Power Up Debug & SYSTEM CLOCK
+			uint8_t itimes = 5;
+			while (!swd_write_dp(DP_CTRL_STAT, CSYSPWRUPREQ | CDBGPWRUPREQ) && --itimes){};
+			itimes = 5;
+			while (!swd_read_dp(DP_CTRL_STAT, &tmp) && --itimes) {};
+		};
+		
+		// W_DP_SELECT = 0x0000_00F0;		Select AP bank
+		times = 5;
+		while (!swd_write_dp(DP_SELECT, 0xF0) && --times) {
+			continue;
+		};
+
+		swd_read_ap(0xFC, &tmp); // M0 0x0477_0021; M3 0x24770011; L0133 0x0477_0031
+		swd_read_word(0x40007080, &tmp);
+
+		// 0xE000EDFC = 0x00000001;			Enable halt on reset
+		if (!swd_write_word(DBG_EMCR, VC_CORERESET)){
+			continue;
+		}
+
+		// 0xE000EDF0 = 0xA05F_0003;		Enable Debug and Halt the core
+		if (!swd_write_word(DBG_HCSR, DBGKEY | C_DEBUGEN | C_HALT)) {
+			continue;
+		}
+
+		// 0xE000EDF0 ?= 0x00020000;			Read CPU is/not halt
+		if (!swd_read_word(DBG_HCSR, &tmp)) {
+			continue;
+		};
+		if (!(tmp & S_HALT)) {
+			continue;
+		};
+
+		//    // Disable halt on reset
+		//    if (!swd_write_word(DBG_EMCR, 0)){
+		//
+		//    }
+	} while (--retries);
+
+	return 0;
 }
 
 /******************************************************************************/
@@ -226,17 +238,34 @@ int8_t handleMCU(void)
 {
 	static bool targetPower = false;
 	static bool firstInDetect = false;
+	bool firstRun = false;
 	
 	targetPower = (targetVDD > 2000) ? true : false;
-	firstInDetect = (targetPower & !firstInDetect) ? true : false;
+	firstRun = (targetPower & !firstInDetect) ? true : false;
+	if (targetVDD >= 3300){
+		targetCurrent = (uint16_t)((5000 - targetVDD) / 10);
+	}
+		
+	if (targetPower) {
+		if (!firstInDetect){
+			firstInDetect = true;
+		}
+	}
+	else {
+		firstInDetect = false;
+	}
 	
-	if (firstInDetect){
-        if (nRstDetect())
-            return -1;
-        if (!swd_init_debug_mm32())
-            return -2;
-        if (!swd_halt_mm32())
-            return -3;
+	
+	if (firstRun){
+		{beepMode = mode2; beepCount = 5;}
+		PIN_nRESET_OUT(0);
+		osDelay(20);
+		PIN_nRESET_OUT(1);
+        //if (!nRstDetect())
+        //    return -1;
+        //if (!swd_init_debug_mm32())
+        //    return -2;
+		
     }
 	return 0;
 }
