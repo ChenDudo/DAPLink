@@ -82,7 +82,17 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB088);
 #define SWDO_PIN_Bit            (11)
 #define SWDO_PIN                (1 << SWDO_PIN_Bit)
 
-// 7. LEDs
+// 7. TDI PC14
+#define TDI_PIN_PORT            GPIOC
+#define TDI_PIN_Bit             (14)
+#define TDI_PIN                 (1 << SWDO_PIN_Bit)
+
+// 8. nJTRST PB4
+#define nJTRST_PIN_PORT         GPIOB
+#define nJTRST_PIN_Bit          (4)
+#define nJTRST_PIN              (1 << SWDO_PIN_Bit)
+
+// 8. LEDs
 #define LED1_PORT               GPIOB
 #define LED1_PIN_Bit			(14)
 #define LED1_PIN                (1 << LED1_PIN_Bit)
@@ -145,6 +155,7 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB088);
 #define SWDO_PIN_PORT           GPIOB
 #define SWDO_PIN_Bit            (1)
 #define SWDO_PIN                (1 << SWDO_PIN_Bit)
+#define SWDO_AF                 GPIO_AF_8
 
 // 7. LEDs PA0 / PA1
 #define LED1_PORT               GPIOA

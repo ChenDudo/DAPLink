@@ -258,9 +258,9 @@ int8_t handleMCU(void)
 	
 	if (firstRun){
 		{beepMode = mode2; beepCount = 5;}
-		PIN_nRESET_OUT(0);
-		osDelay(20);
-		PIN_nRESET_OUT(1);
+		//PIN_nRESET_OUT(0);
+		//osDelay(20);
+		//PIN_nRESET_OUT(1);
         //if (!nRstDetect())
         //    return -1;
         //if (!swd_init_debug_mm32())

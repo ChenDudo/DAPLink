@@ -45,7 +45,7 @@ This information includes:
 
 /// Processor Clock of the Cortex-M MCU used in the Debug Unit.
 /// This value is used to calculate the SWD/JTAG clock speed.
-#define CPU_CLOCK SystemCoreClock ///< Specifies the CPU Clock in Hz
+#define CPU_CLOCK               SystemCoreClock     ///< Specifies the CPU Clock in Hz
 
 /// Number of processor cycles for I/O Port write operations.
 /// This value is used to calculate the SWD/JTAG clock speed that is generated with I/O
@@ -53,90 +53,90 @@ This information includes:
 /// require 2 processor cycles for a I/O Port Write operation.  If the Debug Unit uses
 /// a Cortex-M0+ processor with high-speed peripheral I/O only 1 processor cycle might be
 /// required.
-#define IO_PORT_WRITE_CYCLES 2U ///< I/O Cycles: 2=default, 1=Cortex-M0+ fast I/0
+#define IO_PORT_WRITE_CYCLES    2U                  ///< I/O Cycles: 2=default, 1=Cortex-M0+ fast I/0
 
 /// Indicate that Serial Wire Debug (SWD) communication mode is available at the Debug Access Port.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define DAP_SWD 1 ///< SWD Mode:  1 = available, 0 = not available
+#define DAP_SWD                 1                   ///< SWD Mode:  1 = available, 0 = not available
 
 /// Indicate that JTAG communication mode is available at the Debug Port.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define DAP_JTAG 0 ///< JTAG Mode: 1 = available, 0 = not available.
+#define DAP_JTAG                0                   ///< JTAG Mode: 1 = available, 0 = not available.
 
 /// Configure maximum number of JTAG devices on the scan chain connected to the Debug Access Port.
 /// This setting impacts the RAM requirements of the Debug Unit. Valid range is 1 .. 255.
-#define DAP_JTAG_DEV_CNT 0 ///< Maximum number of JTAG devices on scan chain
+#define DAP_JTAG_DEV_CNT        4                   ///< Maximum number of JTAG devices on scan chain
 
 /// Default communication mode on the Debug Access Port.
 /// Used for the command \ref DAP_Connect when Port Default mode is selected.
-#define DAP_DEFAULT_PORT 1 ///< Default JTAG/SWJ Port Mode: 1 = SWD, 2 = JTAG.
+#define DAP_DEFAULT_PORT        1                   ///< Default JTAG/SWJ Port Mode: 1 = SWD, 2 = JTAG.
 
 /// Default communication speed on the Debug Access Port for SWD and JTAG mode.
 /// Used to initialize the default SWD/JTAG clock frequency.
 /// The command \ref DAP_SWJ_Clock can be used to overwrite this default setting.
-#define DAP_DEFAULT_SWJ_CLOCK 1000000 ///< Default SWD/JTAG clock frequency in Hz.
+#define DAP_DEFAULT_SWJ_CLOCK   1000000             ///< Default SWD/JTAG clock frequency in Hz.
 
 /// Maximum Package Size for Command and Response data.
 /// This configuration settings is used to optimize the communication performance with the
 /// debugger and depends on the USB peripheral. Typical vales are 64 for Full-speed USB HID or WinUSB,
 /// 1024 for High-speed USB HID and 512 for High-speed USB WinUSB.
-#ifndef HID_ENDPOINT       // HID end points currently set limits to 64
-#define DAP_PACKET_SIZE 64 ///< Specifies Packet Size in bytes.
+#ifndef HID_ENDPOINT                                // HID end points currently set limits to 64
+#define DAP_PACKET_SIZE         64                  ///< Specifies Packet Size in bytes.
 #else
-#define DAP_PACKET_SIZE 64 ///< Specifies Packet Size in bytes.
+#define DAP_PACKET_SIZE         64                  ///< Specifies Packet Size in bytes.
 #endif
 
 /// Maximum Package Buffers for Command and Response data.
 /// This configuration settings is used to optimize the communication performance with the
 /// debugger and depends on the USB peripheral. For devices with limited RAM or USB buffer the
 /// setting can be reduced (valid range is 1 .. 255). Change setting to 4 for High-Speed USB.
-#define DAP_PACKET_COUNT 64U ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
+#define DAP_PACKET_COUNT        64U                 ///< Buffers: 64 = Full-Speed, 4 = High-Speed.
 
 /// Indicate that UART Serial Wire Output (SWO) trace is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define SWO_UART 0 ///< SWO UART:  1 = available, 0 = not available
+#define SWO_UART                0                   ///< SWO UART:  1 = available, 0 = not available
 
 /// USART Driver instance number for the UART SWO.
-#define SWO_UART_DRIVER 0 ///< USART Driver instance number (Driver_USART#).
+#define SWO_UART_DRIVER         0                   ///< USART Driver instance number (Driver_USART#).
 
 /// Maximum SWO UART Baudrate
-#define SWO_UART_MAX_BAUDRATE 10000000U ///< SWO UART Maximum Baudrate in Hz
+#define SWO_UART_MAX_BAUDRATE   10000000U           ///< SWO UART Maximum Baudrate in Hz
 
 /// Indicate that Manchester Serial Wire Output (SWO) trace is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define SWO_MANCHESTER 0 ///< SWO Manchester:  1 = available, 0 = not available.
+#define SWO_MANCHESTER          0                   ///< SWO Manchester:  1 = available, 0 = not available.
 
 /// SWO Trace Buffer Size.
-#define SWO_BUFFER_SIZE 4096U ///< SWO Trace Buffer Size in bytes (must be 2^n).
+#define SWO_BUFFER_SIZE         4096U               ///< SWO Trace Buffer Size in bytes (must be 2^n).
 
 /// SWO Streaming Trace.
-#define SWO_STREAM 0 ///< SWO Streaming Trace: 1 = available, 0 = not available.
+#define SWO_STREAM              0                   ///< SWO Streaming Trace: 1 = available, 0 = not available.
 
 /// Clock frequency of the Test Domain Timer. Timer value is returned with \ref TIMESTAMP_GET.
-#define TIMESTAMP_CLOCK 1000000U ///< Timestamp clock in Hz (0 = timestamps not supported).
+#define TIMESTAMP_CLOCK         1000000U            ///< Timestamp clock in Hz (0 = timestamps not supported).
 
 /// Indicate that UART Communication Port is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define DAP_UART 0 ///< DAP UART:  1 = available, 0 = not available.
+#define DAP_UART                0                   ///< DAP UART:  1 = available, 0 = not available.
 
 /// USART Driver instance number for the UART Communication Port.
-#define DAP_UART_DRIVER 1 ///< USART Driver instance number (Driver_USART#).
+#define DAP_UART_DRIVER         1                   ///< USART Driver instance number (Driver_USART#).
 
 /// UART Receive Buffer Size.
-#define DAP_UART_RX_BUFFER_SIZE 1024U ///< Uart Receive Buffer Size in bytes (must be 2^n).
+#define DAP_UART_RX_BUFFER_SIZE 1024U               ///< Uart Receive Buffer Size in bytes (must be 2^n).
 
 /// UART Transmit Buffer Size.
-#define DAP_UART_TX_BUFFER_SIZE 1024U ///< Uart Transmit Buffer Size in bytes (must be 2^n).
+#define DAP_UART_TX_BUFFER_SIZE 1024U               ///< Uart Transmit Buffer Size in bytes (must be 2^n).
 
 /// Indicate that UART Communication via USB COM Port is available.
 /// This information is returned by the command \ref DAP_Info as part of <b>Capabilities</b>.
-#define DAP_UART_USB_COM_PORT 1 ///< USB COM Port:  1 = available, 0 = not available.
+#define DAP_UART_USB_COM_PORT   1                   ///< USB COM Port:  1 = available, 0 = not available.
 
 /// Debug Unit is connected to fixed Target Device.
 /// The Debug Unit may be part of an evaluation board and always connected to a fixed
 /// known device. In this case a Device Vendor, Device Name, Board Vendor and Board Name strings
 /// are stored and may be used by the debugger or IDE to configure device parameters.
-#define TARGET_FIXED 0 ///< Target: 1 = known, 0 = unknown;
+#define TARGET_FIXED            0                   ///< Target: 1 = known, 0 = unknown;
 
 ///@}
 
@@ -247,7 +247,23 @@ Configures the DAP Hardware I/O pins for JTAG mode:
 __STATIC_INLINE void PORT_JTAG_SETUP(void)
 {
 #if (DAP_JTAG != 0)
+    // Set TCK, TMS, TDI GPIO outputs.
+    // Set TCK LOW
+    SWCLK_TCK_PIN_PORT->BRR = SWCLK_TCK_PIN;
+	pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
+    
+    // Set TMS HIGH
+    SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
+    pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
 
+    // Set TDI High
+#if defined(TDI_PIN_PORT)	
+    TDI_PIN_PORT->BSRR = TDI_PIN;
+	pin_out_init(TDI_PIN_PORT, TDI_PIN_Bit);
+#endif
+
+    // Switch TDO_SWO to GPIO input (TDO).
+    pin_in_init(SWDO_PIN_PORT, SWDO_PIN_Bit, 1);
 #endif
 }
 
@@ -271,6 +287,9 @@ __STATIC_INLINE void PORT_SWD_SETUP(void)
     // Set RESET HIGH
     pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
 	nRESET_PIN_PORT->BSRR = nRESET_PIN;
+
+    // Switch TDO_SWO to GPIO input (SWO).
+    pin_in_init(SWDO_PIN_PORT, SWDO_PIN_Bit, 1);
 }
 
 /** Disable JTAG/SWD I/O Pins.
@@ -399,7 +418,11 @@ __STATIC_FORCEINLINE void PIN_SWDIO_OUT_DISABLE(void)
 */
 __STATIC_FORCEINLINE uint32_t PIN_TDI_IN(void)
 {
+#if defined(TDI_PIN_PORT)
+    return (TDI_PIN_PORT->IDR & TDI_PIN);
+#else
     return (0); // Not available
+#endif
 }
 
 /** TDI I/O pin: Set Output.
@@ -407,7 +430,12 @@ __STATIC_FORCEINLINE uint32_t PIN_TDI_IN(void)
 */
 __STATIC_FORCEINLINE void PIN_TDI_OUT(uint32_t bit)
 {
-    ; // Not available
+#if defined(TDI_PIN_PORT)
+    if (bit & 1)
+        TDI_PIN_PORT->BSRR = TDI_PIN;
+    else
+        TDI_PIN_PORT->BRR = TDI_PIN;
+#endif
 }
 
 // TDO Pin I/O ---------------------------------------------
@@ -417,7 +445,7 @@ __STATIC_FORCEINLINE void PIN_TDI_OUT(uint32_t bit)
 */
 __STATIC_FORCEINLINE uint32_t PIN_TDO_IN(void)
 {
-    return (0); // Not available
+    return (SWDO_PIN_PORT->IDR & SWDO_PIN);
 }
 
 // nTRST Pin I/O -------------------------------------------
@@ -427,7 +455,11 @@ __STATIC_FORCEINLINE uint32_t PIN_TDO_IN(void)
 */
 __STATIC_FORCEINLINE uint32_t PIN_nTRST_IN(void)
 {
+#if defined(nJTRST_PIN_PORT)
+    return (nJTRST_PIN_PORT->IDR & nJTRST_PIN);
+#else
     return (0); // Not available
+#endif
 }
 
 /** nTRST I/O pin: Set Output.
@@ -437,7 +469,12 @@ __STATIC_FORCEINLINE uint32_t PIN_nTRST_IN(void)
 */
 __STATIC_FORCEINLINE void PIN_nTRST_OUT(uint32_t bit)
 {
-    ; // Not available
+#if defined(nJTRST_PIN_PORT)
+    if (bit & 1)
+        nJTRST_PIN_PORT->BSRR = nJTRST_PIN;
+    else
+        nJTRST_PIN_PORT->BRR = nJTRST_PIN;    
+#endif
 }
 
 // nRESET Pin I/O------------------------------------------
@@ -569,6 +606,7 @@ __STATIC_INLINE void DAP_SETUP(void)
     GPIO_PinAFConfig(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, GPIO_AF_0);
     pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
     
+    /* Configure I/O pin SWDIO */
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
     GPIO_PinAFConfig(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, GPIO_AF_0);
     pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
@@ -576,10 +614,15 @@ __STATIC_INLINE void DAP_SETUP(void)
     GPIO_PinAFConfig(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, GPIO_AF_0);
     pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
 
+    /* Configure I/O pin nReset */
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
     GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, GPIO_AF_0);
     pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
 	
+    /* Configure I/O pin SWO */
+    GPIO_PinAFConfig(SWDO_PIN_PORT, SWDO_PIN_Bit, GPIO_AF_0);
+    pin_in_init(SWDO_PIN_PORT, SWDO_PIN_Bit, 1);
+
 #if defined(nRESET_IN_PIN_PORT)
 	GPIO_PinAFConfig(nRESET_IN_PIN_PORT, nRESET_IN_PIN_Bit, GPIO_AF_0);
 	pin_in_init(nRESET_IN_PIN_PORT, nRESET_IN_PIN_Bit, 3);

@@ -601,9 +601,12 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
 #endif
         // Supported USB endpoints
         "USB Interfaces: "
+#ifdef WINUSB_INTERFACE
+        "WinUSB"
+#endif
 #ifdef MSC_ENDPOINT
         "MSD"
-#endif
+#endif	
 #ifdef CDC_ENDPOINT
         ", CDC"
 #endif

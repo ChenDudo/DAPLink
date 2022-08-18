@@ -52,7 +52,7 @@
           <OutputName>mm32link_mini_hid_if</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>1</CreateHexFile>
+          <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\build\</ListingPath>
@@ -340,7 +340,7 @@
               <MiscControls> --gnu --asm --interleave -g</MiscControls>
               <Define>OS_TICK_FREQ=100, INTERFACE_MM32F3270, MM32F3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MINI, HSE_FREQ=12000000, DAPLINK_HIC_ID=0x4D4D3270, DAPLINK_VERSION=220729, MSC_ENDPOINT, CDC_ENDPOINT, HID_ENDPOINT, DRAG_N_DROP_SUPPORT, DAPLINK_IF, DAPLINK_BUILD_KEY=0x9B939E8F, HID_LED_DEF=GPIO_LED_ON, CDC_LED_DEF=GPIO_LED_ON, MSC_LED_DEF=GPIO_LED_ON, USE_LEGACY_CMSIS_RTOS, OS_TICK=10000</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc; ..\..\..\source\usb; ..\..\..\source\daplink\cmsis-dap; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\usb2uart; ..\..\..\source\daplink\settings; ..\..\..\source\daplink; ..\..\..\source\daplink\interface; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\target; ..\..\..\source\rtos</IncludePath>
+              <IncludePath>..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc; ..\..\..\source\usb; ..\..\..\source\daplink\cmsis-dap; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\usb2uart; ..\..\..\source\daplink\settings; ..\..\..\source\daplink; ..\..\..\source\daplink\interface; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\hic_hal\cmsis-driver; ..\..\..\source\target; ..\..\..\source\rtos</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -733,6 +733,16 @@
               <FileName>device.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\source\hic_hal\device.h</FilePath>
+            </File>
+            <File>
+              <FileName>Driver_Common.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\hic_hal\cmsis-driver\Driver_Common.h</FilePath>
+            </File>
+            <File>
+              <FileName>Driver_USART.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\hic_hal\cmsis-driver\Driver_USART.h</FilePath>
             </File>
             <File>
               <FileName>dtype.h</FileName>
@@ -1280,6 +1290,11 @@
               <FilePath>..\..\..\source\hic_hal\uart.h</FilePath>
             </File>
             <File>
+              <FileName>USART_mm32f3270.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\source\hic_hal\mm32\mm32f3270\USART_mm32f3270.h</FilePath>
+            </File>
+            <File>
               <FileName>usb.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\..\..\source\usb\usb.h</FilePath>
@@ -1688,6 +1703,11 @@
               <FileName>uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\..\source\hic_hal\mm32\mm32f3270\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>USART_mm32f3270.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\source\hic_hal\mm32\mm32f3270\USART_mm32f3270.c</FilePath>
             </File>
             <File>
               <FileName>usb_config.c</FileName>
