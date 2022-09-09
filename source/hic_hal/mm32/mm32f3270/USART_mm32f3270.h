@@ -89,6 +89,9 @@ typedef const struct _USART_DMA {
 typedef const struct _USART_PIN {
   GPIO_TypeDef         *port;           // Port
   uint16_t              pin;            // Pin
+  uint16_t              af;             // Alternate function
+  uint16_t              af_bit;         //pupd;           // Pull up/down
+  uint16_t              speed;          // Speed
 } USART_PIN;
 
 // USART Input/Output Configuration
@@ -98,15 +101,13 @@ typedef const struct _USART_IO {
   USART_PIN            *ck;             // CLK Pin identifier
   USART_PIN            *rts;            // RTS Pin identifier
   USART_PIN            *cts;            // CTS Pin identifier
-  //AFIO_REMAP            afio_def;       // Default pin remapping setting
-  //AFIO_REMAP            afio;           // Pin remapping information
 } USART_IO;
 
 // USART Resources definition
 typedef const struct {
   ARM_USART_CAPABILITIES  capabilities;        // Capabilities
   UART_TypeDef            *reg;                 // USART peripheral pointer
-  uint32_t                pclk;                // Peripheral clock frequency
+  uint32_t                (*periph_clock)(void);                // Peripheral clock frequency
   USART_IO                io;                  // USART Input/Output pins
   IRQn_Type               irq_num;             // USART IRQ Number
   USART_DMA               *dma_tx;             // Transmit stream register interface
