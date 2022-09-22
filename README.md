@@ -1,7 +1,20 @@
 # MM32-LINK Series
 ## Release Note
 ----------
-# **Version: 220729**
+# **Revision: 220930**
+- New add Target Voltage/Current Detect: 
+  - `targetVDD`: Supply Voltage
+  - `targetVCC`: Target ref
+  - `targetCurrent`: Supply current
+- New add `MM32_V2 CMSIS-DAP` Debugger
+  - supported WinUSB Protocol (Win7 need driver)
+  - Faster than `MM32_V1` via HID
+- Fix up MINI/MAX Upgrade Firmware Package mixed bugs: 
+  - Add MINI/MAX's ID division:
+    - MINI keep remain `DAPLINK_HIC_ID=0x4D4D3270`
+    - new MAX must change to `DAPLINK_HIC_ID=0x4D4D0059`
+----------
+# **Revision: 220729**
 - New Serial Num (Unique ID) Format:
   ```
   Unique_ID[19] = Board_ID[3] + chip_UID[16]
@@ -20,7 +33,7 @@
 - Fix MM32F0020 debug exception
   - SWCLK Idle state Defalut = Low 
 
-# **Version: 220715**
+# **Revision: 220715**
 
 - Import **MM32-LINK MINI** project
   - added `SWDIO` Dir Control
