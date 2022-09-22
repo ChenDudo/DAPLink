@@ -37,7 +37,7 @@
 #include "error.h"
 
 // Set to 1 to enable debugging
-#define DEBUG_VFS_MANAGER     1
+#define DEBUG_VFS_MANAGER     0
 
 #if DEBUG_VFS_MANAGER
 #define vfs_mngr_printf    debug_msg
