@@ -48,14 +48,13 @@ static uint8_t return_dap_string(char *dst, const char *src)
 */
 __STATIC_INLINE uint8_t DAP_GetVendorString (char *str) {
 // #if defined(CMSIS_DAP_VENDOR_NAME)
-//    return return_dap_string(str, CMSIS_DAP_VENDOR_NAME);
+//     return return_dap_string(str, CMSIS_DAP_VENDOR_NAME);
 // #else
-//    (void)str;
-//    return (0U);
+//     (void)str;
+//     return (0U);
 // #endif
-// chendo0718 change
-   (void)str;
-   return (0U);
+    memcpy((unsigned char*)str, "MindMotion", sizeof("MindMotion"));
+	return sizeof("MindMotion");
 }
 
 /** Get Product Name string.
@@ -63,10 +62,23 @@ __STATIC_INLINE uint8_t DAP_GetVendorString (char *str) {
 \return String length (including terminating NULL character) or 0 (no string).
 */
 __STATIC_INLINE uint8_t DAP_GetProductString (char *str) {
-//   return return_dap_string(str, CMSIS_DAP_PRODUCT_NAME);
-// chendo0718 change
-   (void)str;
-   return (0U);
+// return return_dap_string (str, CMSIS_DAP_PRODUCT_NAME);
+//    (void)str;
+//    return (0U);
+#if 0
+#if WINUSB_INTERFACE
+    memcpy((unsigned char*)str, "MM32_V2 CMSIS-DAP", sizeof("MM32_V2 CMSIS-DAP"));
+	return sizeof("MM32_V2 CMSIS-DAP");
+#else
+    memcpy((unsigned char*)str, "MM32_V1 CMSIS-DAP", sizeof("MM32_V1 CMSIS-DAP"));
+	return sizeof("MM32_V1 CMSIS-DAP");
+#endif
+#else
+//    memcpy((unsigned char*)str, "MM32-LINK CMSIS-DAP", sizeof("MM32-LINK CMSIS-DAP"));
+//	return sizeof("MM32-LINK CMSIS-DAP");
+    (void)str;
+    return (0U);    
+#endif
 }
 
 /** Get Serial Number string.

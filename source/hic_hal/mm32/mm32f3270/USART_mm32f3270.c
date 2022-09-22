@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 #define _USART_MM32F3270_C_
-
+#if 0
 #include <string.h>
 #include "mm32_device.h"
 #include "hal_gpio.h"
@@ -400,3 +400,4 @@ ARM_DRIVER_USART Driver_USART0 = {
     ARM_USART_SetModemControl,
     ARM_USART_GetModemStatus
 };
+#endif

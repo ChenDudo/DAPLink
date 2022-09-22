@@ -601,9 +601,6 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
 #endif
         // Supported USB endpoints
         "USB Interfaces: "
-#ifdef WINUSB_INTERFACE
-        "WinUSB"
-#endif
 #ifdef MSC_ENDPOINT
         "MSD"
 #endif	
@@ -613,6 +610,9 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
 #ifdef HID_ENDPOINT
         ", HID"
 #endif
+#ifdef WINUSB_INTERFACE
+        ", WinUSB"
+#endif        
 #if (WEBUSB_INTERFACE)
         ", WebUSB"
 #endif

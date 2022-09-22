@@ -32,7 +32,7 @@
 //     <i> Enable high-speed functionality (if device supports it)
 #define USBD_HS_ENABLE              0
 #if (defined(WEBUSB_INTERFACE) || defined(WINUSB_INTERFACE) || defined(BULK_ENDPOINT))
-#define USBD_BOS_ENABLE             0
+#define USBD_BOS_ENABLE             1       // 0
 #else
 #define USBD_BOS_ENABLE             0
 #endif
@@ -54,9 +54,13 @@
 //   </h>
 #define USBD_POWER                  0
 #define USBD_MAX_PACKET0            64
+#define USBD_DEVDESC_IDPRODUCT      0x0002
 #define USBD_DEVDESC_IDVENDOR       0x2F81
-#define USBD_DEVDESC_IDPRODUCT      0x0204
-#define USBD_DEVDESC_BCDDEVICE      0x0001
+#define USBD_DEVDESC_BCDDEVICE      0x0200
+
+//#define USBD_DEVDESC_IDPRODUCT      0x0204
+//#define USBD_DEVDESC_IDVENDOR       0x0D28  //0x2F81
+//#define USBD_DEVDESC_BCDDEVICE      0x1000  //0x0001
 
 //   <h> Configuration Settings
 //     <i> These settings affect Configuration Descriptor
@@ -69,7 +73,7 @@
 //   </h>
 #define USBD_CFGDESC_BMATTRIBUTES   0x80
 #if !defined(BOARD_USB_BMAXPOWER)
-#define USBD_CFGDESC_BMAXPOWER      0x64
+#define USBD_CFGDESC_BMAXPOWER      0xFA
 #else
 #define USBD_CFGDESC_BMAXPOWER      BOARD_USB_BMAXPOWER
 #endif
@@ -166,13 +170,9 @@
 #endif
 
 #define USBD_HID_ENABLE             HID_ENDPOINT
-#ifndef BULK_ENDPOINT               //check if bulk endpoint is not enabled
 #define USBD_HID_EP_INTIN           1
 #define USBD_HID_EP_INTOUT          1
-#else                               //if bulk endpoint is enabled remove interrupt endpoints from the hid
-#define USBD_HID_EP_INTIN           0
-#define USBD_HID_EP_INTOUT          0
-#endif
+
 #define USBD_HID_EP_INTIN_STACK     0
 #define USBD_HID_WMAXPACKETSIZE     64
 #define USBD_HID_BINTERVAL          1
@@ -403,8 +403,8 @@
 #define BULK_ENDPOINT 1
 #endif
 #define USBD_BULK_ENABLE             BULK_ENDPOINT
-#define USBD_BULK_EP_BULKIN          1 // fixme: both bulk and hid ep cannot be both enabled in a single build
-#define USBD_BULK_EP_BULKOUT         1
+#define USBD_BULK_EP_BULKIN          5      //1 // fixme: both bulk and hid ep cannot be both enabled in a single build
+#define USBD_BULK_EP_BULKOUT         5      //1
 #define USBD_BULK_EP_BULKIN_SWO      6
 #define USBD_BULK_WMAXPACKETSIZE     64
 #define USBD_BULK_HS_ENABLE          0
@@ -417,7 +417,7 @@
 #define USBD_IF_NUM_MAX             (USBD_BULK_ENABLE+USBD_WEBUSB_ENABLE+USBD_HID_ENABLE+USBD_MSC_ENABLE+(USBD_ADC_ENABLE*2)+(USBD_CDC_ACM_ENABLE*2)+USBD_CLS_ENABLE)
 #define USBD_MULTI_IF               (USBD_CDC_ACM_ENABLE*(USBD_HID_ENABLE|USBD_MSC_ENABLE|USBD_ADC_ENABLE|USBD_CLS_ENABLE|USBD_WEBUSB_ENABLE|USBD_BULK_ENABLE))
 // #define MAX(x, y)                   (((x) < (y)) ? (y) : (x))
-#define USBD_EP_NUM_CALC0           MAX((USBD_HID_ENABLE    *(USBD_HID_EP_INTIN     )), (USBD_HID_ENABLE    *(USBD_HID_EP_INTOUT)))
+#define USBD_EP_NUM_CALC0           MAX((USBD_HID_ENABLE    *(USBD_HID_EP_INTIN     )), (USBD_HID_ENABLE    *(USBD_HID_EP_INTOUT!=0)*(USBD_HID_EP_INTOUT)))
 #define USBD_EP_NUM_CALC1           MAX((USBD_MSC_ENABLE    *(USBD_MSC_EP_BULKIN    )), (USBD_MSC_ENABLE    *(USBD_MSC_EP_BULKOUT)))
 #define USBD_EP_NUM_CALC2           MAX((USBD_ADC_ENABLE    *(USBD_ADC_EP_ISOOUT    )), (USBD_CDC_ACM_ENABLE*(USBD_CDC_ACM_EP_INTIN)))
 #define USBD_EP_NUM_CALC3           MAX((USBD_CDC_ACM_ENABLE*(USBD_CDC_ACM_EP_BULKIN)), (USBD_CDC_ACM_ENABLE*(USBD_CDC_ACM_EP_BULKOUT)))
