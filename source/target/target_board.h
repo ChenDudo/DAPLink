@@ -57,8 +57,7 @@ enum _board_info_flags {
 typedef struct board_info {
     uint16_t info_version;              /*!< Version number of the board info */
     uint16_t family_id;                 /*!< Use to select or identify target family from defined target family or custom ones */
-    //char board_id[5];                   /*!< 4-char board ID plus null terminator */
-	char board_id[4];
+    char board_id[4];                   /*!< 3-char board ID plus null terminator */ //old is [5]
     uint8_t _padding[3];
     uint32_t flags;                     /*!< Flags from #_board_info_flags */
     target_cfg_t *target_cfg;           /*!< Specific chip configuration for the target and enables MSD when non-NULL */
@@ -67,7 +66,7 @@ typedef struct board_info {
     //@{
     vfs_filename_t daplink_url_name;    /*!< Customize the URL file name */
     vfs_filename_t daplink_drive_name;  /*!< Customize the MSD DAPLink drive name */
-    char daplink_target_url[64];        /*!< Customize the target url in DETAILS.TXT */
+    char daplink_target_url[128];        /*!< Customize the target url in DETAILS.TXT */
     //@}
 
     //! @name Board initialization customization
@@ -106,29 +105,17 @@ uint16_t get_family_id(void);
 uint8_t flash_algo_valid(void);
 
 //! @brief Returns the MSD HTML help filename or a default.
-static inline const char * get_daplink_url_name ( void ) {
-    return "MM32LINKHTM";
-//return ((g_board_info.daplink_url_name[0] != 0) ? g_board_info.daplink_url_name : "MBED    HTM"); 
+static inline const char * get_daplink_url_name ( void ) { return ((g_board_info.daplink_url_name[0] != 0) ? g_board_info.daplink_url_name : "MM32LINKHTM"); 
 }
 
 //! @brief Returns the MSD volume name or a default.
 static inline const char * get_daplink_drive_name ( void ) { 
-#if defined(DAPLINK_BL) 
-    return "BOOTLOADER";
-#elif defined(MM32LINK_MAX)   
-    return "MM32-LINK A";
-#elif defined(MM32LINK_MINI)
-    return "MM32-LINK I";
-#else
-    return "MM32-LINK";
-#endif
-//return ((g_board_info.daplink_drive_name[0] != 0) ? g_board_info.daplink_drive_name : "MM32-LINK  "); 
+    return ((g_board_info.daplink_drive_name[0] != 0) ? g_board_info.daplink_drive_name : "MM32-LINK  "); 
 }
 
 //! @brief Returns the target information URL or a default.
 static inline const char * get_daplink_target_url ( void ) {
-    return "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/mm32_link_mini";
-//return ((g_board_info.daplink_target_url[0] != 0) ? g_board_info.daplink_target_url : "https://mbed.org/device/?code=@U?version=@V?target_id=@T"); 
+    return ((g_board_info.daplink_target_url[0] != 0) ? g_board_info.daplink_target_url : "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/mm32_link_mini"); 
 }
 
 #ifdef __cplusplus

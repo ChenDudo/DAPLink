@@ -53,7 +53,6 @@ typedef enum {
 #define GLOBAL extern
 #endif
 
-GLOBAL uint32_t IDCODE;
 
 #undef GLOBAL
 

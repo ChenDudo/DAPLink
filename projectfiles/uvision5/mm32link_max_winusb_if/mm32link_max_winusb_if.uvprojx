@@ -358,7 +358,7 @@
 						<useXO>0</useXO>
 						<VariousControls>
 							<MiscControls> --gnu --asm --interleave -g</MiscControls>
-							<Define>DAPLINK_VERSION=220729, MSC_ENDPOINT, CDC_ENDPOINT, WEBUSB_INTERFACE, HID_ENDPOINT, BULK_ENDPOINT, WINUSB_INTERFACE, DRAG_N_DROP_SUPPORT, DAPLINK_IF, DAPLINK_BUILD_KEY=0x9B939E8F, OS_TICK_FREQ=100, INTERFACE_MM32F3270, MM32F3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MAX, HSE_FREQ=8000000, DAPLINK_HIC_ID=0x4D4D0059, HID_LED_DEF=GPIO_LED_ON, CDC_LED_DEF=GPIO_LED_ON, MSC_LED_DEF=GPIO_LED_ON, USE_LEGACY_CMSIS_RTOS, OS_TICK=10000</Define>
+							<Define>DAPLINK_VERSION=220930, MSC_ENDPOINT, CDC_ENDPOINT, WEBUSB_INTERFACE, HID_ENDPOINT, BULK_ENDPOINT, WINUSB_INTERFACE, DRAG_N_DROP_SUPPORT, DAPLINK_IF, DAPLINK_BUILD_KEY=0x9B939E8F, OS_TICK_FREQ=100, INTERFACE_MM32F3270, MM32F3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MAX, HSE_FREQ=8000000, DAPLINK_HIC_ID=0x4D4D0059, HID_LED_DEF=GPIO_LED_ON, CDC_LED_DEF=GPIO_LED_ON, MSC_LED_DEF=GPIO_LED_ON, USE_LEGACY_CMSIS_RTOS, OS_TICK=10000</Define>
 							<Undefine></Undefine>
 							<IncludePath>..\..\..\source\usb; ..\..\..\source\daplink\cmsis-dap; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\usb2uart; ..\..\..\source\daplink\settings; ..\..\..\source\daplink; ..\..\..\source\daplink\interface; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\hic_hal\cmsis-driver; ..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc; ..\..\..\source\target; ..\..\..\source\rtos</IncludePath>
 						</VariousControls>
@@ -374,7 +374,7 @@
 						<uSurpInc>0</uSurpInc>
 						<useXO>0</useXO>
 						<VariousControls>
-							<MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220729,-DMSC_ENDPOINT,-DCDC_ENDPOINT,-DWEBUSB_INTERFACE,-DHID_ENDPOINT,-DBULK_ENDPOINT,-DWINUSB_INTERFACE,-DDRAG_N_DROP_SUPPORT,-DDAPLINK_IF,-DDAPLINK_BUILD_KEY=0x9B939E8F,-DOS_TICK_FREQ=100,-DINTERFACE_MM32F3270,-DMM32F3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DMM32LINK_MAX,-DHSE_FREQ=8000000,-DDAPLINK_HIC_ID=0x4D4D0059,-DHID_LED_DEF=GPIO_LED_ON,-DCDC_LED_DEF=GPIO_LED_ON,-DMSC_LED_DEF=GPIO_LED_ON,-DUSE_LEGACY_CMSIS_RTOS,-DOS_TICK=10000 -g</MiscControls>
+							<MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220930,-DMSC_ENDPOINT,-DCDC_ENDPOINT,-DWEBUSB_INTERFACE,-DHID_ENDPOINT,-DBULK_ENDPOINT,-DWINUSB_INTERFACE,-DDRAG_N_DROP_SUPPORT,-DDAPLINK_IF,-DDAPLINK_BUILD_KEY=0x9B939E8F,-DOS_TICK_FREQ=100,-DINTERFACE_MM32F3270,-DMM32F3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DMM32LINK_MAX,-DHSE_FREQ=8000000,-DDAPLINK_HIC_ID=0x4D4D0059,-DHID_LED_DEF=GPIO_LED_ON,-DCDC_LED_DEF=GPIO_LED_ON,-DMSC_LED_DEF=GPIO_LED_ON,-DUSE_LEGACY_CMSIS_RTOS,-DOS_TICK=10000 -g</MiscControls>
 							<Define></Define>
 							<Undefine></Undefine>
 							<IncludePath></IncludePath>
@@ -405,8 +405,8 @@
 					<Files>
 						<File>
 							<FileType>1</FileType>
-							<FileName>mm32link_board.c</FileName>
-							<FilePath>..\..\..\source\board\mm32link_board.c</FilePath>
+							<FileName>mm32link_max.c</FileName>
+							<FilePath>..\..\..\source\board\mm32link_max.c</FilePath>
 						</File>
 					</Files>
 				</Group>

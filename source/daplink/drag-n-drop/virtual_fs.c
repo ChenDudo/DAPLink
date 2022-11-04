@@ -34,8 +34,8 @@
 //   - data should only be read once
 
 // FAT16 limitations +- safety margin
-#define FAT_CLUSTERS_MAX (65525 - 100)	// old is 65525 - 100
-#define FAT_CLUSTERS_MIN (0)	// old is 4086 + 100
+#define FAT_CLUSTERS_MAX (65525 - 100)
+#define FAT_CLUSTERS_MIN (4086 + 100)
 
 typedef struct {
     uint8_t boot_sector[11];

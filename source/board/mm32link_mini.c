@@ -47,7 +47,7 @@
 // 		{0xCC4460B1, "MZ309"},		// SWID: 0x0BB11477, same as F003
 // 		//{0x0000CC88, "MT304"},		// SWID: 0x2BA01477, 0xCC88xxx3
 // 	};
-	
+    
 // 	for (uint8_t i = 0; i < 10; i ++) {
 // 		if (list[i].ID == readvalue) {
 // 			p = list[i].Name;
@@ -81,18 +81,11 @@
 /******************************************************************************/
 const board_info_t g_board_info = {
     .info_version       = kBoardInfoVersion,        /*!< Version number of the board info */
-	.flags				= kEnableUnderResetConnect|kEnablePageErase,    /*!< Flags from #_board_info_flags */
-    .family_id          = kMindMotion_FamilyID,   	/*!< Use to select or identify target family from defined target family or custom ones */
+    //.flags              = kEnableUnderResetConnect|kEnablePageErase,    /*!< Flags from #_board_info_flags */
+    .family_id          = kStub_HWReset_FamilyID, //kMindMotion_FamilyID,   	/*!< Use to select or identify target family from defined target family or custom ones */
     .target_cfg         = &target_device,           /*!< Specific chip configuration for the target and enables MSD when non-NULL */
-    .board_vendor       = "MindMotion",             //!< Board vendor. Maximum 60 characters including terminal NULL.   
-    .board_name         = "MM32LINK I",             //!< Board name. Maximum 60 characters including terminal NULL.
     .board_id           = "088",
-    //.prerun_board_config = prerun_board_config,     /*!< Specific board debug/ID related initialization */
-    //_padding
-    //daplink_url_name;    /*!< Customize the URL file name */
-    //daplink_drive_name;  /*!< Customize the MSD DAPLink drive name */
-    //daplink_target_url[64];                       /*!< Customize the target url in DETAILS.TXT */                     
-    //(*swd_set_target_reset)(uint8_t asserted);    /*!< Boards can customize how to send reset to the target with precedence over target family */
-    //(*target_set_state)(target_state_t state);    /*!< Boards can customize target debug states with precedence over target family */
-    //soft_reset_type;      /*!< Boards can override software reset type to VECTRESET or SYSRESETREQ */
+    .board_name         = "MM32LINK MINI",          /*!< Board name. Maximum 60 characters including terminal NULL. */
+    .daplink_drive_name = "MM32-LINK I",
+    .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/mm32_link_mini"
 };

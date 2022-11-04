@@ -7,7 +7,7 @@ common:
         # - CDC_ACM_DEFAULT_BAUDRATE=115200
     sources:
         board:
-            - source/board/mm32link_board.c
+            - source/board/mm32link_mini.c
         family:
             - source/family/mindmotion/mm32f3270/target.c
             - source/family/mindmotion/target_reset.c

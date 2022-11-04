@@ -53,4 +53,5 @@ const target_family_descriptor_t *g_target_family = NULL;
 const board_info_t g_board_info = {
     .info_version       = kBoardInfoVersion,
     .target_cfg         = &target_device,
+    .daplink_drive_name = "BOOTLOADER"
 };

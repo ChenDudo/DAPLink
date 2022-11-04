@@ -1,7 +1,7 @@
 One or more tests have failed
 
 Git info for test:
-  Git SHA: b'358f0002adaf285c97b749f391844a58ec2879bd'
+  Git SHA: b'05adf564c14b93b0e3100ff876adccc242e56a4c'
   Local changes: True
 
 Test settings:
@@ -11,6 +11,7 @@ Test settings:
   Run endpoint tests: True
 
 Tested configurations:
+  APP=mm32link_mini_hid_if BL=mm32link_mini_bl Board=mb039_daplink_serial_validation Target=mb039_daplink_serial_validation: Fail
   APP=mm32link_mini_winusb_if BL=mm32link_mini_bl Board=mb039_daplink_serial_validation Target=mb039_daplink_serial_validation: Fail
 
 Untested firmware:

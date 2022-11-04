@@ -50,10 +50,10 @@ module:
         - records/hic_hal/mm32f3270.yaml
         - records/hic_hal/mm32link_mini.yaml
 
-    hic_mm32link_ob_3270: &module_hic_mm32link_ob_3270
+    hic_mm32link_ob: &module_hic_mm32link_ob
         - records/rtos/rtos-cm3.yaml
         - records/hic_hal/mm32f3270.yaml
-        - records/hic_hal/mm32link_ob_f3270.yaml
+        - records/hic_hal/mm32link_ob.yaml
 
 projects:
     # HIC bootloaders and all target interfaces
@@ -140,9 +140,7 @@ projects:
         - records/board/mm32link_max_board.yaml
     mm32link_mm32f3270_ob_if:
         - *module_mm32link_winusb_common
-        - records/rtos/rtos-cm3.yaml
-        - records/hic_hal/mm32f3270.yaml
-        - records/hic_hal/mm32link_ob.yaml
+        - *module_hic_mm32link_ob
         - records/daplink/target_family.yaml
         - records/daplink/target_board.yaml
-        - records/board/mm32link_ob_f3270_board.yaml
+        - records/board/mm32link_ob_f3270.yaml

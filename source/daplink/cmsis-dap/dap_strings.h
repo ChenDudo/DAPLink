@@ -24,7 +24,7 @@
 #include "target_board.h"
 
 #if !defined(CMSIS_DAP_PRODUCT_NAME)
-#define CMSIS_DAP_PRODUCT_NAME "DAPLink"
+#define CMSIS_DAP_PRODUCT_NAME "MM32Link"
 #endif
 
 //! Maximum output buffer length of all these functions.
@@ -47,12 +47,6 @@ static uint8_t return_dap_string(char *dst, const char *src)
 \return String length (including terminating NULL character) or 0 (no string).
 */
 __STATIC_INLINE uint8_t DAP_GetVendorString (char *str) {
-// #if defined(CMSIS_DAP_VENDOR_NAME)
-//     return return_dap_string(str, CMSIS_DAP_VENDOR_NAME);
-// #else
-//     (void)str;
-//     return (0U);
-// #endif
     memcpy((unsigned char*)str, "MindMotion", sizeof("MindMotion"));
     return sizeof("MindMotion");
 }

@@ -14,16 +14,16 @@
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
-          <Device>MM32F3273G6P</Device>
+          <Device>MM32F3273G9P</Device>
           <Vendor>MindMotion</Vendor>
           <PackID>MindMotion.MM32F3270_DFP.1.0.6</PackID>
           <PackURL>http://www.mindmotion.com.cn/Download/MDK_KEIL/</PackURL>
           <Cpu>IRAM(0x20000000,0x20000) IROM(0x08000000,0x80000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
           <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0MM32F3270_512 -FS08000000 -FL080000 -FP0($$Device:MM32F3273G6P$Flash\MM32F3270_512.FLM))</FlashDriverDll>
+          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0MM32F3270_512 -FS08000000 -FL080000 -FP0($$Device:MM32F3273G9P$Flash\MM32F3270_512.FLM))</FlashDriverDll>
           <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:MM32F3273G6P$Device\MM32F327x\Include\mm32_device.h</RegisterFile>
+          <RegisterFile>$$Device:MM32F3273G9P$Device\MM32F327x\Include\mm32_device.h</RegisterFile>
           <MemoryEnv></MemoryEnv>
           <Cmp></Cmp>
           <Asm></Asm>
@@ -33,7 +33,7 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:MM32F3273G6P$SVD\MM32F3270.svd</SFDFile>
+          <SFDFile>$$Device:MM32F3273G9P$SVD\MM32F3270.svd</SFDFile>
           <bCustSvd>0</bCustSvd>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
@@ -52,7 +52,7 @@
           <OutputName>mm32link_mini_winusb_if</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
-          <CreateHexFile>1</CreateHexFile>
+          <CreateHexFile>0</CreateHexFile>
           <DebugInformation>1</DebugInformation>
           <BrowseInformation>1</BrowseInformation>
           <ListingPath>.\build\</ListingPath>
@@ -338,7 +338,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls> --gnu --asm --interleave -g</MiscControls>
-              <Define>DAPLINK_VERSION=220729, MSC_ENDPOINT, CDC_ENDPOINT, WEBUSB_INTERFACE, HID_ENDPOINT, BULK_ENDPOINT, WINUSB_INTERFACE, DRAG_N_DROP_SUPPORT, DAPLINK_IF, DAPLINK_BUILD_KEY=0x9B939E8F, OS_TICK_FREQ=100, INTERFACE_MM32F3270, MM32F3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MINI, HSE_FREQ=12000000, DAPLINK_HIC_ID=0x4D4D3270, HID_LED_DEF=GPIO_LED_ON, CDC_LED_DEF=GPIO_LED_ON, MSC_LED_DEF=GPIO_LED_ON, USE_LEGACY_CMSIS_RTOS, OS_TICK=10000</Define>
+              <Define>DAPLINK_VERSION=220930, MSC_ENDPOINT, CDC_ENDPOINT, WEBUSB_INTERFACE, HID_ENDPOINT, BULK_ENDPOINT, WINUSB_INTERFACE, DRAG_N_DROP_SUPPORT, DAPLINK_IF, DAPLINK_BUILD_KEY=0x9B939E8F, OS_TICK_FREQ=100, INTERFACE_MM32F3270, MM32F3270, __packed=__packed, DAPLINK_NO_ASSERT_FILENAMES, OS_CLOCK=96000000, MM32LINK_MINI, HSE_FREQ=12000000, DAPLINK_HIC_ID=0x4D4D3270, HID_LED_DEF=GPIO_LED_ON, CDC_LED_DEF=GPIO_LED_ON, MSC_LED_DEF=GPIO_LED_ON, USE_LEGACY_CMSIS_RTOS, OS_TICK=10000</Define>
               <Undefine></Undefine>
               <IncludePath>..\..\..\source\usb; ..\..\..\source\daplink\cmsis-dap; ..\..\..\source\daplink\drag-n-drop; ..\..\..\source\daplink\usb2uart; ..\..\..\source\daplink\settings; ..\..\..\source\daplink; ..\..\..\source\daplink\interface; ..\..\..\source\cmsis-core; ..\..\..\source\hic_hal; ..\..\..\source\hic_hal\cmsis-driver; ..\..\..\source\hic_hal\mm32\mm32f3270; ..\..\..\source\hic_hal\mm32\mm32f3270\cmsis; ..\..\..\source\hic_hal\mm32\mm32f3270\hal; ..\..\..\source\hic_hal\mm32\mm32f3270\hal\Inc; ..\..\..\source\target; ..\..\..\source\rtos</IncludePath>
             </VariousControls>
@@ -355,7 +355,7 @@
             <useXO>0</useXO>
             <ClangAsOpt>1</ClangAsOpt>
             <VariousControls>
-              <MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220729,-DMSC_ENDPOINT,-DCDC_ENDPOINT,-DWEBUSB_INTERFACE,-DHID_ENDPOINT,-DBULK_ENDPOINT,-DWINUSB_INTERFACE,-DDRAG_N_DROP_SUPPORT,-DDAPLINK_IF,-DDAPLINK_BUILD_KEY=0x9B939E8F,-DOS_TICK_FREQ=100,-DINTERFACE_MM32F3270,-DMM32F3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DMM32LINK_MINI,-DHSE_FREQ=12000000,-DDAPLINK_HIC_ID=0x4D4D3270,-DHID_LED_DEF=GPIO_LED_ON,-DCDC_LED_DEF=GPIO_LED_ON,-DMSC_LED_DEF=GPIO_LED_ON,-DUSE_LEGACY_CMSIS_RTOS,-DOS_TICK=10000 -g</MiscControls>
+              <MiscControls>--cpreproc --cpreproc_opts=-DDAPLINK_VERSION=220930,-DMSC_ENDPOINT,-DCDC_ENDPOINT,-DWEBUSB_INTERFACE,-DHID_ENDPOINT,-DBULK_ENDPOINT,-DWINUSB_INTERFACE,-DDRAG_N_DROP_SUPPORT,-DDAPLINK_IF,-DDAPLINK_BUILD_KEY=0x9B939E8F,-DOS_TICK_FREQ=100,-DINTERFACE_MM32F3270,-DMM32F3270,-D__packed=__packed,-DDAPLINK_NO_ASSERT_FILENAMES,-DOS_CLOCK=96000000,-DMM32LINK_MINI,-DHSE_FREQ=12000000,-DDAPLINK_HIC_ID=0x4D4D3270,-DHID_LED_DEF=GPIO_LED_ON,-DCDC_LED_DEF=GPIO_LED_ON,-DMSC_LED_DEF=GPIO_LED_ON,-DUSE_LEGACY_CMSIS_RTOS,-DOS_TICK=10000 -g</MiscControls>
               <Define></Define>
               <Undefine></Undefine>
               <IncludePath></IncludePath>
@@ -385,9 +385,9 @@
           <GroupName>board</GroupName>
           <Files>
             <File>
-              <FileName>mm32link_board.c</FileName>
+              <FileName>mm32link_mini.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\..\..\source\board\mm32link_board.c</FilePath>
+              <FilePath>..\..\..\source\board\mm32link_mini.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -405,8 +405,8 @@
 					<Files>
 						<File>
 							<FileType>1</FileType>
-							<FileName>mm32f3270.c</FileName>
-							<FilePath>..\..\..\source\board\mm32f3270.c</FilePath>
+							<FileName>mm32f3270_ob.c</FileName>
+							<FilePath>..\..\..\source\board\mm32f3270_ob.c</FilePath>
 						</File>
 					</Files>
 				</Group>

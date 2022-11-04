@@ -1,63 +1,35 @@
-Test configuration: APP=mm32link_mini_winusb_if BL=mm32link_mini_bl Board=mb039_daplink_serial_validation Target=mb039_daplink_serial_validation
+Test configuration: APP=mm32link_mini_hid_if BL=mm32link_mini_bl Board=mb039_daplink_serial_validation Target=mb039_daplink_serial_validation
 Board: Name=mb039_daplink_serial_validation Unique ID=0880ff20f17004c75fd
-Application: Name=mm32link_mini_winusb_if
+Application: Name=mm32link_mini_hid_if
 Bootloader: Name=mm32link_mini_bl
 Target: Name=mb039_daplink_serial_validation
 
-Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
+Test: mm32link_mini_hid_if mb039_daplink_serial_validation: Failure
   Info: Board: Name=mb039_daplink_serial_validation Unique ID=0880ff20f17004c75fd
-  Info: Application: Name=mm32link_mini_winusb_if
+  Info: Application: Name=mm32link_mini_hid_if
   Info: Bootloader: Name=mm32link_mini_bl
   Info: Target: Name=mb039_daplink_serial_validation
   Test: load_interface: Pass
     Test: set_mode: Pass
       Info: changing mode IF -> BL
       Test: wait_for_remount: Pass
-        Info: unmount took 0.6657371520996094 s
-        Info: mount took 2.617055892944336 s
-      Test: test_fs: Pass
-        Info: chkdsk returned 0
-      Test: test_fs_contents: Pass
-        Info: File D:\MM32LINK.HTM valid
-        Info: File D:\DETAILS.TXT valid
-        Info: Skipping non file item D:\System Volume Information
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-      Test: test_details_txt: Pass
-        Test: parse_kvp_file: Pass
-    Info: programming took 3.0337069034576416 s
+        Info: unmount took 0.7076840400695801 s
+        Info: mount took 2.549598217010498 s
+    Info: programming took 3.0300843715667725 s
     Test: wait_for_remount: Pass
-      Info: unmount took 0.6979963779449463 s
-      Info: mount took 1.8324344158172607 s
-    Test: test_fs: Pass
-      Info: chkdsk returned 0
-    Test: test_fs_contents: Pass
-      Info: File D:\MM32LINK.HTM valid
-      Info: File D:\DETAILS.TXT valid
-      Test: test_details_txt: Pass
-        Test: parse_kvp_file: Pass
-    Test: test_details_txt: Pass
-      Test: parse_kvp_file: Pass
+      Info: unmount took 0.7435822486877441 s
+      Info: mount took 1.842702865600586 s
     Test: set_mode: Pass
-    Info: Interface crc: 0xf6d62540
+    Info: Interface crc: 0x871416b2
   Test: load_bootloader: Pass
     Test: set_mode: Pass
-    Info: programming took 2.1637911796569824 s
+    Info: programming took 1.90096116065979 s
     Test: wait_for_remount: Pass
-      Info: unmount took 1.8702447414398193 s
-      Info: mount took 1.6070871353149414 s
-    Test: test_fs: Pass
-      Info: chkdsk returned 0
-    Test: test_fs_contents: Pass
-      Info: File D:\MM32LINK.HTM valid
-      Info: File D:\DETAILS.TXT valid
-      Test: test_details_txt: Pass
-        Test: parse_kvp_file: Pass
-    Test: test_details_txt: Pass
-      Test: parse_kvp_file: Pass
+      Info: unmount took 1.2980730533599854 s
+      Info: mount took 2.1479341983795166 s
     Test: set_mode: Pass
     Info: Bootloader crc: 0x6090dee6
-  Test: daplink_test: Failure
+  Test: daplink_test: Pass
     Test: Assert Test: Pass
       Info: Triggering assert by creating ASSERT.ACT
       Test: wait_for_remount: Pass
@@ -77,11 +49,11 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
       Info: Checking that assert file persists if->bl
       Info: Checking that assert file persists bl->if
     Test: Shutil binary file load interface: Pass
-      Info: Loading took 2.6879751682281494s
-      Info: Programming rate 30095.516117927815B/s
+      Info: Loading took 2.6892249584198s
+      Info: Programming rate 30081.52953017915B/s
       Test: wait_for_remount: Pass
-        Info: unmount took 0.7425863742828369 s
-        Info: mount took 1.746410608291626 s
+        Info: unmount took 0.8988168239593506 s
+        Info: mount took 1.614509105682373 s
       Test: test_fs: Pass
         Info: chkdsk returned 0
       Test: test_fs_contents: Pass
@@ -93,42 +65,40 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
         Test: parse_kvp_file: Pass
       Test: test_fs: Pass
         Info: chkdsk returned 0
-      Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+      Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
       Info: Data matches
     Test: Shutil hex file load interface: Pass
-      Info: Loading took 3.0445590019226074s
-      Info: Programming rate 26570.67902080893B/s
+      Info: Loading took 3.0280396938323975s
+      Info: Programming rate 26715.633934644717B/s
       Test: wait_for_remount: Pass
-        Info: unmount took 0.7293732166290283 s
-        Info: mount took 1.741058588027954 s
+        Info: unmount took 0.7202403545379639 s
+        Info: mount took 1.7242403030395508 s
       Test: test_fs: Pass
         Info: chkdsk returned 0
       Test: test_fs_contents: Pass
         Info: File D:\MM32LINK.HTM valid
         Info: File D:\DETAILS.TXT valid
-        Info: Skipping non file item D:\System Volume Information
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
       Test: test_details_txt: Pass
         Test: parse_kvp_file: Pass
       Test: test_fs: Pass
         Info: chkdsk returned 0
-      Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+      Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
       Info: Data matches
-    Test: bin interface filetype test: Failure
+    Test: bin interface filetype test: Pass
       Test: Load partial: Pass
-        Info: Loading took 1.3410565853118896s
-        Info: MSD transfer rate 30161.292553209456B/s
+        Info: Loading took 1.3406727313995361s
+        Info: MSD transfer rate 30169.92816567254B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.9819910526275635 s
-          Info: mount took 1.4904792308807373 s
+          Info: unmount took 1.9777584075927734 s
+          Info: mount took 1.3296165466308594 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
           Info: File D:\FAIL.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
@@ -137,12 +107,12 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Info: Failure as expected: "In application programming failed because the update sent was incomplete., interface"
       Test: Normal Load: Pass
-        Info: Loading took 2.6832330226898193s
-        Info: Programming rate 30148.704684211672B/s
-        Info: MSD transfer rate 30148.704684211672B/s
+        Info: Loading took 2.6824750900268555s
+        Info: Programming rate 30157.22319314813B/s
+        Info: MSD transfer rate 30157.22319314813B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.7271134853363037 s
-          Info: mount took 1.7282252311706543 s
+          Info: unmount took 0.6954219341278076 s
+          Info: mount took 1.7776153087615967 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -154,96 +124,35 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
         Info: Data matches
-      Test: Load with flushes: Failure
-        Info: Loading took 2.8691818714141846s
-        Info: Programming rate 28194.79685340663B/s
-        Info: MSD transfer rate 28194.79685340663B/s
+      Test: Load with flushes: Pass
+        Info: Loading took 4.9802234172821045s
+        Info: Programming rate 16243.447978514183B/s
+        Info: MSD transfer rate 16243.447978514183B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 20.569645643234253 s
-          Info: mount took 2.2465860843658447 s
+          Info: unmount took 0.4223353862762451 s
+          Info: mount took 2.3632283210754395 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
-          Info: File D:\FAIL.TXT valid
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Failure: Device reported failure: "The transfer timed out."
-        Failure: Wrong mode after test - Expected  interface got bootloader
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
+        Info: Data matches
       Test: Wrong CRC: Pass
-        Info: Loading took 2.6825156211853027s
-        Info: Programming rate 30156.76753608432B/s
-        Info: MSD transfer rate 30156.76753608432B/s
+        Info: Loading took 2.6851046085357666s
+        Info: Programming rate 30127.690274277236B/s
+        Info: MSD transfer rate 30127.690274277236B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.7217807769775391 s
-          Info: mount took 1.7664289474487305 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
-        Info: Data matches
-      Test: Padded load: Pass
-        Info: Loading took 2.6877291202545166s
-        Info: Programming rate 30098.271209838098B/s
-        Info: MSD transfer rate 31622.23430907041B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 0.6936492919921875 s
-          Info: mount took 2.6357550621032715 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
-        Info: Data matches
-      Test: Wrong HIC ID: Pass
-        Info: Loading took 2.6838488578796387s
-        Info: Programming rate 30141.786771074538B/s
-        Info: MSD transfer rate 30141.786771074538B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 0.65944504737854 s
-          Info: mount took 1.7659072875976562 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Expected CRC: 0xe2289c83, actual crc: 0xe2289c83
-        Info: Data matches
-      Test: Extra Files: Pass
-        Info: Loading took 2.682990550994873s
-        Info: Programming rate 30151.429333212953B/s
-        Info: MSD transfer rate 30151.429333212953B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 0.7218017578125 s
-          Info: mount took 1.7316346168518066 s
+          Info: unmount took 1.438720703125 s
+          Info: mount took 1.8406813144683838 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -256,35 +165,99 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
         Info: Data matches
-      Test: Restore image: Pass
-        Info: Loading took 2.6833300590515137s
-        Info: Programming rate 30147.61442675248B/s
-        Info: MSD transfer rate 30147.61442675248B/s
+      Test: Padded load: Pass
+        Info: Loading took 2.6876864433288574s
+        Info: Programming rate 30098.74913079725B/s
+        Info: MSD transfer rate 31622.736428559136B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.7009241580963135 s
-          Info: mount took 1.866490125656128 s
+          Info: unmount took 0.7000637054443359 s
+          Info: mount took 1.80853271484375 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
+          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
+        Info: Data matches
+      Test: Wrong HIC ID: Pass
+        Info: Loading took 2.688033103942871s
+        Info: Programming rate 30094.867463254013B/s
+        Info: MSD transfer rate 30094.867463254013B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 0.7047176361083984 s
+          Info: mount took 1.8306465148925781 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Info: Skipping non file item D:\System Volume Information
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Expected CRC: 0x93eaaf71, actual crc: 0x93eaaf71
+        Info: Data matches
+      Test: Extra Files: Pass
+        Info: Loading took 2.683934450149536s
+        Info: Programming rate 30140.82553152252B/s
+        Info: MSD transfer rate 30140.82553152252B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 0.6941423416137695 s
+          Info: mount took 1.7558488845825195 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Info: Skipping non file item D:\System Volume Information
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
+        Info: Data matches
+      Test: Restore image: Pass
+        Info: Loading took 2.6839215755462646s
+        Info: Programming rate 30140.97011517002B/s
+        Info: MSD transfer rate 30140.97011517002B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 0.6877341270446777 s
+          Info: mount took 1.8229012489318848 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Info: Skipping non file item D:\System Volume Information
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
         Info: Data matches
     Test: hex interface filetype test: Pass
       Test: Load partial: Pass
-        Info: Loading took 1.53580641746521s
-        Info: MSD transfer rate 72454.44395502449B/s
+        Info: Loading took 1.5367183685302734s
+        Info: MSD transfer rate 72411.44654659463B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.7631635665893555 s
-          Info: mount took 1.5498504638671875 s
+          Info: unmount took 1.142246961593628 s
+          Info: mount took 2.2982397079467773 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -299,40 +272,38 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Info: Failure as expected: "In application programming failed because the update sent was incomplete., interface"
       Test: Normal Load: Pass
-        Info: Loading took 3.034332036972046s
-        Info: Programming rate 26660.23329494486B/s
-        Info: MSD transfer rate 73330.14228134384B/s
+        Info: Loading took 3.030606508255005s
+        Info: Programming rate 26693.00675612261B/s
+        Info: MSD transfer rate 73420.28712533784B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.706418514251709 s
-          Info: mount took 1.7363100051879883 s
+          Info: unmount took 0.6923186779022217 s
+          Info: mount took 1.8365564346313477 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
         Info: Data matches
       Test: Wrong Address: Pass
-        Info: Loading took 0.2580876350402832s
-        Info: Programming rate 313443.9198816072B/s
-        Info: MSD transfer rate 862141.2644014123B/s
+        Info: Loading took 0.25766491889953613s
+        Info: Programming rate 313958.14511924866B/s
+        Info: MSD transfer rate 863555.6634962641B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.2752351760864258 s
-          Info: mount took 2.108262777328491 s
+          Info: unmount took 1.7811262607574463 s
+          Info: mount took 1.51328706741333 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
           Info: File D:\FAIL.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
@@ -341,12 +312,12 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Info: Failure as expected: "The starting address for the interface update is wrong., user"
       Test: Load with flushes: Pass
-        Info: Loading took 9.18248701095581s
-        Info: Programming rate 8809.813714245536B/s
-        Info: MSD transfer rate 24231.779444340213B/s
+        Info: Loading took 9.164408445358276s
+        Info: Programming rate 8827.192773252418B/s
+        Info: MSD transfer rate 24279.58130922232B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.41750431060791016 s
-          Info: mount took 1.8260276317596436 s
+          Info: unmount took 0.5925877094268799 s
+          Info: mount took 1.7279765605926514 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -359,56 +330,56 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
         Info: Data matches
       Test: Wrong CRC: Pass
-        Info: Loading took 3.0259246826171875s
-        Info: Programming rate 26734.307190366453B/s
-        Info: MSD transfer rate 73533.8857831544B/s
+        Info: Loading took 3.0269997119903564s
+        Info: Programming rate 26724.812585729684B/s
+        Info: MSD transfer rate 73507.7704562097B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.6974084377288818 s
-          Info: mount took 1.7287843227386475 s
+          Info: unmount took 0.7130434513092041 s
+          Info: mount took 1.7320709228515625 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
+          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
         Info: Data matches
       Test: Padded load: Pass
-        Info: Loading took 3.0322463512420654s
-        Info: Programming rate 26678.571141445507B/s
-        Info: MSD transfer rate 74731.395062007B/s
+        Info: Loading took 3.0307817459106445s
+        Info: Programming rate 26691.46338536283B/s
+        Info: MSD transfer rate 74767.5085168211B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.692772626876831 s
-          Info: mount took 1.7940733432769775 s
+          Info: unmount took 0.7042038440704346 s
+          Info: mount took 1.754953145980835 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
         Info: Data matches
       Test: Wrong HIC ID: Pass
-        Info: Loading took 3.025543212890625s
-        Info: Programming rate 26737.67793344832B/s
-        Info: MSD transfer rate 73543.15716000444B/s
+        Info: Loading took 3.0270566940307617s
+        Info: Programming rate 26724.309511455063B/s
+        Info: MSD transfer rate 73506.38672832826B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.5775878429412842 s
-          Info: mount took 1.869163990020752 s
+          Info: unmount took 0.8094072341918945 s
+          Info: mount took 1.6488168239593506 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -421,62 +392,59 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xe2289c83, actual crc: 0xe2289c83
+        Info: Expected CRC: 0x93eaaf71, actual crc: 0x93eaaf71
         Info: Data matches
       Test: Extra Files: Pass
-        Info: Loading took 3.024855852127075s
-        Info: Programming rate 26743.75373726124B/s
-        Info: MSD transfer rate 73559.86892516965B/s
+        Info: Loading took 3.026859760284424s
+        Info: Programming rate 26726.048250216412B/s
+        Info: MSD transfer rate 73511.1692056363B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.6915867328643799 s
-          Info: mount took 1.8374252319335938 s
+          Info: unmount took 0.583528995513916 s
+          Info: mount took 2.3302135467529297 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
         Info: Data matches
       Test: Restore image: Pass
-        Info: Loading took 3.0260682106018066s
-        Info: Programming rate 26733.03916831137B/s
-        Info: MSD transfer rate 73530.3980328153B/s
+        Info: Loading took 3.027461528778076s
+        Info: Programming rate 26720.7359139096B/s
+        Info: MSD transfer rate 73496.55739136913B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 0.7457718849182129 s
-          Info: mount took 1.7465968132019043 s
+          Info: unmount took 0.7052862644195557 s
+          Info: mount took 1.8329107761383057 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
         Test: test_fs: Pass
           Info: chkdsk returned 0
-        Info: Expected CRC: 0xf6d62540, actual crc: 0xf6d62540
+        Info: Expected CRC: 0x871416b2, actual crc: 0x871416b2
         Info: Data matches
     Test: Shutil binary file load bootloader: Pass
-      Info: Loading took 1.9459073543548584s
-      Info: Programming rate 24732.93494281296B/s
+      Info: Loading took 1.6930553913116455s
+      Info: Programming rate 28426.71317606108B/s
       Test: wait_for_remount: Pass
-        Info: unmount took 1.3159441947937012 s
-        Info: mount took 2.018033266067505 s
+        Info: unmount took 1.0421812534332275 s
+        Info: mount took 2.3360846042633057 s
       Test: test_fs: Pass
         Info: chkdsk returned 0
       Test: test_fs_contents: Pass
         Info: File D:\MM32LINK.HTM valid
         Info: File D:\DETAILS.TXT valid
-        Info: Skipping non file item D:\System Volume Information
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
       Test: test_details_txt: Pass
@@ -486,16 +454,17 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
       Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
       Info: Data matches
     Test: Shutil hex file load bootloader: Pass
-      Info: Loading took 2.1621196269989014s
-      Info: Programming rate 22259.637903016202B/s
+      Info: Loading took 1.903257131576538s
+      Info: Programming rate 25287.17701960418B/s
       Test: wait_for_remount: Pass
-        Info: unmount took 1.5447032451629639 s
-        Info: mount took 1.940598964691162 s
+        Info: unmount took 2.0194263458251953 s
+        Info: mount took 1.4114611148834229 s
       Test: test_fs: Pass
         Info: chkdsk returned 0
       Test: test_fs_contents: Pass
         Info: File D:\MM32LINK.HTM valid
         Info: File D:\DETAILS.TXT valid
+        Info: Skipping non file item D:\System Volume Information
         Test: test_details_txt: Pass
           Test: parse_kvp_file: Pass
       Test: test_details_txt: Pass
@@ -506,11 +475,11 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
       Info: Data matches
     Test: bin bootloader filetype test: Pass
       Test: Load partial: Pass
-        Info: Loading took 0.7563426494598389s
-        Info: MSD transfer rate 31816.267424805294B/s
+        Info: Loading took 0.6335411071777344s
+        Info: MSD transfer rate 37983.32851233449B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.2856688499450684 s
-          Info: mount took 2.162039279937744 s
+          Info: unmount took 0.9053833484649658 s
+          Info: mount took 2.4434285163879395 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -528,12 +497,12 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
       Info: Testing switch to bootloader
       Info: Device able to recover from bad BL
       Test: Normal Load: Pass
-        Info: Loading took 1.9525108337402344s
-        Info: Programming rate 24649.28704534043B/s
-        Info: MSD transfer rate 24649.28704534043B/s
+        Info: Loading took 1.6853561401367188s
+        Info: Programming rate 28556.57558294817B/s
+        Info: MSD transfer rate 28556.57558294817B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.6846880912780762 s
-          Info: mount took 1.7320845127105713 s
+          Info: unmount took 1.6007637977600098 s
+          Info: mount took 1.840801477432251 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -548,9 +517,214 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
         Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
         Info: Data matches
       Test: Load with flushes: Pass
-        Info: Loading took 3.341492176055908s
-        Info: Programming rate 14403.14609888069B/s
-        Info: MSD transfer rate 14403.14609888069B/s
+        Info: Loading took 2.9793341159820557s
+        Info: Programming rate 16153.945185881217B/s
+        Info: MSD transfer rate 16153.945185881217B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 1.4519116878509521 s
+          Info: mount took 1.7082910537719727 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
+        Info: Data matches
+      Test: Wrong CRC: Pass
+        Info: Loading took 1.2774734497070312s
+        Info: MSD transfer rate 37674.364199927135B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 1.214449167251587 s
+          Info: mount took 2.1509130001068115 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Info: File D:\FAIL.TXT valid
+          Info: File D:\NEED_BL.TXT valid
+          Info: Skipping non file item D:\System Volume Information
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Failure as expected: "The bootloader CRC did not pass., interface"
+      Test: Padded load: Pass
+        Info: Loading took 1.6821672916412354s
+        Info: Programming rate 28610.709671475714B/s
+        Info: MSD transfer rate 31045.66368606939B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 1.4128901958465576 s
+          Info: mount took 1.907128095626831 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
+        Info: Data matches
+      Test: Wrong data CRC: Pass
+        Info: Loading took 1.2702536582946777s
+        Info: MSD transfer rate 37888.49548728094B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 1.613072395324707 s
+          Info: mount took 2.7523910999298096 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Info: File D:\FAIL.TXT valid
+          Info: File D:\NEED_BL.TXT valid
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Failure as expected: "The bootloader CRC did not pass., interface"
+      Test: Normal Load: Pass
+        Info: Loading took 1.6747877597808838s
+        Info: Programming rate 28736.775581818612B/s
+        Info: MSD transfer rate 28736.775581818612B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 1.314727544784546 s
+          Info: mount took 2.1553592681884766 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
+        Info: Data matches
+      Test: Extra Files: Pass
+        Info: Loading took 1.6720595359802246s
+        Info: Programming rate 28783.664076761204B/s
+        Info: MSD transfer rate 28783.664076761204B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 2.2728700637817383 s
+          Info: mount took 1.1271910667419434 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
+        Info: Data matches
+      Test: Restore image: Pass
+        Info: Loading took 1.673323631286621s
+        Info: Programming rate 28761.91975069061B/s
+        Info: MSD transfer rate 28761.91975069061B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 1.3541874885559082 s
+          Info: mount took 2.045545816421509 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
+        Info: Data matches
+    Test: hex bootloader filetype test: Pass
+      Test: Load partial: Pass
+        Info: Loading took 0.7587096691131592s
+        Info: MSD transfer rate 87258.67442467756B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 1.2786035537719727 s
+          Info: mount took 2.196991205215454 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Info: File D:\FAIL.TXT valid
+          Info: File D:\NEED_BL.TXT valid
+          Info: Skipping non file item D:\System Volume Information
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Failure as expected: "In application programming failed because the update sent was incomplete., interface"
+      Info: Testing switch to bootloader
+      Info: Device able to recover from bad BL
+      Test: Normal Load: Pass
+        Info: Loading took 1.8960340023040771s
+        Info: Programming rate 25383.511024335236B/s
+        Info: MSD transfer rate 69819.42298457236B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 1.3113806247711182 s
+          Info: mount took 2.1601359844207764 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
+        Info: Data matches
+      Test: Wrong Address: Pass
+        Info: Loading took 0.204498291015625s
+        Info: Programming rate 235346.71004327713B/s
+        Info: MSD transfer rate 647340.373078645B/s
+        Test: wait_for_remount: Pass
+          Info: unmount took 1.1204404830932617 s
+          Info: mount took 2.2562384605407715 s
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Test: test_fs_contents: Pass
+          Info: File D:\MM32LINK.HTM valid
+          Info: File D:\DETAILS.TXT valid
+          Info: File D:\FAIL.TXT valid
+          Test: test_details_txt: Pass
+            Test: parse_kvp_file: Pass
+        Test: test_details_txt: Pass
+          Test: parse_kvp_file: Pass
+        Test: test_fs: Pass
+          Info: chkdsk returned 0
+        Info: Failure as expected: "The starting address for the bootloader update is wrong., user"
+      Test: Load with flushes: Pass
+        Info: Loading took 5.534447908401489s
+        Info: Programming rate 8696.079680674196B/s
+        Info: MSD transfer rate 23919.27834374273B/s
         Test: wait_for_remount: Pass
           Info: already remounted with change mount count
           Info: mount took 0.0 s
@@ -568,11 +742,11 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
         Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
         Info: Data matches
       Test: Wrong CRC: Pass
-        Info: Loading took 1.528507947921753s
-        Info: MSD transfer rate 31486.91510923289B/s
+        Info: Loading took 1.4702789783477783s
+        Info: MSD transfer rate 90037.33437633832B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.6187920570373535 s
-          Info: mount took 1.753209114074707 s
+          Info: unmount took 2.1228387355804443 s
+          Info: mount took 1.9849495887756348 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -588,18 +762,17 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Info: Failure as expected: "The bootloader CRC did not pass., interface"
       Test: Padded load: Pass
-        Info: Loading took 1.9546842575073242s
-        Info: Programming rate 24621.87937266879B/s
-        Info: MSD transfer rate 26717.358468215072B/s
+        Info: Loading took 1.88132643699646s
+        Info: Programming rate 25581.95061397022B/s
+        Info: MSD transfer rate 72542.43459092836B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.7350919246673584 s
-          Info: mount took 1.680950403213501 s
+          Info: unmount took 0.9843127727508545 s
+          Info: mount took 2.4925127029418945 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
@@ -609,11 +782,11 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
         Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
         Info: Data matches
       Test: Wrong data CRC: Pass
-        Info: Loading took 1.5209901332855225s
-        Info: MSD transfer rate 31642.545830351777B/s
+        Info: Loading took 1.4688575267791748s
+        Info: MSD transfer rate 90124.46584269826B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.8458480834960938 s
-          Info: mount took 1.5499162673950195 s
+          Info: unmount took 1.1990854740142822 s
+          Info: mount took 2.1424789428710938 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -621,7 +794,6 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: File D:\DETAILS.TXT valid
           Info: File D:\FAIL.TXT valid
           Info: File D:\NEED_BL.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
@@ -630,12 +802,12 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Info: Failure as expected: "The bootloader CRC did not pass., interface"
       Test: Normal Load: Pass
-        Info: Loading took 1.9314088821411133s
-        Info: Programming rate 24918.59721937618B/s
-        Info: MSD transfer rate 24918.59721937618B/s
+        Info: Loading took 1.8733131885528564s
+        Info: Programming rate 25691.379473594116B/s
+        Info: MSD transfer rate 70666.24033233023B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.7378456592559814 s
-          Info: mount took 1.7058441638946533 s
+          Info: unmount took 1.6633291244506836 s
+          Info: mount took 1.6730916500091553 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -650,17 +822,18 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
         Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
         Info: Data matches
       Test: Extra Files: Pass
-        Info: Loading took 1.9331977367401123s
-        Info: Programming rate 24895.539181189328B/s
-        Info: MSD transfer rate 24895.539181189328B/s
+        Info: Loading took 1.8720359802246094s
+        Info: Programming rate 25708.907578916052B/s
+        Info: MSD transfer rate 70714.45281950022B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.5066826343536377 s
-          Info: mount took 1.8365235328674316 s
+          Info: unmount took 1.9336071014404297 s
+          Info: mount took 1.5240397453308105 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
+          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
@@ -670,218 +843,12 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
         Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
         Info: Data matches
       Test: Restore image: Pass
-        Info: Loading took 1.9311168193817139s
-        Info: Programming rate 24922.36591642817B/s
-        Info: MSD transfer rate 24922.36591642817B/s
+        Info: Loading took 1.8708014488220215s
+        Info: Programming rate 25725.8727430987B/s
+        Info: MSD transfer rate 70761.11689102821B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.8643229007720947 s
-          Info: mount took 1.5473041534423828 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
-        Info: Data matches
-    Test: hex bootloader filetype test: Pass
-      Test: Load partial: Pass
-        Info: Loading took 0.8911430835723877s
-        Info: MSD transfer rate 74291.10007183514B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 0.7216808795928955 s
-          Info: mount took 2.668226480484009 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Info: File D:\FAIL.TXT valid
-          Info: File D:\NEED_BL.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Failure as expected: "In application programming failed because the update sent was incomplete., interface"
-      Info: Testing switch to bootloader
-      Info: Device able to recover from bad BL
-      Test: Normal Load: Pass
-        Info: Loading took 2.1561925411224365s
-        Info: Programming rate 22320.82668041616B/s
-        Info: MSD transfer rate 61395.25922443258B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 1.4307825565338135 s
-          Info: mount took 2.040320634841919 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
-        Info: Data matches
-      Test: Wrong Address: Pass
-        Info: Loading took 0.2030637264251709s
-        Info: Programming rate 237009.34109339904B/s
-        Info: MSD transfer rate 651913.5757551563B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 1.8317551612854004 s
-          Info: mount took 1.6115100383758545 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Info: File D:\FAIL.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Failure as expected: "The starting address for the bootloader update is wrong., user"
-      Test: Load with flushes: Pass
-        Info: Loading took 5.963536024093628s
-        Info: Programming rate 8070.379688418964B/s
-        Info: MSD transfer rate 22198.2393441012B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 1.0861148834228516 s
-          Info: mount took 2.1425700187683105 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Info: Skipping non file item D:\System Volume Information
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
-        Info: Data matches
-      Test: Wrong CRC: Pass
-        Info: Loading took 1.7141709327697754s
-        Info: MSD transfer rate 77226.83745786017B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 2.285853147506714 s
-          Info: mount took 1.1309332847595215 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Info: File D:\FAIL.TXT valid
-          Info: File D:\NEED_BL.TXT valid
-          Info: Skipping non file item D:\System Volume Information
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Failure as expected: "The bootloader CRC did not pass., interface"
-      Test: Padded load: Pass
-        Info: Loading took 2.141353130340576s
-        Info: Programming rate 22475.508274688622B/s
-        Info: MSD transfer rate 63733.53281450308B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 1.7559199333190918 s
-          Info: mount took 1.5667822360992432 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Info: Skipping non file item D:\System Volume Information
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
-        Info: Data matches
-      Test: Wrong data CRC: Pass
-        Info: Loading took 1.7139406204223633s
-        Info: MSD transfer rate 77237.21488517954B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 1.3968682289123535 s
-          Info: mount took 2.6898109912872314 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Info: File D:\FAIL.TXT valid
-          Info: File D:\NEED_BL.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Failure as expected: "The bootloader CRC did not pass., interface"
-      Test: Normal Load: Pass
-        Info: Loading took 2.1373965740203857s
-        Info: Programming rate 22517.112914367837B/s
-        Info: MSD transfer rate 61935.16056358075B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 1.1341831684112549 s
-          Info: mount took 2.21618914604187 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
-        Info: Data matches
-      Test: Extra Files: Pass
-        Info: Loading took 2.1308372020721436s
-        Info: Programming rate 22586.427509899713B/s
-        Info: MSD transfer rate 62125.81602727153B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 1.5517158508300781 s
-          Info: mount took 1.8585901260375977 s
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Test: test_fs_contents: Pass
-          Info: File D:\MM32LINK.HTM valid
-          Info: File D:\DETAILS.TXT valid
-          Test: test_details_txt: Pass
-            Test: parse_kvp_file: Pass
-        Test: test_details_txt: Pass
-          Test: parse_kvp_file: Pass
-        Test: test_fs: Pass
-          Info: chkdsk returned 0
-        Info: Expected CRC: 0x6090dee6, actual crc: 0x6090dee6
-        Info: Data matches
-      Test: Restore image: Pass
-        Info: Loading took 2.13319730758667s
-        Info: Programming rate 22561.43856399678B/s
-        Info: MSD transfer rate 62057.08188792167B/s
-        Test: wait_for_remount: Pass
-          Info: unmount took 1.353104591369629 s
-          Info: mount took 2.0184147357940674 s
+          Info: unmount took 1.3019437789916992 s
+          Info: mount took 2.080122470855713 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -919,7 +886,7 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
 ------ TEST HALT / RESUME ------
       Info: resume
       Info: halt
-      Info: HALT: pc: 0x800110E
+      Info: HALT: pc: 0x800110C
       Info: 
 
 ------ TEST STEP ------
@@ -937,14 +904,14 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
 
 ------ TEST READ / WRITE MEMORY ------
       Info: READ32/WRITE32
-      Info: write32 0xE53CEE80 at 0x20000004
-      Info: read32 at 0x20000004: 0xE53CEE80
+      Info: write32 0x8190BE2F at 0x20000004
+      Info: read32 at 0x20000004: 0x8190BE2F
       Info: READ16/WRITE16
-      Info: write16 0xFE61 at 0x20000006
-      Info: read16 at 0x20000006: 0xFE61
+      Info: write16 0x2F55 at 0x20000006
+      Info: read16 at 0x20000006: 0x2F55
       Info: READ8/WRITE8
-      Info: write8 0xE at 0x20000005
-      Info: read8 at 0x20000005: 0xE
+      Info: write8 0x1E at 0x20000005
+      Info: read8 at 0x20000005: 0x1E
       Info: 
 
 ------ TEST READ / WRITE MEMORY BLOCK ------
@@ -952,11 +919,11 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
       Info: 
 
 ------ TEST RESET ------
-      Info: pc: 0x8000F36
-      Info: pc: 0x8000F38
-      Info: pc: 0x8000F3A
-      Info: pc: 0x8000F3C
-      Info: pc: 0x80010FA
+      Info: pc: 0x8000D3C
+      Info: pc: 0x8000D3E
+      Info: pc: 0x8000D40
+      Info: pc: 0x8000D42
+      Info: pc: 0x8000D44
       Info: HID test complete
     Test: Serial test: Pass
       Info: Testing serial port COM8
@@ -997,8 +964,8 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
       Test: Set Baud: Pass
       Info: Block test passed
       Test: wait_for_remount: Pass
-        Info: unmount took 0.9976675510406494 s
-        Info: mount took 2.4173405170440674 s
+        Info: unmount took 1.6258161067962646 s
+        Info: mount took 1.8189928531646729 s
       Test: test_fs: Pass
         Info: chkdsk returned 0
       Test: test_fs_contents: Pass
@@ -1010,18 +977,17 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
         Test: parse_kvp_file: Pass
     Test: test_mass_storage: Failure
       Test: Shutil binary file load: Failure
-        Info: Loading took 0.016955137252807617s
-        Info: Programming rate 400291.6578499613B/s
+        Info: Loading took 0.018136262893676758s
+        Info: Programming rate 374222.6300858431B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.8697118759155273 s
-          Info: mount took 1.4630954265594482 s
+          Info: unmount took 2.0028042793273926 s
+          Info: mount took 1.4329190254211426 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
           Info: File D:\FAIL.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
@@ -1030,12 +996,12 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Failure: Device reported failure: "Failed to download flash algorithm to target MCU"
       Test: Load binary with flushes: Failure
-        Info: Loading took 0.23311543464660645s
-        Info: Programming rate 29114.33131954054B/s
-        Info: MSD transfer rate 29114.33131954054B/s
+        Info: Loading took 0.2482905387878418s
+        Info: Programming rate 27334.911886430462B/s
+        Info: MSD transfer rate 27334.911886430462B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.9296989440917969 s
-          Info: mount took 1.3156700134277344 s
+          Info: unmount took 1.0764214992523193 s
+          Info: mount took 2.160111427307129 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -1050,18 +1016,17 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Failure: Device reported failure: "Failed to download flash algorithm to target MCU"
       Test: Shutil hex file load: Failure
-        Info: Loading took 0.03400373458862305s
-        Info: Programming rate 199595.72329654612B/s
+        Info: Loading took 0.03428983688354492s
+        Info: Programming rate 197930.3670370319B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.3534080982208252 s
-          Info: mount took 1.994870662689209 s
+          Info: unmount took 1.5488088130950928 s
+          Info: mount took 1.8808128833770752 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
           Info: File D:\FAIL.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
@@ -1070,12 +1035,12 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Failure: Device reported failure: "Failed to download flash algorithm to target MCU"
       Test: Load hex with flushes: Failure
-        Info: Loading took 0.6081132888793945s
-        Info: Programming rate 11160.749360545626B/s
-        Info: MSD transfer rate 31490.84282517294B/s
+        Info: Loading took 0.6178526878356934s
+        Info: Programming rate 10984.819089764773B/s
+        Info: MSD transfer rate 30994.443136731312B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.147991418838501 s
-          Info: mount took 2.1572372913360596 s
+          Info: unmount took 1.1987898349761963 s
+          Info: mount took 2.0442774295806885 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -1090,12 +1055,12 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Failure: Device reported failure: "Failed to download flash algorithm to target MCU"
       Test: Load .bin smaller than sector: Failure
-        Info: Loading took 0.009533405303955078s
-        Info: Programming rate 202341.1297954284B/s
-        Info: MSD transfer rate 202341.1297954284B/s
+        Info: Loading took 0.00931549072265625s
+        Info: Programming rate 207074.43734643733B/s
+        Info: MSD transfer rate 207074.43734643733B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.5784988403320312 s
-          Info: mount took 1.8651504516601562 s
+          Info: unmount took 1.578476905822754 s
+          Info: mount took 1.8452486991882324 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
@@ -1110,8 +1075,8 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Failure: Device reported failure: "Failed to download flash algorithm to target MCU"
       Test: Load blank binary: Pass
-        Info: Loading took 0.021605491638183594s
-        Info: MSD transfer rate 379162.85994261754B/s
+        Info: Loading took 0.024233579635620117s
+        Info: MSD transfer rate 338043.33173951966B/s
         Test: wait_for_remount: Pass
           Info: already remounted with change mount count
           Info: mount took 0.0 s
@@ -1129,19 +1094,18 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Info: Failure as expected: "The transfer timed out., transient, user"
       Test: Load blank binary + vector table: Failure
-        Info: Loading took 0.02232813835144043s
-        Info: Programming rate 368324.48234402196B/s
-        Info: MSD transfer rate 368324.48234402196B/s
+        Info: Loading took 0.02250194549560547s
+        Info: Programming rate 365479.50938758213B/s
+        Info: MSD transfer rate 365479.50938758213B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 2.0170772075653076 s
-          Info: mount took 1.7119808197021484 s
+          Info: unmount took 1.459895133972168 s
+          Info: mount took 1.9645097255706787 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
           Info: File D:\FAIL.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
@@ -1150,19 +1114,18 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Failure: Device reported failure: "Failed to download flash algorithm to target MCU"
       Test: Extra Files: Failure
-        Info: Loading took 0.033698320388793945s
-        Info: Programming rate 201404.69678295753B/s
-        Info: MSD transfer rate 568277.581168946B/s
+        Info: Loading took 0.031154870986938477s
+        Info: Programming rate 217847.15471443985B/s
+        Info: MSD transfer rate 614671.1378785212B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.8318474292755127 s
-          Info: mount took 1.5739920139312744 s
+          Info: unmount took 1.338350534439087 s
+          Info: mount took 2.0209479331970215 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
           Info: File D:\FAIL.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
@@ -1171,19 +1134,18 @@ Test: mm32link_mini_winusb_if mb039_daplink_serial_validation: Failure
           Info: chkdsk returned 0
         Failure: Device reported failure: "Failed to download flash algorithm to target MCU"
       Test: Load good file to restore state: Failure
-        Info: Loading took 0.03429841995239258s
-        Info: Programming rate 197880.83560177396B/s
-        Info: MSD transfer rate 558334.757886249B/s
+        Info: Loading took 0.03515791893005371s
+        Info: Programming rate 193043.28033472804B/s
+        Info: MSD transfer rate 544685.253928104B/s
         Test: wait_for_remount: Pass
-          Info: unmount took 1.7499988079071045 s
-          Info: mount took 1.5953328609466553 s
+          Info: unmount took 1.6068089008331299 s
+          Info: mount took 1.7756586074829102 s
         Test: test_fs: Pass
           Info: chkdsk returned 0
         Test: test_fs_contents: Pass
           Info: File D:\MM32LINK.HTM valid
           Info: File D:\DETAILS.TXT valid
           Info: File D:\FAIL.TXT valid
-          Info: Skipping non file item D:\System Volume Information
           Test: test_details_txt: Pass
             Test: parse_kvp_file: Pass
         Test: test_details_txt: Pass
