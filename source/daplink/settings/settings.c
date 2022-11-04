@@ -126,8 +126,8 @@ void config_init()
 
 void config_ram_set_hold_in_bl(bool hold)
 {
-	config_ram.hold_in_bl = hold;
-	hold_in_BT = hold;	//chendo220615 ???? no use, but ok
+    config_ram.hold_in_bl = hold;
+    hold_in_BT = hold;	//chendo220615 ???? no use, but ok
 }
 
 void config_ram_set_assert(const char *file, uint16_t line)
@@ -175,7 +175,7 @@ bool config_ram_get_hold_in_bl()
 
 bool config_ram_get_initial_hold_in_bl()
 {
-	return config_ram_copy.hold_in_bl;
+    return config_ram_copy.hold_in_bl;
 }
 
 bool config_ram_get_assert(char *buf, uint16_t buf_size, uint16_t *line, assert_source_t *source)

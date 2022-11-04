@@ -1,0 +1,5 @@
+common:
+    macros:
+        - MM32LINK_OB
+        - HSE_FREQ=12000000
+        - DAPLINK_HIC_ID=0x4D4D000B

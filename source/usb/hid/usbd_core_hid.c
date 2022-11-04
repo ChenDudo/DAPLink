@@ -35,9 +35,11 @@ __WEAK BOOL USBD_ReqGetDescriptor_HID(U8 **pD, U32 *len)
 {
     switch (USBD_SetupPacket.wValueH) {
         case HID_HID_DESCRIPTOR_TYPE:
-//            if (USBD_SetupPacket.wIndexL != usbd_hid_if_num &&
-//                USBD_SetupPacket.wIndexL != usbd_webusb_if_num) {
-            if (USBD_SetupPacket.wIndexL != usbd_hid_if_num) {		
+           if (USBD_SetupPacket.wIndexL != usbd_hid_if_num
+                #if defined(usbd_webusb_if_num)
+                && USBD_SetupPacket.wIndexL != usbd_webusb_if_num
+                #endif
+            ) {
                 return (__FALSE);
             }
 
@@ -56,9 +58,11 @@ __WEAK BOOL USBD_ReqGetDescriptor_HID(U8 **pD, U32 *len)
             break;
 
         case HID_REPORT_DESCRIPTOR_TYPE:
-//            if (USBD_SetupPacket.wIndexL != usbd_hid_if_num &&
-//                USBD_SetupPacket.wIndexL != usbd_webusb_if_num) {
-            if (USBD_SetupPacket.wIndexL != usbd_hid_if_num) {		
+           if (USBD_SetupPacket.wIndexL != usbd_hid_if_num
+                #if defined(usbd_webusb_if_num)
+                && USBD_SetupPacket.wIndexL != usbd_webusb_if_num
+                #endif
+            ) {
                 return (__FALSE);
             }
 
@@ -85,9 +89,11 @@ __WEAK BOOL USBD_ReqGetDescriptor_HID(U8 **pD, U32 *len)
 
 __WEAK BOOL USBD_EndPoint0_Setup_HID_ReqToIF(void)
 {
-//    if (USBD_SetupPacket.wIndexL == usbd_hid_if_num ||
-//        USBD_SetupPacket.wIndexL == usbd_webusb_if_num) {
-    if (USBD_SetupPacket.wIndexL == usbd_hid_if_num) {	
+   if (USBD_SetupPacket.wIndexL == usbd_hid_if_num
+        #if defined(usbd_webusb_if_num)
+        || USBD_SetupPacket.wIndexL == usbd_webusb_if_num
+        #endif
+   ) {
         switch (USBD_SetupPacket.bRequest) {
             case HID_REQUEST_GET_REPORT:
                 if (USBD_HID_GetReport()) {
@@ -160,9 +166,11 @@ __WEAK BOOL USBD_EndPoint0_Setup_HID_ReqToIF(void)
 
 __WEAK BOOL USBD_EndPoint0_Out_HID_ReqToIF(void)
 {
-//    if (USBD_SetupPacket.wIndexL == usbd_hid_if_num ||
-//        USBD_SetupPacket.wIndexL == usbd_webusb_if_num) {
-	if (USBD_SetupPacket.wIndexL == usbd_hid_if_num) {
+   if (USBD_SetupPacket.wIndexL == usbd_hid_if_num 
+    #if defined(usbd_webusb_if_num)
+        || USBD_SetupPacket.wIndexL == usbd_webusb_if_num
+    #endif
+   ) {
         switch (USBD_SetupPacket.bRequest) {
             case HID_REQUEST_SET_REPORT:
                 if (USBD_HID_SetReport()) {

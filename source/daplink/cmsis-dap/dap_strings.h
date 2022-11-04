@@ -54,7 +54,7 @@ __STATIC_INLINE uint8_t DAP_GetVendorString (char *str) {
 //     return (0U);
 // #endif
     memcpy((unsigned char*)str, "MindMotion", sizeof("MindMotion"));
-	return sizeof("MindMotion");
+    return sizeof("MindMotion");
 }
 
 /** Get Product Name string.
@@ -63,22 +63,9 @@ __STATIC_INLINE uint8_t DAP_GetVendorString (char *str) {
 */
 __STATIC_INLINE uint8_t DAP_GetProductString (char *str) {
 // return return_dap_string (str, CMSIS_DAP_PRODUCT_NAME);
-//    (void)str;
-//    return (0U);
-#if 0
-#if WINUSB_INTERFACE
-    memcpy((unsigned char*)str, "MM32_V2 CMSIS-DAP", sizeof("MM32_V2 CMSIS-DAP"));
-	return sizeof("MM32_V2 CMSIS-DAP");
-#else
-    memcpy((unsigned char*)str, "MM32_V1 CMSIS-DAP", sizeof("MM32_V1 CMSIS-DAP"));
-	return sizeof("MM32_V1 CMSIS-DAP");
-#endif
-#else
-//    memcpy((unsigned char*)str, "MM32-LINK CMSIS-DAP", sizeof("MM32-LINK CMSIS-DAP"));
-//	return sizeof("MM32-LINK CMSIS-DAP");
+
     (void)str;
-    return (0U);    
-#endif
+    return (0U);
 }
 
 /** Get Serial Number string.
@@ -86,7 +73,7 @@ __STATIC_INLINE uint8_t DAP_GetProductString (char *str) {
 \return String length (including terminating NULL character) or 0 (no string).
 */
 __STATIC_INLINE uint8_t DAP_GetSerNumString (char *str) {
-   return return_dap_string(str, info_get_unique_id());
+    return return_dap_string(str, info_get_unique_id());
 }
 
 /** Get Target Device Vendor string.
@@ -94,12 +81,12 @@ __STATIC_INLINE uint8_t DAP_GetSerNumString (char *str) {
 \return String length (including terminating NULL character) or 0 (no string).
 */
 __STATIC_INLINE uint8_t DAP_GetTargetDeviceVendorString (char *str) {
-   if (g_board_info.target_cfg && g_board_info.target_cfg->target_vendor) {
-       return return_dap_string(str, g_board_info.target_cfg->target_vendor);
-   }
-   else {
-       return (0U);
-   }
+    if (g_board_info.target_cfg && g_board_info.target_cfg->target_vendor) {
+        return return_dap_string(str, g_board_info.target_cfg->target_vendor);
+    }
+    else {
+        return (0U);
+    }
 }
 
 /** Get Target Device Name string.
@@ -107,12 +94,12 @@ __STATIC_INLINE uint8_t DAP_GetTargetDeviceVendorString (char *str) {
 \return String length (including terminating NULL character) or 0 (no string).
 */
 __STATIC_INLINE uint8_t DAP_GetTargetDeviceNameString (char *str) {
-   if (g_board_info.target_cfg && g_board_info.target_cfg->target_part_number) {
-       return return_dap_string(str, g_board_info.target_cfg->target_part_number);
-   }
-   else {
-       return (0U);
-   }
+    if (g_board_info.target_cfg && g_board_info.target_cfg->target_part_number) {
+        return return_dap_string(str, g_board_info.target_cfg->target_part_number);
+    }
+    else {
+        return (0U);
+    }
 }
 
 /** Get Target Board Vendor string.
@@ -120,12 +107,12 @@ __STATIC_INLINE uint8_t DAP_GetTargetDeviceNameString (char *str) {
 \return String length (including terminating NULL character) or 0 (no string).
 */
 __STATIC_INLINE uint8_t DAP_GetTargetBoardVendorString (char *str) {
-   if (g_board_info.board_vendor) {
-       return return_dap_string(str, g_board_info.board_vendor);
-   }
-   else {
-       return (0U);
-   }
+    if (g_board_info.board_vendor) {
+        return return_dap_string(str, g_board_info.board_vendor);
+    }
+    else {
+        return (0U);
+    }
 }
 
 /** Get Target Board Name string.
@@ -133,12 +120,12 @@ __STATIC_INLINE uint8_t DAP_GetTargetBoardVendorString (char *str) {
 \return String length (including terminating NULL character) or 0 (no string).
 */
 __STATIC_INLINE uint8_t DAP_GetTargetBoardNameString (char *str) {
-   if (g_board_info.board_name) {
-       return return_dap_string(str, g_board_info.board_name);
-   }
-   else {
-       return (0U);
-   }
+    if (g_board_info.board_name) {
+        return return_dap_string(str, g_board_info.board_name);
+    }
+    else {
+        return (0U);
+    }
 }
 
 /** Get Product Firmware Version string.
@@ -146,5 +133,5 @@ __STATIC_INLINE uint8_t DAP_GetTargetBoardNameString (char *str) {
 \return String length (including terminating NULL character) or 0 (no string).
 */
 __STATIC_INLINE uint8_t DAP_GetProductFirmwareVersionString (char *str) {
-   return return_dap_string(str, info_get_version());
+    return return_dap_string(str, info_get_version());
 }

@@ -157,7 +157,7 @@ __WEAK void board_30ms_hook(void)
 
 __WEAK void handle_reset_button(void)
 {
-	// button state
+    // button state
     static uint8_t reset_pressed = 0;
 
     // handle reset button without eventing
@@ -273,7 +273,7 @@ void main_task(void * arg)
 {
     // State processing
     uint16_t flags = 0;
-	uint16_t beepicnt = 0;
+    uint16_t beepicnt = 0;
     // LED
     gpio_led_state_t hid_led_value = HID_LED_DEF;
     gpio_led_state_t cdc_led_value = CDC_LED_DEF;
@@ -382,7 +382,7 @@ void main_task(void * arg)
             gpio_set_hid_led(GPIO_LED_OFF);
             gpio_set_cdc_led(GPIO_LED_OFF);
             gpio_set_msc_led(GPIO_LED_OFF);
-			
+
             board_handle_powerdown();
         }
 
@@ -442,8 +442,8 @@ void main_task(void * arg)
                 case USB_CONNECTED:
                 case USB_DISCONNECTED:
                     if (usbd_configured()) {
-						if(usb_state == USB_DISCONNECTED)
-							{beepMode = mode2; beepCount = 5;}
+                        if(usb_state == USB_DISCONNECTED)
+                            {beepMode = mode2; beepCount = 5;}
                         usb_state = USB_CONNECTED;
                     }
                     else {
@@ -455,20 +455,20 @@ void main_task(void * arg)
                     break;
             }
 
-			handleMCU();
+            handleMCU();
 
-			Power_Supply();
-			Beep_Tick();
-			
-			if (beepicnt++ > 10){
-				beepicnt = 0;
-				beepEn = config_get_beep_en() ? true : false;
-			}
+            Power_Supply();
+            Beep_Tick();
+            
+            if (beepicnt++ > 10){
+                beepicnt = 0;
+                beepEn = config_get_beep_en() ? true : false;
+            }
         }
 
         // 30mS tick used for flashing LED when USB is busy
         if (flags & FLAGS_MAIN_30MS) {
-			adcTick();
+            adcTick();
             handle_reset_button();
 
 #ifdef PBON_BUTTON

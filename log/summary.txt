@@ -1,0 +1,18 @@
+One or more tests have failed
+
+Git info for test:
+  Git SHA: b'358f0002adaf285c97b749f391844a58ec2879bd'
+  Local changes: True
+
+Test settings:
+  Load application before test: True
+  Load bootloader before test: True
+  Run DAPLink specific tests: True
+  Run endpoint tests: True
+
+Tested configurations:
+  APP=mm32link_mini_winusb_if BL=mm32link_mini_bl Board=mb039_daplink_serial_validation Target=mb039_daplink_serial_validation: Fail
+
+Untested firmware:
+  mm32link_mm32f3270_ob_if
+

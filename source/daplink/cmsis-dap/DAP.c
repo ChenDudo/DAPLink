@@ -73,12 +73,12 @@ static uint8_t DAP_Info(uint8_t id, uint8_t *info) {
   uint8_t length = 0U;
 
   switch (id) {
-   case DAP_ID_VENDOR:
-     length = DAP_GetVendorString((char *)info);
-     break;
-   case DAP_ID_PRODUCT:
-     length = DAP_GetProductString((char *)info);
-     break;
+    case DAP_ID_VENDOR:
+      length = DAP_GetVendorString((char *)info);
+      break;
+    case DAP_ID_PRODUCT:
+      length = DAP_GetProductString((char *)info);
+      break;
     case DAP_ID_SER_NUM:
       length = DAP_GetSerNumString((char *)info);
       break;
@@ -206,8 +206,7 @@ static uint32_t DAP_HostStatus(const uint8_t *request, uint8_t *response) {
 
   switch (*request) {
     case DAP_DEBUGGER_CONNECTED:
-		//chendo
-		{beepMode = mode2; beepCount = 5;}
+      {beepMode = mode2; beepCount = 5;}
       LED_CONNECTED_OUT((*(request+1) & 1U));
       break;
     case DAP_TARGET_RUNNING:

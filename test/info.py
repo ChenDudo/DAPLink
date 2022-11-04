@@ -25,6 +25,8 @@ PROJECT_RELEASE_INFO = [
     ("mm32link_max_hid_if",                         True,       0x8000,     "bin"       ),
     ("mm32link_max_winusb_if",                      False,      0x8000,     "bin"       ),
     ("mm32link_mini_hid_if",                        True,       0x8000,     "bin"       ),
+    ("mm32link_mini_winusb_if",                     True,       0x8000,     "bin"       ),
+   # ("mm32link_mm32f3270_ob_if",                    True,       0x8000,     "bin"       ),
 ]
 
 TEST_RELEASE_INFO = [
@@ -45,7 +47,8 @@ SUPPORTED_CONFIGURATIONS = [
     (   0x059,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_max_hid_if',                      'mm32link_max_bl',  'mb039_daplink_serial_validation'                  ),
     (   0x000,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_max_winusb_if',                   'mm32link_max_bl',  'mb039_daplink_serial_validation'                  ),
     (   0x088,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_mini_hid_if',                     'mm32link_mini_bl', 'mb039_daplink_serial_validation'                  ),
-
+    (   0x088,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_mini_winusb_if',                  'mm32link_mini_bl', 'mb039_daplink_serial_validation'                  ),
+   # (   0x088,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_mm32f3270_ob_if',                 'mm32link_mini_bl', 'mb039_daplink_serial_validation'                  ),
     # Test projects
 ]
 

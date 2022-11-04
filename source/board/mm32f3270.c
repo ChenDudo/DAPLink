@@ -1,9 +1,9 @@
 /**
- * @file    target_default.c
- * @brief   Default target board info
+ * @file    mm32l373.c
+ * @brief   board information for MM32
  *
  * DAPLink Interface Firmware
- * Copyright (c) 2009-2021, Arm Limited, All Rights Reserved
+ * Copyright (c) 2009-2019, ARM Limited, All Rights Reserved
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may
@@ -19,19 +19,15 @@
  * limitations under the License.
  */
 
-#include <string.h>
+#include "target_family.h"
 #include "target_board.h"
-#include "compiler.h"
 
-// g_board_info needed to be moved away from target_board.c to prevent
-// compilers from make optimization decisions based on it.
-
-// Default empty board info.
-__WEAK
 const board_info_t g_board_info = {
-		.info_version = kBoardInfoVersion,
-		.board_id 			= "000",
-		.daplink_url_name 	= "MBED    HTM",
-		.daplink_drive_name = "MM32-LINK  ",
-		.daplink_target_url = "https://mbed.org/device/?code=@U?version=@V?target_id=@T",
+    .info_version   	= kBoardInfoVersion,                            /*!< Version number of the board info */
+    //.flags				= kEnableUnderResetConnect|kEnablePageErase,    /*!< Flags from #_board_info_flags */
+    .board_id       	= "3270",
+    .family_id      	= kStub_HWReset_FamilyID, //kMindMotion_FamilyID,
+    .target_cfg     	= &target_device,
+    .board_vendor   	= "MindMotion",
+    .board_name     	= "MM32F3270-OB",
 };

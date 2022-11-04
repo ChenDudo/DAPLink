@@ -86,6 +86,7 @@ const board_info_t g_board_info = {
     .target_cfg         = &target_device,           /*!< Specific chip configuration for the target and enables MSD when non-NULL */
     .board_vendor       = "MindMotion",             //!< Board vendor. Maximum 60 characters including terminal NULL.   
     .board_name         = "MM32LINK I",             //!< Board name. Maximum 60 characters including terminal NULL.
+    .board_id           = "088",
     //.prerun_board_config = prerun_board_config,     /*!< Specific board debug/ID related initialization */
     //_padding
     //daplink_url_name;    /*!< Customize the URL file name */

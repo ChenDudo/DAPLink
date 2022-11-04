@@ -52,7 +52,8 @@
 #define UART_RX_PIN_Bit     7
 #define UART_RX_AF          GPIO_AF_7
 
-#elif defined(MM32LINK_MINI) /* MINI */
+//#elif defined(MM32LINK_MINI) /* MINI */
+#else
 //#define UART_TX_PORT        GPIOA
 //#define UART_TX_PIN         GPIO_Pin_9
 //#define UART_TX_PIN_Bit     9
@@ -71,7 +72,7 @@
 #define UART_RX_PIN_Bit     7
 #define UART_RX_AF          GPIO_AF_7
 
-#else
+//#else
 
 #endif
 

@@ -33,7 +33,7 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB059);
 #elif defined(MM32LINK_MINI) 
 COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB088);
 #else
-COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB088);
+COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_OB);
 #endif
 
 // When bootloader, disable the target port(not used)
@@ -106,6 +106,7 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB088);
 #define LED3_PIN                (1 << LED3_PIN_Bit)
 
 #elif defined(MM32LINK_MINI) /* MINI */
+#if 1
 // 1. Power: 					PB12(5V) / PB13(3.3V)
 #define POWER_5V_EN_PIN_PORT    GPIOB
 #define POWER_5V_EN_Bit         (12)
@@ -175,8 +176,77 @@ COMPILER_ASSERT(DAPLINK_HIC_ID == DAPLINK_HIC_ID_MM32_MB088);
 #define DET_TVCC_PIN_Bit		(3)
 #define DET_TVCC_PIN           	(1 << DET_TVCC_PIN_Bit)
 
+//#else
 #else
+// 1. Power: 					PC14(5V) / PC13(3.3V)
+#define POWER_5V_EN_PIN_PORT    GPIOC
+#define POWER_5V_EN_Bit         (14)
+#define POWER_5V_EN_PIN         (1 << POWER_5V_EN_Bit)
+#define POWER_5V_EN_AF          GPIO_AF_0
 
+#define POWER_3V3_EN_PIN_PORT   GPIOC
+#define POWER_3V3_EN_Bit        (13)
+#define POWER_3V3_EN_PIN        (1 << POWER_3V3_EN_Bit)
+#define POWER_3V3_EN_AF         GPIO_AF_0
+
+// 2. nRESET OUT/IN: 			PA2/PA3
+#define nRESET_PIN_PORT         GPIOA
+#define nRESET_PIN_Bit          (2)
+#define nRESET_PIN              (1 << nRESET_PIN_Bit)
+
+// nRST DIR: 					PB10
+//#define nRST_DIR_PIN_PORT       GPIOB
+//#define nRST_DIR_PIN_Bit        (10)
+//#define nRST_DIR_PIN            (1 << nRST_DIR_PIN_Bit)
+
+// 3. K1
+
+
+// 4. SWD CLK: 					PB0
+#define SWCLK_TCK_PIN_PORT      GPIOB
+#define SWCLK_TCK_PIN_Bit       (0)
+#define SWCLK_TCK_PIN           (1 << SWCLK_TCK_PIN_Bit)
+
+// 5. SWDIO
+// SWDIO1 out:					PA7
+#define SWDIO_OUT_PIN_PORT      GPIOA
+#define SWDIO_OUT_PIN_Bit       (7)
+#define SWDIO_OUT_PIN           (1 << SWDIO_OUT_PIN_Bit)
+
+// SWDIO2 in(MISO)				PA5
+#define SWDIO_IN_PIN_PORT       GPIOA
+#define SWDIO_IN_PIN_Bit        (5)
+#define SWDIO_IN_PIN            (1 << SWDIO_IN_PIN_Bit)
+
+// SWDIO DIR: 					PA6
+#define SWDIO_DIR_PIN_PORT      GPIOA
+#define SWDIO_DIR_PIN_Bit       6
+#define SWDIO_DIR_PIN           (1 << SWDIO_DIR_PIN_Bit)
+
+// 6. SWO/TDO: 					PA4
+#define SWDO_PIN_PORT           GPIOA
+#define SWDO_PIN_Bit            (4)
+#define SWDO_PIN                (1 << SWDO_PIN_Bit)
+#define SWDO_AF                 GPIO_AF_8
+
+// 7. LEDs 
+#define LED1_PORT               GPIOA
+#define LED1_PIN_Bit			(9)
+#define LED1_PIN                (1 << LED1_PIN_Bit)
+
+#define LED2_PORT               GPIOA
+#define LED2_PIN_Bit        	(9)
+#define LED2_PIN                (1 << LED2_PIN_Bit)
+
+// 8. ADC PA2 / PA3
+#define DET_TVDD_PORT          	GPIOA
+#define DET_TVDD_PIN_Bit		(9)
+#define DET_TVDD_PIN           	(1 << DET_TVDD_PIN_Bit)
+
+#define DET_TVCC_PORT          	GPIOA
+#define DET_TVCC_PIN_Bit		(9)
+#define DET_TVCC_PIN           	(1 << DET_TVCC_PIN_Bit)
+#endif
 
 #endif
 

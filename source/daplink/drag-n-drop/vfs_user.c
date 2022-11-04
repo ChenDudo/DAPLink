@@ -70,11 +70,11 @@ typedef enum _magic_file {
     kImageCheckOffConfigFile,   //!< Disable Incompatible target image detection.
     kPageEraseActionFile,       //!< Enable page programming and sector erase for drag and drop.
     kChipEraseActionFile,       //!< Enable page programming and chip erase for drag and drop.
-	kVTarget5VConfigFile,		//!< Enable 5V output
-	kVTarget3V3ConfigFile,      //!< Enable 3.3V Output
-	kVTargetOFFConfigFile,		//!< Disbale Power Output
-	kBeepOnConfigFile,			//!< Enable Beep
-	kBeepOffConfigFile,			//!< Disable Beep
+    kVTarget5VConfigFile,		//!< Enable 5V output
+    kVTarget3V3ConfigFile,      //!< Enable 3.3V Output
+    kVTargetOFFConfigFile,		//!< Disbale Power Output
+    kBeepOnConfigFile,			//!< Enable Beep
+    kBeepOffConfigFile,			//!< Disable Beep
 } magic_file_t;
 
 //! @brief Mapping from filename string to magic file enum.
@@ -103,12 +103,11 @@ static const magic_file_info_t s_magic_file_info[] = {
         { "COMP_OFFCFG", kImageCheckOffConfigFile   },
         { "PAGE_ON ACT", kPageEraseActionFile       },
         { "PAGE_OFFACT", kChipEraseActionFile       },
-		{ "PAGE_OFFACT", kChipEraseActionFile       },
-		{ "VT_5V   CFG", kVTarget5VConfigFile       },
-		{ "VT_3V3  CFG", kVTarget3V3ConfigFile      },
-		{ "VT_OFF  CFG", kVTargetOFFConfigFile      },
-		{ "BEEP_ON CFG", kBeepOnConfigFile          },
-		{ "BEEP_OFFCFG", kBeepOffConfigFile         },		
+        { "VT_5V   CFG", kVTarget5VConfigFile       },
+        { "VT_3V3  CFG", kVTarget3V3ConfigFile      },
+        { "VT_OFF  CFG", kVTargetOFFConfigFile      },
+        { "BEEP_ON CFG", kBeepOnConfigFile          },
+        { "BEEP_OFFCFG", kBeepOffConfigFile         },		
     };
 
 static char assert_buf[64 + 1];
@@ -279,19 +278,19 @@ void vfs_user_file_change_handler(const vfs_filename_t filename, vfs_file_change
                     case kChipEraseActionFile:
                         config_ram_set_page_erase(false);
                         break;
-					case kVTarget5VConfigFile:
+                    case kVTarget5VConfigFile:
                         config_set_5v_output(true);
                         break;
-					case kVTarget3V3ConfigFile:
+                    case kVTarget3V3ConfigFile:
                         config_set_5v_output(false);
                         break;				
-					case kVTargetOFFConfigFile:
+                    case kVTargetOFFConfigFile:
                         config_set_power_output(false);
                         break;				
-					case kBeepOnConfigFile:
+                    case kBeepOnConfigFile:
                         config_set_beep_en(true);
                         break;
-					case kBeepOffConfigFile:
+                    case kBeepOffConfigFile:
                         config_set_beep_en(false);
                         break;				
                     default:
@@ -320,7 +319,6 @@ void vfs_user_file_change_handler(const vfs_filename_t filename, vfs_file_change
 
 void vfs_user_disconnecting()
 {
-	remount_count++; //chendo
     // Reset if programming was successful  //TODO - move to flash layer
     if (daplink_is_bootloader() && (ERROR_SUCCESS == vfs_mngr_get_transfer_status())) {
         SystemReset();
@@ -331,7 +329,7 @@ void vfs_user_disconnecting()
         SystemReset();
     }
 
-    //remount_count++;
+    remount_count++;
 }
 
 // Get the filesize from a filesize callback.
@@ -552,13 +550,13 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
 #if defined(MM32LINK_MAX)
         "# MM32-LINK MAX Firmware\r\n"
 #elif defined(MM32LINK_MINI)
-		"# MM32-LINK MINI Firmware\r\n"
+        "# MM32-LINK MINI Firmware\r\n"
 #else
-		"# MM32-LINK Series Firmware\r\n"
+        "# MM32-LINK Series Firmware\r\n"
 #endif
         //// Build ID
         //"Build ID: " GIT_DESCRIPTION " (" COMPILER_DESCRIPTION LOCAL_MODS ")\r\n"
-	);
+    );
     // Unique ID
     pos += expand_string_in_region(buf, size, start, pos, "Unique ID: @U\r\n");
     // HIC ID
@@ -603,7 +601,7 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
         "USB Interfaces: "
 #ifdef MSC_ENDPOINT
         "MSD"
-#endif	
+#endif
 #ifdef CDC_ENDPOINT
         ", CDC"
 #endif
@@ -612,7 +610,7 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
 #endif
 #ifdef WINUSB_INTERFACE
         ", WinUSB"
-#endif        
+#endif
 #if (WEBUSB_INTERFACE)
         ", WebUSB"
 #endif
@@ -631,26 +629,26 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
     // Number of remounts that have occurred
     pos += uint32_field_in_region(buf, size, start, pos, "Remount count", remount_count);
 
-	// Settings
+    // Settings
     pos += setting_in_region(buf, size, start, pos, "Auto Reset", config_get_auto_rst());
     pos += setting_in_region(buf, size, start, pos, "Automation allowed", config_get_automation_allowed());
     pos += setting_in_region(buf, size, start, pos, "Overflow detection", config_get_overflow_detect());
     pos += setting_in_region(buf, size, start, pos, "Incompatible image detection", config_get_detect_incompatible_target());
     pos += setting_in_region(buf, size, start, pos, "Page erasing", config_ram_get_page_erase());
-	
-	// chendo newadd 5v/beep
-	if (!config_get_power_output())
-		pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: OFF\r\n");
-	else if (config_get_5v_output())
-		pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 5V\r\n");
-	else
-		pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 3.3V\r\n");
-	
-	if (config_get_beep_en())
-		pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: ON\r\n");
-	else
-		pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: OFF\r\n");
-	
+    
+    // chendo newadd 5v/beep
+    if (!config_get_power_output())
+        pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: OFF\r\n");
+    else if (config_get_5v_output())
+        pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 5V\r\n");
+    else
+        pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 3.3V\r\n");
+    
+    if (config_get_beep_en())
+        pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: ON\r\n");
+    else
+        pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: OFF\r\n");
+    
     //Target URL
     //pos += expand_string_in_region(buf, size, start, pos, "URL: @R\r\n");
 
