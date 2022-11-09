@@ -177,7 +177,7 @@ __STATIC_INLINE void pin_in_init(GPIO_TypeDef *GPIOx, uint8_t pin_bit, uint8_t m
         config = 0x08; // Up
     else if (mode == 2)
         config = 0x08; // down
-	else if (mode == 3)
+    else if (mode == 3)
         config = 0x01; // floating
     else
         config = 0x00; // GPIO_Mode_AIN
@@ -250,7 +250,7 @@ __STATIC_INLINE void PORT_JTAG_SETUP(void)
     // Set TCK, TMS, TDI GPIO outputs.
     // Set TCK LOW
     SWCLK_TCK_PIN_PORT->BRR = SWCLK_TCK_PIN;
-	pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
+    pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
     
     // Set TMS HIGH
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
@@ -259,7 +259,7 @@ __STATIC_INLINE void PORT_JTAG_SETUP(void)
     // Set TDI High
 #if defined(TDI_PIN_PORT)	
     TDI_PIN_PORT->BSRR = TDI_PIN;
-	pin_out_init(TDI_PIN_PORT, TDI_PIN_Bit);
+    pin_out_init(TDI_PIN_PORT, TDI_PIN_Bit);
 #endif
 
     // Switch TDO_SWO to GPIO input (TDO).
@@ -276,7 +276,7 @@ __STATIC_INLINE void PORT_SWD_SETUP(void)
 {
     // Set SWCLK LOW
     SWCLK_TCK_PIN_PORT->BRR = SWCLK_TCK_PIN;
-	pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
+    pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
     
     // Set SWDIO HIGH
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
@@ -284,9 +284,17 @@ __STATIC_INLINE void PORT_SWD_SETUP(void)
     
     pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
 
+#if defined(SWDIO_DIR_PIN_PORT)
+    SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
+#endif
+    
     // Set RESET HIGH
     pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
-	nRESET_PIN_PORT->BSRR = nRESET_PIN;
+    nRESET_PIN_PORT->BSRR = nRESET_PIN;
+    
+// #if defined(nRST_DIR_PIN_PORT)
+//     nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
+// #endif
 
     // Switch TDO_SWO to GPIO input (SWO).
     pin_in_init(SWDO_PIN_PORT, SWDO_PIN_Bit, 1);
@@ -298,12 +306,17 @@ Disables the DAP Hardware I/O pins which configures:
 */
 __STATIC_INLINE void PORT_OFF(void)
 {
-	// SWCLK_TCK_PIN_PORT->BRR = SWCLK_TCK_PIN_Bit;
-	// SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN_Bit;
-    
     pin_in_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, 0);
     pin_in_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, 0);
     pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 0);
+
+// #if defined(SWDIO_DIR_PIN_PORT)
+//     SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
+// #endif
+//     pin_in_init(nRESET_PIN_PORT, nRESET_PIN_Bit, 0);
+// #if defined(nRST_DIR_PIN_PORT)
+//     nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
+// #endif
 }
 
 // SWCLK/TCK I/O pin -------------------------------------
@@ -313,7 +326,7 @@ __STATIC_INLINE void PORT_OFF(void)
 */
 __STATIC_FORCEINLINE uint32_t PIN_SWCLK_TCK_IN(void)
 {
-	return ((SWCLK_TCK_PIN_PORT->ODR & SWCLK_TCK_PIN) ? 1 : 0);
+    return ((SWCLK_TCK_PIN_PORT->ODR & SWCLK_TCK_PIN) ? 1 : 0);
 }
 
 /** SWCLK/TCK I/O pin: Set Output to High.
@@ -363,9 +376,6 @@ __STATIC_FORCEINLINE void PIN_SWDIO_TMS_CLR(void)
 */
 __STATIC_FORCEINLINE uint32_t PIN_SWDIO_IN(void)
 {
-#if defined(SWDIO_DIR_PIN_PORT)
-    SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
-#endif
     return ((SWDIO_IN_PIN_PORT->IDR & SWDIO_IN_PIN) ? 1 : 0);
 }
 
@@ -374,13 +384,7 @@ __STATIC_FORCEINLINE uint32_t PIN_SWDIO_IN(void)
 */
 __STATIC_FORCEINLINE void PIN_SWDIO_OUT(uint32_t bit)
 {
-#if defined(SWDIO_DIR_PIN_PORT)
-    SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
-#endif	
-    if (bit & 1)
-        SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
-    else
-        SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
+    (bit & 1) ? (SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN) : (SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN);
 }
 
 /** SWDIO I/O pin: Switch to Output mode (used in SWD mode only).
@@ -393,8 +397,8 @@ __STATIC_FORCEINLINE void PIN_SWDIO_OUT_ENABLE(void)
     SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
 #endif
 
-	SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
-    pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
+//	SWDIO_OUT_PIN_PORT->BRR = SWDIO_OUT_PIN;
+//    pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
 }
 
 /** SWDIO I/O pin: Switch to Input mode (used in SWD mode only).
@@ -403,8 +407,8 @@ called prior \ref PIN_SWDIO_IN function calls.
 */
 __STATIC_FORCEINLINE void PIN_SWDIO_OUT_DISABLE(void)
 {
-    pin_in_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, 0);
-    SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
+//    pin_in_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, 0);
+//    SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
 
 #if defined(SWDIO_DIR_PIN_PORT)
     SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
@@ -484,10 +488,14 @@ __STATIC_FORCEINLINE void PIN_nTRST_OUT(uint32_t bit)
 */
 __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 {
+#if 0
 #if defined(nRST_DIR_PIN_PORT)
-	nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
+    nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
 #endif
-	return (nRESET_PIN_PORT->IDR & nRESET_PIN);
+    return (nRESET_PIN_PORT->IDR & nRESET_PIN);
+#else
+    return (nRESET_PIN_PORT->ODR & nRESET_PIN);
+#endif
 }
 
 /** nRESET I/O pin: Set Output.
@@ -496,20 +504,14 @@ __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
            - 1: release device hardware reset.
 */
 /* sw specific implementation may be created: 
-	swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+    swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
 */
 __STATIC_FORCEINLINE void PIN_nRESET_OUT(uint32_t bit)
 {
-    //(bit & 1) ? (nRESET_PIN_PORT->BSRR = nRESET_PIN) : (nRESET_PIN_PORT->BRR = nRESET_PIN);
-#if defined(nRST_DIR_PIN_PORT)
-		nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
-#endif
-	if (bit & 1) {
-		nRESET_PIN_PORT->BSRR = nRESET_PIN;
-	}
-	else {
-		nRESET_PIN_PORT->BRR = nRESET_PIN;
-	}
+    (bit & 1) ? (nRESET_PIN_PORT->BSRR = nRESET_PIN) : (nRESET_PIN_PORT->BRR = nRESET_PIN);
+// #if defined(nRST_DIR_PIN_PORT)
+// 		nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
+// #endif
 }
 
 //**************************************************************************************************
@@ -605,7 +607,7 @@ __STATIC_INLINE void DAP_SETUP(void)
     SWCLK_TCK_PIN_PORT->BRR = SWCLK_TCK_PIN;
     GPIO_PinAFConfig(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, GPIO_AF_0);
     pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
-    
+
     /* Configure I/O pin SWDIO */
     SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
     GPIO_PinAFConfig(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, GPIO_AF_0);
@@ -618,14 +620,14 @@ __STATIC_INLINE void DAP_SETUP(void)
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
     GPIO_PinAFConfig(nRESET_PIN_PORT, nRESET_PIN_Bit, GPIO_AF_0);
     pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
-	
+
     /* Configure I/O pin SWO */
     GPIO_PinAFConfig(SWDO_PIN_PORT, SWDO_PIN_Bit, GPIO_AF_0);
     pin_in_init(SWDO_PIN_PORT, SWDO_PIN_Bit, 1);
 
 #if defined(nRESET_IN_PIN_PORT)
-	GPIO_PinAFConfig(nRESET_IN_PIN_PORT, nRESET_IN_PIN_Bit, GPIO_AF_0);
-	pin_in_init(nRESET_IN_PIN_PORT, nRESET_IN_PIN_Bit, 3);
+    GPIO_PinAFConfig(nRESET_IN_PIN_PORT, nRESET_IN_PIN_Bit, GPIO_AF_0);
+    pin_in_init(nRESET_IN_PIN_PORT, nRESET_IN_PIN_Bit, 1);
 #endif
 
 #if defined(SWDIO_DIR_PIN_PORT)
@@ -653,7 +655,7 @@ when a device needs a time-critical unlock sequence that enables the debug port.
 */
 __STATIC_INLINE uint32_t RESET_TARGET(void)
 {
-	swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+    //swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
     return (0);	// change to '1' when a device reset sequence is implemented
 }
 
