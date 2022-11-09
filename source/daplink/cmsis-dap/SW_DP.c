@@ -46,24 +46,21 @@
   PIN_SWCLK_CLR();                      \
   PIN_DELAY();                          \
   PIN_SWCLK_SET();                      \
-  PIN_DELAY();\
-  PIN_SWCLK_CLR();
+  PIN_DELAY()
 
 #define SW_WRITE_BIT(bit)               \
   PIN_SWDIO_OUT(bit);                   \
   PIN_SWCLK_CLR();                      \
   PIN_DELAY();                          \
   PIN_SWCLK_SET();                      \
-  PIN_DELAY();\
-  PIN_SWCLK_CLR();
+  PIN_DELAY()
 
 #define SW_READ_BIT(bit)                \
   PIN_SWCLK_CLR();                      \
   PIN_DELAY();                          \
   bit = PIN_SWDIO_IN();                 \
   PIN_SWCLK_SET();                      \
-  PIN_DELAY();\
-  PIN_SWCLK_CLR();
+  PIN_DELAY()
 
 #define PIN_DELAY() PIN_DELAY_SLOW(DAP_Data.clock_delay)
 
@@ -93,6 +90,7 @@ __WEAK void SWJ_Sequence (uint32_t count, const uint8_t *data) {
     val >>= 1;
     n--;
   }
+  PIN_SWCLK_CLR();
 }
 #endif
 
@@ -121,6 +119,7 @@ __WEAK void SWD_Sequence (uint32_t info, const uint8_t *swdo, uint8_t *swdi) {
         val >>= 1;
         val  |= bit << 7;
       }
+      PIN_SWCLK_CLR();
       val >>= k;
       *swdi++ = (uint8_t)val;
     }
@@ -132,6 +131,7 @@ __WEAK void SWD_Sequence (uint32_t info, const uint8_t *swdo, uint8_t *swdi) {
         val >>= 1;
       }
     }
+    PIN_SWCLK_CLR();
   }
 }
 #endif
@@ -237,7 +237,7 @@ static uint8_t SWD_Transfer##speed (uint32_t request, uint32_t *data) {         
       }                                                                         \
     }                                                                           \
     PIN_SWDIO_OUT(1U);                                                          \
-    PIN_SWCLK_CLR();	/*chendo new add*/\
+    PIN_SWCLK_CLR();\
     return ((uint8_t)ack);                                                      \
   }                                                                             \
                                                                                 \
@@ -260,7 +260,7 @@ static uint8_t SWD_Transfer##speed (uint32_t request, uint32_t *data) {         
       }                                                                         \
     }                                                                           \
     PIN_SWDIO_OUT(1U);                                                          \
-  PIN_SWCLK_CLR();	/*chendo new add*/\
+    PIN_SWCLK_CLR();\
     return ((uint8_t)ack);                                                      \
   }                                                                             \
                                                                                 \
@@ -270,7 +270,7 @@ static uint8_t SWD_Transfer##speed (uint32_t request, uint32_t *data) {         
   }                                                                             \
   PIN_SWDIO_OUT_ENABLE();                                                       \
   PIN_SWDIO_OUT(1U);                                                            \
-  PIN_SWCLK_CLR();	/*chendo new add*/\
+  PIN_SWCLK_CLR();\
   return ((uint8_t)ack);                                                        \
 }
 
