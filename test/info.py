@@ -36,7 +36,7 @@ TEST_RELEASE_INFO = [
 # Add new HICs here
 VENDOR_ID = {
     'Stub': 0,
-    'MindMotion': 1
+    'MindMotion': 132       # 132
 }
 
 def VENDOR_TO_FAMILY(x, y) : return (VENDOR_ID[x] <<8) | y
@@ -45,7 +45,7 @@ def VENDOR_TO_FAMILY(x, y) : return (VENDOR_ID[x] <<8) | y
 SUPPORTED_CONFIGURATIONS = [
     #   Board ID    Family ID                           Firmware                                    Bootloader          Target
     (   0x059,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_max_hid_if',                      'mm32link_max_bl',  'mb039_daplink_serial_validation'                  ),
-    (   0x000,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_max_winusb_if',                   'mm32link_max_bl',  'mb039_daplink_serial_validation'                  ),
+    (   0x059,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_max_winusb_if',                   'mm32link_max_bl',  'mb039_daplink_serial_validation'                  ),
     (   0x088,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_mini_hid_if',                     'mm32link_mini_bl', 'mb039_daplink_serial_validation'                  ),
     (   0x088,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_mini_winusb_if',                  'mm32link_mini_bl', 'mb039_daplink_serial_validation'                  ),
    # (   0x088,     VENDOR_TO_FAMILY('Stub', 1),        'mm32link_mm32f3270_ob_if',                 'mm32link_mini_bl', 'mb039_daplink_serial_validation'                  ),
@@ -55,6 +55,9 @@ SUPPORTED_CONFIGURATIONS = [
 # Add new HICs here
 HIC_STRING_TO_ID = {
     'mm32link': 0x4D4D3270,
+    'mini088':  0x4D4D3270,
+    'max059':   0x4D4D0059,
+    'ob3270':   0x4D4D000B,
 }
 
 BOARD_ID_LOCKED_WHEN_ERASED = set([

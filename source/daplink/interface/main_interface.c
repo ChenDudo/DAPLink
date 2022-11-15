@@ -111,11 +111,6 @@ void __libc_init_array (void) {}
 #define MSC_LED_DEF GPIO_LED_OFF
 #endif
 
-
-#ifndef  USE_BEEP
-#define USE_BEEP
-#endif
-
 // Reference to our main task
 osThreadId_t main_task_id;
 #ifndef USE_LEGACY_CMSIS_RTOS

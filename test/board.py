@@ -658,7 +658,7 @@ class DaplinkBoard(object):
         """Check that details.txt has all requied fields"""
         test_info = parent_test.create_subtest('test_details_txt')
         required_key_and_format = {
-            DaplinkBoard.KEY_UNIQUE_ID: re.compile("^[a-f0-9]{18,48}$"),
+            DaplinkBoard.KEY_UNIQUE_ID: re.compile("^[a-f0-9]{16,48}$"),
             DaplinkBoard.KEY_HIC_ID: re.compile("^[a-f0-9]{8}$"),
             DaplinkBoard.KEY_GIT_SHA: re.compile("^[a-f0-9]{6}$"),
             DaplinkBoard.KEY_LOCAL_MODS: re.compile("^[01]{1}$"),
@@ -691,7 +691,7 @@ class DaplinkBoard(object):
             value = details_txt[key]
             pattern = required_key_and_format[key]
             if pattern.match(value) is None:
-                test_info.failure("Bad format detail.txt %s: %s" %
+                test_info.failure("---1---Bad format detail.txt %s: %s" %
                                   (key, value))
 
         # Check format of optional values
@@ -702,7 +702,7 @@ class DaplinkBoard(object):
             value = details_txt[key]
             pattern = optional_key_and_format[key]
             if pattern.match(value) is None:
-                test_info.failure("Bad format detail.txt %s: %s" %
+                test_info.failure("---2---Bad format detail.txt %s: %s" %
                                   (key, value))
 
         # Check details.txt contents

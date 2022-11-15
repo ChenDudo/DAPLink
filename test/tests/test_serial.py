@@ -64,6 +64,10 @@ standard_test_baud_rates = [
     #56000, #TODO - uncomment once daplink-validation supports 56000 on nrf5x
     57600,
     115200,
+    256000,
+    512000,
+    921600,
+    1500000
 ]
 standard_timing_baud_rates = standard_test_baud_rates[3:]
 quick_test_baud_rates = [9600, 115200]

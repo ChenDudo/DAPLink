@@ -51,11 +51,7 @@ typedef struct __attribute__((__packed__)) cfg_setting {
 } cfg_setting_t;
 
 // Make sure FORMAT in generate_config.py is updated if size changes
-#if defined (USE_BEEP)
-COMPILER_ASSERT(sizeof(cfg_setting_t) == 12);
-#else
 COMPILER_ASSERT(sizeof(cfg_setting_t) == 11);
-#endif
 
 // Sector buffer must be as big or bigger than settings
 COMPILER_ASSERT(sizeof(cfg_setting_t) < SECTOR_BUFFER_SIZE);
