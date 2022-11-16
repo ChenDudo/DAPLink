@@ -173,3 +173,40 @@ void adcTick()
 	targetVCC = 3300 * adcValue[1] / 0x0FFF * 3;
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
 }
+
+/******************************************************************************/
+int8_t handleMCU(void)
+{
+	static bool targetPower = false;
+	static bool firstInDetect = false;
+	bool firstRun = false;
+	
+	targetPower = (targetVDD > 2000) ? true : false;
+	firstRun = (targetPower & !firstInDetect) ? true : false;
+	if (targetVDD >= 3300){
+		targetCurrent = (uint16_t)((5000 - targetVDD) / 10);
+	}
+		
+	if (targetPower) {
+		if (!firstInDetect){
+			firstInDetect = true;
+		}
+	}
+	else {
+		firstInDetect = false;
+	}
+	
+	
+	if (firstRun){
+		{beepMode = mode_bi; beepCount = 5;}
+		//PIN_nRESET_OUT(0);
+		//osDelay(20);
+		//PIN_nRESET_OUT(1);
+        //if (!nRstDetect())
+        //    return -1;
+        //if (!swd_init_debug_mm32())
+        //    return -2;
+		
+    }
+	return 0;
+}
