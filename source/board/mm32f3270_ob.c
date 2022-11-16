@@ -83,8 +83,8 @@ const board_info_t g_board_info = {
     //.flags              = kEnableUnderResetConnect|kEnablePageErase,    /*!< Flags from #_board_info_flags */
     .family_id          = kStub_HWReset_FamilyID, //kMindMotion_FamilyID,   	/*!< Use to select or identify target family from defined target family or custom ones */
     .target_cfg         = &target_device,           /*!< Specific chip configuration for the target and enables MSD when non-NULL */
-    .board_id           = "088",
+    .board_id           = "001",
     .board_name         = "MM32F3270 OB",          /*!< Board name. Maximum 60 characters including terminal NULL. */
     .daplink_drive_name = "MM32F3273G6P",
-    //.daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/mm32_link_mini"
+    .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/"
 };

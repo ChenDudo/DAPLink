@@ -32,19 +32,11 @@
 NO_OPTIMIZE_PRE
 __WEAK const char * NO_OPTIMIZE_INLINE get_board_id(void)
 {
-//    if (g_board_info.target_cfg && g_board_info.target_cfg->rt_board_id) {
-//        return g_board_info.target_cfg->rt_board_id; //flexible board id
-//    } else {
-//        return g_board_info.board_id;
-//    }
-	
-#if defined(MM32LINK_MAX)
-    return "059";
-#elif defined(MM32LINK_MINI)
-    return "088";
-#else
-    return "001";
-#endif
+   if (g_board_info.target_cfg && g_board_info.target_cfg->rt_board_id) {
+       return g_board_info.target_cfg->rt_board_id; //flexible board id
+   } else {
+       return g_board_info.board_id;
+   }
 }
 NO_OPTIMIZE_POST
 

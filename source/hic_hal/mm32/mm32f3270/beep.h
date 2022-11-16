@@ -28,10 +28,16 @@
 #define ARR_VALUE       416 //208//104 //416
 
 typedef enum {
-	modeN = 0x00,
-    mode0 = 0x04,
-    mode1 = 0x0A,
-    mode2 = 0x0E   
+	mode_none   = 0x00,
+    mode_bi     = 0x01,
+    mode_bibi   = 0x05,
+    mode_bi_bi  = 0x09,
+    mode_bi__bi = 0x11,
+    mode_bibibi = 0x15,
+    mode_bii    = 0x03,
+    mode_biii   = 0x07,
+    mode_biiii  = 0x0F,
+    mode_biiiii = 0x1F
 } embeepMode;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +51,7 @@ typedef enum {
 #endif
 
 GLOBAL bool     beepEn;
-GLOBAL bool     beepCount;
+GLOBAL uint8_t  beepCount;
 GLOBAL embeepMode beepMode;
 GLOBAL uint16_t	adcValue[2];
 GLOBAL float	targetVDD;
@@ -64,7 +70,7 @@ void BEEP_off(void);
 void InitBeep(void);
 void BEEP_Hz(int pulse);
 void Beep_Tick(void);
-
+void setBeepMode(embeepMode mode);
 void initADC(void);
 void adcTick(void);
 

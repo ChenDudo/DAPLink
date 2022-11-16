@@ -240,32 +240,17 @@ int8_t handleMCU(void)
 	static bool firstInDetect = false;
 	bool firstRun = false;
 	
-	targetPower = (targetVDD > 2000) ? true : false;
+	targetPower = (targetVDD > 1800) ? true : false;
 	firstRun = (targetPower & !firstInDetect) ? true : false;
-	if (targetVDD >= 3300){
-		targetCurrent = (uint16_t)((5000 - targetVDD) / 10);
-	}
+	if (targetVDD >= 3300)  targetCurrent = (uint16_t)((5000 - targetVDD) / 10);
 		
 	if (targetPower) {
-		if (!firstInDetect){
-			firstInDetect = true;
-		}
+		if (!firstInDetect) firstInDetect = true;
 	}
-	else {
-		firstInDetect = false;
-	}
+	else
+        firstInDetect = false;
 	
-	
-	if (firstRun){
-		{beepMode = mode2; beepCount = 5;}
-		//PIN_nRESET_OUT(0);
-		//osDelay(20);
-		//PIN_nRESET_OUT(1);
-        //if (!nRstDetect())
-        //    return -1;
-        //if (!swd_init_debug_mm32())
-        //    return -2;
-		
-    }
+	if (firstRun) setBeepMode(mode_bi__bi);
+    
 	return 0;
 }

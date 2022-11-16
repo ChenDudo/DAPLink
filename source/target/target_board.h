@@ -105,18 +105,13 @@ uint16_t get_family_id(void);
 uint8_t flash_algo_valid(void);
 
 //! @brief Returns the MSD HTML help filename or a default.
-static inline const char * get_daplink_url_name ( void ) { return ((g_board_info.daplink_url_name[0] != 0) ? g_board_info.daplink_url_name : "MM32LINKHTM"); 
-}
+static inline const char * get_daplink_url_name ( void ) { return ((g_board_info.daplink_url_name[0] != 0) ? g_board_info.daplink_url_name : "MM32LINKHTM"); }
 
 //! @brief Returns the MSD volume name or a default.
-static inline const char * get_daplink_drive_name ( void ) { 
-    return ((g_board_info.daplink_drive_name[0] != 0) ? g_board_info.daplink_drive_name : "MM32-LINK  "); 
-}
+static inline const char * get_daplink_drive_name ( void ) { return ((g_board_info.daplink_drive_name[0] != 0) ? g_board_info.daplink_drive_name : "MM32-LINK  "); }
 
 //! @brief Returns the target information URL or a default.
-static inline const char * get_daplink_target_url ( void ) {
-    return ((g_board_info.daplink_target_url[0] != 0) ? g_board_info.daplink_target_url : "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/mm32_link_mini"); 
-}
+static inline const char * get_daplink_target_url ( void ) { return ((g_board_info.daplink_target_url[0] != 0) ? g_board_info.daplink_target_url : "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/"); }
 
 #ifdef __cplusplus
 }

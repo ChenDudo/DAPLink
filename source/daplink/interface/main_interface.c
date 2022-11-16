@@ -268,7 +268,6 @@ void main_task(void * arg)
 {
     // State processing
     uint16_t flags = 0;
-    uint16_t beepicnt = 0;
     // LED
     gpio_led_state_t hid_led_value = HID_LED_DEF;
     gpio_led_state_t cdc_led_value = CDC_LED_DEF;
@@ -438,7 +437,7 @@ void main_task(void * arg)
                 case USB_DISCONNECTED:
                     if (usbd_configured()) {
                         if(usb_state == USB_DISCONNECTED)
-                            {beepMode = mode2; beepCount = 5;}
+                            setBeepMode(mode_bibi);
                         usb_state = USB_CONNECTED;
                     }
                     else {
@@ -451,14 +450,8 @@ void main_task(void * arg)
             }
 
             handleMCU();
-
             Power_Supply();
             Beep_Tick();
-            
-            if (beepicnt++ > 10){
-                beepicnt = 0;
-                beepEn = config_get_beep_en() ? true : false;
-            }
         }
 
         // 30mS tick used for flashing LED when USB is busy

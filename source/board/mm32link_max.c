@@ -87,5 +87,5 @@ const board_info_t g_board_info = {
     .board_id           = "059",
     .board_name         = "MM32LINK MAX",          /*!< Board name. Maximum 60 characters including terminal NULL. */
     .daplink_drive_name = "MM32-LINK A",
-    //.daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/mm32_link_mini"
+    .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/"
 };

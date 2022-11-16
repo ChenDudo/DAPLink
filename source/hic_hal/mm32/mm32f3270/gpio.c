@@ -201,7 +201,7 @@ void gpio_init(void)
     busy_wait(1000000);
     LED_off();
     BEEP_off();
-	beepMode = modeN; beepCount = 0;
+	setBeepMode(mode_none);
 }
 
 void gpio_set_hid_led(gpio_led_state_t state)

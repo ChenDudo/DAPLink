@@ -28,6 +28,7 @@
 #include "hal_gpio.h"
 #include "hal_adc.h"
 
+#include "settings.h"
 #include "IO_Config.h"
 #include "beep.h"
 
@@ -100,16 +101,28 @@ void BEEP_Hz(int pulse)
 /******************************************************************************/
 void Beep_Tick(void)
 {
+    static uint16_t beepicnt = 0;
+    
+    if (beepicnt++){
+        beepicnt = 0;
+        beepEn = config_get_beep_en() ? true : false;
+        
 	if (beepEn){
-		if (beepCount){
-			beepCount --;
-			((uint8_t)beepMode >> beepCount) ? BEEP_on() : BEEP_off();
+		if (--beepCount){
+			((uint8_t)beepMode >> (5 - beepCount)) & 0x01 ? BEEP_on() : BEEP_off();
 		}
 		else
 			BEEP_off();
     }
 	else
 		BEEP_off();
+}
+}
+
+/******************************************************************************/
+void setBeepMode(embeepMode mode)
+{
+    beepMode = mode; beepCount = 5;
 }
 
 /******************************************************************************/

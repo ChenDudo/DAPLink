@@ -29,9 +29,9 @@
 // Default empty board info.
 __WEAK
 const board_info_t g_board_info = {
-		.info_version = kBoardInfoVersion,
-		.board_id 			= "000",
-		.daplink_url_name 	= "MBED    HTM",
-		.daplink_drive_name = "MM32-LINK  ",
-		.daplink_target_url = "https://mbed.org/device/?code=@U?version=@V?target_id=@T",
+    .info_version = kBoardInfoVersion,
+    .board_id = "000",
+    .daplink_url_name = "MM32LINKHTM",
+    .daplink_drive_name = "MM32-LINK  ",
+    .daplink_target_url = "https://www.mindmotion.com.cn/support/development_tools/debug_and_programming_tools/",
 };
