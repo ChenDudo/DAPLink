@@ -128,6 +128,7 @@ void setBeepMode(embeepMode mode)
 /******************************************************************************/
 void initADC(void)
 {
+#if defined(DET_TVDD_PORT)
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
 	// enable clock to ports
@@ -155,11 +156,13 @@ void initADC(void)
     ADC_RegularChannelConfig(ADC1, ADC_Channel_3,  2, ADC_Samctl_240_5);
     
     ADC_Cmd(ADC1, ENABLE);
+#endif
 }
 
 /******************************************************************************/
 void adcTick()
 {
+#if defined(DET_TVDD_PORT)
 	uint16_t adctempValue[2];
 
 	if (ADC_GetFlagStatus(ADC1, ADC_IT_EOC)) {
@@ -171,12 +174,14 @@ void adcTick()
 
 	targetVDD = 3300 * adcValue[0] / 0x0FFF * 3;
 	targetVCC = 3300 * adcValue[1] / 0x0FFF * 3;
-	ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
+#endif    
 }
 
 /******************************************************************************/
 int8_t handleMCU(void)
 {
+#if defined(DET_TVDD_PORT)
 	static bool targetPower = false;
 	static bool firstInDetect = false;
 	bool firstRun = false;
@@ -209,4 +214,5 @@ int8_t handleMCU(void)
 		
     }
 	return 0;
+#endif
 }

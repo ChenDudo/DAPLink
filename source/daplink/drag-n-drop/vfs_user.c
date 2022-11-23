@@ -582,6 +582,20 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
 #endif
 #endif
 
+    // chendo newadd 5v/beep
+    if (!config_get_power_output())
+        pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: OFF\r\n");
+    else if (config_get_5v_output())
+        pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 5V\r\n");
+    else
+        pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 3.3V\r\n");
+    
+    if (config_get_beep_en())
+        pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: ON\r\n");
+    else
+        pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: OFF\r\n");
+
+#if defined(__DEBUG__)
     pos += util_write_string_in_region(buf, size, start, pos,
         // Full commit hash
         "Git SHA: " GIT_COMMIT_SHA "\r\n"
@@ -624,27 +638,16 @@ static uint32_t update_details_txt_file(uint8_t *buf, uint32_t size, uint32_t st
     pos += uint32_field_in_region(buf, size, start, pos, "Remount count", remount_count);
 
     // Settings
-    pos += setting_in_region(buf, size, start, pos, "Auto Reset", config_get_auto_rst());
-    pos += setting_in_region(buf, size, start, pos, "Automation allowed", config_get_automation_allowed());
-    pos += setting_in_region(buf, size, start, pos, "Overflow detection", config_get_overflow_detect());
-    pos += setting_in_region(buf, size, start, pos, "Incompatible image detection", config_get_detect_incompatible_target());
-    pos += setting_in_region(buf, size, start, pos, "Page erasing", config_ram_get_page_erase());
+    // pos += setting_in_region(buf, size, start, pos, "Auto Reset", config_get_auto_rst());
+    // pos += setting_in_region(buf, size, start, pos, "Automation allowed", config_get_automation_allowed());
+    // pos += setting_in_region(buf, size, start, pos, "Overflow detection", config_get_overflow_detect());
+    // pos += setting_in_region(buf, size, start, pos, "Incompatible image detection", config_get_detect_incompatible_target());
+    // pos += setting_in_region(buf, size, start, pos, "Page erasing", config_ram_get_page_erase());
     
-    // chendo newadd 5v/beep
-    if (!config_get_power_output())
-        pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: OFF\r\n");
-    else if (config_get_5v_output())
-        pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 5V\r\n");
-    else
-        pos += util_write_string_in_region(buf, size, start, pos, "Target Power output: 3.3V\r\n");
-    
-    if (config_get_beep_en())
-        pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: ON\r\n");
-    else
-        pos += util_write_string_in_region(buf, size, start, pos, "Beep Mode: OFF\r\n");
-    
+
     //Target URL
     //pos += expand_string_in_region(buf, size, start, pos, "URL: @R\r\n");
+#endif
 
     return pos;
 }

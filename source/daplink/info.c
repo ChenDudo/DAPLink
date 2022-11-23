@@ -30,10 +30,10 @@
 #include "target_board.h"
 #include "flash_hal.h"
 
-static char hex_to_ascii(uint8_t x)
-{
-    return ('0' + (x>9 ? x+0x27 : x));
-}
+//static char hex_to_ascii(uint8_t x)
+//{
+//    return ('0' + (x>9 ? x+0x27 : x));
+//}
 
 // Constant variables
 static const daplink_info_t *const info_bl = (daplink_info_t *)(DAPLINK_ROM_BL_START + DAPLINK_INFO_OFFSET);
@@ -52,7 +52,7 @@ static uint32_t crc_config_user;
 static char string_unique_id[19 + 1];   //old = 48
 static char string_mac[12 + 1];
 static char string_board_id[3 + 1];     //old = 4
-static char string_family_id[4 + 1];    //no use
+//static char string_family_id[4 + 1];    //no use
 static char string_host_id[16 + 1];     //old = 32
 static char string_target_id[32 + 1];
 static char string_hic_id[8 + 1];
@@ -133,7 +133,7 @@ static void setup_basics(void)
     string_board_id[3] = 0;
     idx = 0;
     //Family ID
-    string_family_id[idx++] = hex_to_ascii(((family_id >> 12) & 0xF));
+/*    string_family_id[idx++] = hex_to_ascii(((family_id >> 12) & 0xF));
     string_family_id[idx++] = hex_to_ascii(((family_id >> 8) & 0xF));
 #if !(defined(DAPLINK_BL)) &&  defined(DRAG_N_DROP_SUPPORT)   //need to change the unique id when the msd is disabled
     #if defined(MSC_ENDPOINT)
@@ -149,7 +149,7 @@ static void setup_basics(void)
     string_family_id[idx++] = hex_to_ascii(((family_id >> 4) & 0xF));
 #endif
     string_family_id[idx++] = hex_to_ascii(((family_id) & 0xF));
-    string_family_id[idx++] = 0;
+    string_family_id[idx++] = 0; */
     // Version
     idx = 0;
     string_version[idx++] = '0' + (DAPLINK_VERSION / 100000) % 10;
