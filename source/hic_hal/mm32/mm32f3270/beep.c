@@ -108,8 +108,9 @@ void Beep_Tick(void)
         beepEn = config_get_beep_en() ? true : false;
         
 	if (beepEn){
-		if (--beepCount){
-			((uint8_t)beepMode >> (5 - beepCount)) & 0x01 ? BEEP_on() : BEEP_off();
+		if (beepCount){
+			((uint8_t)beepMode >> (5-beepCount)) & 0x01 ? BEEP_on() : BEEP_off();
+            beepCount--;
 		}
 		else
 			BEEP_off();
@@ -170,49 +171,36 @@ void adcTick()
 		adctempValue[1] = ADC1->CH3DR & 0xFFF;
 		adcValue[0] = (u16)((float)(adcValue[0] * 5 + adctempValue[0] * 5) / 10);
 		adcValue[1] = (u16)((float)(adcValue[1] * 5 + adctempValue[1] * 5) / 10);
+        
+        targetVDD = 3300 * adcValue[0] / 0x0FFF * 3;
+        targetVCC = 3300 * adcValue[1] / 0x0FFF * 3;
 	}
-
-	targetVDD = 3300 * adcValue[0] / 0x0FFF * 3;
-	targetVCC = 3300 * adcValue[1] / 0x0FFF * 3;
+	
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 #endif    
 }
 
 /******************************************************************************/
-int8_t handleMCU(void)
+int8_t detectTarget(void)
 {
 #if defined(DET_TVDD_PORT)
-	static bool targetPower = false;
-	static bool firstInDetect = false;
-	bool firstRun = false;
+	static bool tValid = false;
+	static bool newUp = false;
+    bool runBeep;
 	
-	targetPower = (targetVDD > 2000) ? true : false;
-	firstRun = (targetPower & !firstInDetect) ? true : false;
-	if (targetVDD >= 3300){
-		targetCurrent = (uint16_t)((5000 - targetVDD) / 10);
-	}
-		
-	if (targetPower) {
-		if (!firstInDetect){
-			firstInDetect = true;
-		}
-	}
-	else {
-		firstInDetect = false;
-	}
-	
-	
-	if (firstRun){
-		{beepMode = mode_bi; beepCount = 5;}
-		//PIN_nRESET_OUT(0);
-		//osDelay(20);
-		//PIN_nRESET_OUT(1);
-        //if (!nRstDetect())
-        //    return -1;
-        //if (!swd_init_debug_mm32())
-        //    return -2;
-		
+    // Cal output current
+	if (targetVDD >= 3300)
+        targetCurrent = (uint16_t)((5000 - targetVDD) / 10);
+
+    // Deal with Target Power Up 
+	tValid = (targetVDD > 1800) ? true : false;
+    runBeep = tValid && !newUp;
+	if (tValid){
+        if(!newUp)  newUp = true;
     }
+	else    newUp = false;
+	if (runBeep)    setBeepMode(mode_bibi);
+		
 	return 0;
 #endif
 }

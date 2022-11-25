@@ -206,7 +206,6 @@ static uint32_t DAP_HostStatus(const uint8_t *request, uint8_t *response) {
 
   switch (*request) {
     case DAP_DEBUGGER_CONNECTED:
-      {beepMode = mode_bibibi; beepCount = 5;}
       LED_CONNECTED_OUT((*(request+1) & 1U));
       break;
     case DAP_TARGET_RUNNING:
@@ -253,7 +252,7 @@ static uint32_t DAP_Connect(const uint8_t *request, uint8_t *response) {
       port = DAP_PORT_DISABLED;
       break;
   }
-
+  {beepMode = mode_bi; beepCount = 5;}
   *response = (uint8_t)port;
   return ((1U << 16) | 1U);
 }
@@ -266,7 +265,7 @@ static uint32_t DAP_Disconnect(uint8_t *response) {
 
   DAP_Data.debug_port = DAP_PORT_DISABLED;
   PORT_OFF();
-
+  //{beepMode = mode_biii; beepCount = 5;}
   *response = DAP_OK;
   return (1U);
 }

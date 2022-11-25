@@ -74,7 +74,7 @@ void setBeepMode(embeepMode mode);
 void initADC(void);
 void adcTick(void);
 
-int8_t handleMCU(void);	//chendo new add 0804
+int8_t detectTarget(void);	//chendo new add 0804
 
 /// @}
 

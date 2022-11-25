@@ -449,7 +449,7 @@ void main_task(void * arg)
                     break;
             }
 
-            handleMCU();
+            detectTarget();
             Power_Supply();
             Beep_Tick();
         }
