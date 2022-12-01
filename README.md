@@ -1,6 +1,13 @@
 # MM32-LINK Series
 ## Release Note
 ----------
+# **Revision: 221130**
+- New add Offline Download (For MM32F3270)
+- `Details.txt` decrease useless info
+- Fix up:
+  - Reset bug: mm32f0020_BOOT
+  - Beep alarm bug
+
 # **Revision: 220930**
 - New add Target Voltage/Current Detect: 
   - `targetVDD`: Supply Voltage

@@ -158,7 +158,17 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>beepCount</ItemText>
+          <ItemText>beepCount,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>targetVDD</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>targetVCC</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
