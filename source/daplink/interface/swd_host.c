@@ -44,7 +44,7 @@
 #define DHCSR 0xE000EDF0
 #define REGWnR (1 << 16)
 
-#define MAX_SWD_RETRY 100//10
+#define MAX_SWD_RETRY 10
 #define MAX_TIMEOUT   1000000  // Timeout for syscalls on target
 
 // Use the CMSIS-Core definition if available.
