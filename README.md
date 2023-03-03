@@ -1,6 +1,10 @@
 # MM32-LINK Series
 ## Release Note
 ----------
+# **Revision: 230217**
+- Fix up reset & run isssue:
+  - some chip without nRst, now default use SysResetReq
+  
 # **Revision: 221130**
 - New add Offline Download (For MM32F3270)
 - `Details.txt` decrease useless info
