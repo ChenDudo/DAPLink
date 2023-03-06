@@ -37,9 +37,6 @@
 #include "dap_strings.h"
 #include "beep.h"
 
-//???
-#include "swd_host.h"
-
 #if (DAP_PACKET_SIZE < 64U)
 #error "Minimum Packet Size is 64!"
 #endif
@@ -284,19 +281,6 @@ static uint32_t DAP_ResetTarget(uint8_t *response) {
   return (2U);
 }
 
-//uint8_t write_word(uint32_t addr, uint32_t val)
-//{
-//    if (!swd_write_ap(AP_CSW, CSW_VALUE | CSW_SIZE32)) {
-//        return 0;
-//    }
-
-//    if (!swd_write_data(addr, val)) {
-//        return 0;
-//    }
-
-//    return 1;
-//}
-bool resetMCUflag = false;
 
 // Process SWJ Pins command and prepare response
 //   request:  pointer to request data
@@ -338,11 +322,7 @@ static uint32_t DAP_SWJ_Pins(const uint8_t *request, uint8_t *response) {
     PIN_nTRST_OUT(value >> DAP_SWJ_nTRST);
   }
   if ((select & (1U << DAP_SWJ_nRESET)) != 0U){
-    
     PIN_nRESET_OUT(value >> DAP_SWJ_nRESET);
-    if (!(value >> DAP_SWJ_nRESET)){
-        resetMCUflag = true;
-    }
   }
 
   if (wait != 0U) {
