@@ -655,7 +655,7 @@ when a device needs a time-critical unlock sequence that enables the debug port.
 */
 __STATIC_INLINE uint32_t RESET_TARGET(void)
 {
-    swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+    //swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
     return (0);	// change to '1' when a device reset sequence is implemented
 }
 

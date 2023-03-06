@@ -144,7 +144,6 @@ static main_led_state_t msc_led_state = MAIN_LED_FLASH;
 // Global state of usb
 main_usb_connect_t usb_state;
 static bool usb_test_mode = false;
-extern bool resetMCUflag;
 
 __WEAK void board_30ms_hook(void)
 {
@@ -550,10 +549,6 @@ void main_task(void * arg)
                 // Update hardware
                 gpio_set_cdc_led(cdc_led_value);
             }
-        }
-        if (resetMCUflag){
-            resetMCUflag = false;
-            swd_write_word(0xe000ed0c, 0x05fa0004);  //??chend
         }
     }
 }
