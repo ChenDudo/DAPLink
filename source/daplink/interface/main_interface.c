@@ -450,7 +450,6 @@ void main_task(void * arg)
             }
 
             detectTarget();
-            Power_Supply();
             Beep_Tick();
         }
 
@@ -458,6 +457,15 @@ void main_task(void * arg)
         if (flags & FLAGS_MAIN_30MS) {
             adcTick();
             handle_reset_button();
+            if (gResetNeedflag){
+                gResetNeedflag = false;
+                swd_write_word(0xe000ed0c, 0x05fa0004);  //??chend
+            }
+            if (gProgrammer_timeoutcnt-- <= 1) {
+                gProgrammer_timeoutcnt = 0;
+                gProgrammer_TrueFlag = false;
+            }
+
 
 #ifdef PBON_BUTTON
             // handle PBON pressed

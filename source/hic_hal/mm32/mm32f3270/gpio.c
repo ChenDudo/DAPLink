@@ -41,7 +41,71 @@ static void busy_wait(uint32_t cycles)
     }
 }
 
-void Power_5v_En(void)
+void static SWDWrite(uint8_t bit)
+{
+    PIN_SWDIO_OUT(bit);
+    PIN_SWCLK_TCK_SET();
+    busy_wait(10);
+    PIN_SWCLK_TCK_CLR();
+    busy_wait(10);
+}
+
+#define SWD_MAIN_BOOT   0x00CC8103
+#define SWD_SYS_BOOT    0x00CC9103
+#define SWD_SRAM_BOOT   0x00CCB103
+
+void send_SpecialSequence(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+    
+    // set Power off, delay 6.0 us
+    Power_Off();
+    GPIO_PinAFConfig(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_Bit, POWER_3V3_EN_AF);
+    GPIO_PinAFConfig(POWER_5V_EN_PIN_PORT, POWER_5V_EN_Bit, POWER_5V_EN_AF);
+    GPIO_InitStructure.GPIO_Pin		= POWER_3V3_EN_PIN;
+    GPIO_InitStructure.GPIO_Speed	= GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode	= GPIO_Mode_Out_PP;
+    GPIO_Init(POWER_3V3_EN_PIN_PORT, &GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Pin		= POWER_5V_EN_PIN;
+    GPIO_Init(POWER_5V_EN_PIN_PORT, &GPIO_InitStructure);
+    busy_wait(10000);
+    
+    // set SWCLK = Low
+    GPIO_PinAFConfig(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, GPIO_AF_0);
+    SWCLK_TCK_PIN_PORT->BRR = SWCLK_TCK_PIN;
+    GPIO_InitStructure.GPIO_Pin = SWCLK_TCK_PIN;
+    GPIO_Init(SWCLK_TCK_PIN_PORT, &GPIO_InitStructure);
+    // set SWDIO = High
+    GPIO_PinAFConfig(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, GPIO_AF_0);
+    SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
+    GPIO_InitStructure.GPIO_Pin = SWDIO_OUT_PIN;
+    GPIO_Init(SWDIO_OUT_PIN_PORT, &GPIO_InitStructure);
+    
+    // set SWDIO_Dir = utput
+#if defined(SWDIO_DIR_PIN_PORT)
+    SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
+    GPIO_InitStructure.GPIO_Pin = SWDIO_DIR_PIN;
+    GPIO_Init(SWDIO_DIR_PIN_PORT, &GPIO_InitStructure);
+#endif
+    
+    /* Turn on power to the board. */
+    // Power Output: default 3.3V
+    config_get_5v_output() ? Power_5v_En() : Power_3v3_En();
+    
+    // Send MM32F0010 special squence
+    for(u8 i = 0; i < 100; i ++){
+        for(u8 j = 0; j < 32; j++) {
+            SWDWrite(SWD_SYS_BOOT >> (31 - j));
+        }
+        busy_wait(300);
+    }
+    
+    // END special, release nResetPin = High
+    GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
+}
+
+
+void Power_5v_En (void)
 {
     GPIO_ResetBits(POWER_3V3_EN_PIN_PORT, POWER_3V3_EN_PIN);
     GPIO_SetBits(POWER_5V_EN_PIN_PORT, POWER_5V_EN_PIN);
@@ -197,9 +261,16 @@ void gpio_init(void)
     // the reset pin low, causing the bootloader to think the reset
     // button is pressed.
     // Note: With optimization set to -O2 the value 1000000 delays for ~85ms
-    LED_on();
-    busy_wait(1000000);
-    LED_off();
+    LED_on ( );
+#if defined(DAPLINK_IF)
+    Power_Off ( );
+#endif
+    busy_wait (1000000);
+#if defined(DAPLINK_IF)
+    Power_5v_En ( );
+    send_SpecialSequence ( );
+#endif
+    LED_off ( );
     BEEP_off();
 	setBeepMode(mode_none);
 }
@@ -230,14 +301,7 @@ void gpio_set_cdc_led(gpio_led_state_t state)
 
 void gpio_set_msc_led(gpio_led_state_t state)
 {
-    if (state)
-    {
-        GPIO_ResetBits(PIN_MSC_LED_PORT, PIN_MSC_LED); // LED on
-    }
-    else
-    {
-        GPIO_SetBits(PIN_MSC_LED_PORT, PIN_MSC_LED); // LED off
-    }
+    state ?  GPIO_ResetBits(PIN_MSC_LED_PORT, PIN_MSC_LED) : GPIO_SetBits(PIN_MSC_LED_PORT, PIN_MSC_LED); // LED off
 }
 
 uint8_t gpio_get_reset_btn_no_fwrd(void)
@@ -266,4 +330,5 @@ void target_forward_reset(bool assert_reset)
 
 void gpio_set_board_power(bool powerEnabled)
 {
+    powerEnabled ? Power_Supply() : Power_Off();
 }

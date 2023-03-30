@@ -57,7 +57,9 @@ GLOBAL uint16_t	adcValue[2];
 GLOBAL float	targetVDD;
 GLOBAL float	targetVCC;
 GLOBAL uint16_t	targetCurrent;
-
+GLOBAL bool     gResetNeedflag;
+GLOBAL bool     gProgrammer_TrueFlag;
+GLOBAL uint16_t gProgrammer_timeoutcnt;
 #undef GLOBAL
 
 /// @}

@@ -301,6 +301,12 @@ static uint32_t DAP_SWJ_Pins(const uint8_t *request, uint8_t *response) {
            (uint32_t)(*(request+4) << 16) |
            (uint32_t)(*(request+5) << 24);
 
+    // programmer special cnt
+  if (wait == 19944) {
+      gProgrammer_TrueFlag = true;
+      gProgrammer_timeoutcnt = 60 * 1000;
+  }
+  
   if ((select & (1U << DAP_SWJ_SWCLK_TCK)) != 0U) {
     if ((value & (1U << DAP_SWJ_SWCLK_TCK)) != 0U) {
       PIN_SWCLK_TCK_SET();
@@ -322,7 +328,8 @@ static uint32_t DAP_SWJ_Pins(const uint8_t *request, uint8_t *response) {
     PIN_nTRST_OUT(value >> DAP_SWJ_nTRST);
   }
   if ((select & (1U << DAP_SWJ_nRESET)) != 0U){
-    PIN_nRESET_OUT(value >> DAP_SWJ_nRESET);
+      PIN_nRESET_OUT (value >> DAP_SWJ_nRESET);
+      if ((!(value >> DAP_SWJ_nRESET)) & !gProgrammer_TrueFlag) gResetNeedflag = true;
   }
 
   if (wait != 0U) {
