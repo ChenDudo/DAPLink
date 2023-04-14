@@ -1,4 +1,9 @@
 # MM32-LINK Series
+
+```
+progen generate -f projects.yaml -p mm32link_mini_winusb_if -t uvision5
+```
+
 ## Release Note
 ----------
 # **Revision: 221130**

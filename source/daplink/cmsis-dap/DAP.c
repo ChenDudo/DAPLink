@@ -304,9 +304,14 @@ static uint32_t DAP_SWJ_Pins(const uint8_t *request, uint8_t *response) {
     // programmer special cnt
   if (wait == 19944) {
       gProgrammer_TrueFlag = true;
-      gProgrammer_timeoutcnt = 60 * 1000;
+      gProgrammer_timeoutcnt = 60;
   }
-  
+
+  // f0010 special cnt
+  if (wait == 19945) {
+      gF0010_TrueFlag = true;
+  }
+
   if ((select & (1U << DAP_SWJ_SWCLK_TCK)) != 0U) {
     if ((value & (1U << DAP_SWJ_SWCLK_TCK)) != 0U) {
       PIN_SWCLK_TCK_SET();

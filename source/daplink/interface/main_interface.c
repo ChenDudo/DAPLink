@@ -268,6 +268,8 @@ void main_task(void * arg)
 {
     // State processing
     uint16_t flags = 0;
+    uint16_t gF0010PowerCnt = 0;
+    
     // LED
     gpio_led_state_t hid_led_value = HID_LED_DEF;
     gpio_led_state_t cdc_led_value = CDC_LED_DEF;
@@ -461,11 +463,27 @@ void main_task(void * arg)
                 gResetNeedflag = false;
                 swd_write_word(0xe000ed0c, 0x05fa0004);  //??chend
             }
-            if (gProgrammer_timeoutcnt-- <= 1) {
-                gProgrammer_timeoutcnt = 0;
-                gProgrammer_TrueFlag = false;
+            if (gProgrammer_timeoutcnt > 1) {
+                gProgrammer_timeoutcnt--;
+                if (gProgrammer_timeoutcnt == 1) {
+                    gProgrammer_timeoutcnt = 0;
+                    gProgrammer_TrueFlag = false;
+                }
             }
-
+            
+            if (gF0010_TrueFlag) {
+                gF0010_TrueFlag = false;
+                Power_Off ( );
+                gF0010PowerCnt = 10;
+            }
+            if (gF0010PowerCnt > 1) {
+                gF0010PowerCnt--;
+                if (gF0010PowerCnt == 1) {
+                    gF0010PowerCnt = 0;
+                    // config_get_5v_output ( ) ? Power_5v_En ( ) : Power_3v3_En ( );
+                    send_SpecialSequence ( );
+                }
+            }
 
 #ifdef PBON_BUTTON
             // handle PBON pressed

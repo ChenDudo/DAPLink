@@ -267,7 +267,6 @@ void gpio_init(void)
 #endif
     busy_wait (1000000);
 #if defined(DAPLINK_IF)
-    Power_5v_En ( );
     send_SpecialSequence ( );
 #endif
     LED_off ( );
