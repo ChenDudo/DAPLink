@@ -6,6 +6,9 @@ progen generate -f projects.yaml -p mm32link_mini_winusb_if -t uvision5
 
 ## Release Note
 ----------
+# **Revision: 230505**
+- new add IAR V8.22 support
+
 # **Revision: 221130**
 - New add Offline Download (For MM32F3270)
 - `Details.txt` decrease useless info

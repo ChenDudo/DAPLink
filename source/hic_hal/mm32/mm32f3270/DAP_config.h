@@ -65,7 +65,7 @@ This information includes:
 
 /// Configure maximum number of JTAG devices on the scan chain connected to the Debug Access Port.
 /// This setting impacts the RAM requirements of the Debug Unit. Valid range is 1 .. 255.
-#define DAP_JTAG_DEV_CNT        4                   ///< Maximum number of JTAG devices on scan chain
+#define DAP_JTAG_DEV_CNT        2                   ///< Maximum number of JTAG devices on scan chain
 
 /// Default communication mode on the Debug Access Port.
 /// Used for the command \ref DAP_Connect when Port Default mode is selected.
@@ -74,7 +74,7 @@ This information includes:
 /// Default communication speed on the Debug Access Port for SWD and JTAG mode.
 /// Used to initialize the default SWD/JTAG clock frequency.
 /// The command \ref DAP_SWJ_Clock can be used to overwrite this default setting.
-#define DAP_DEFAULT_SWJ_CLOCK   1000000             ///< Default SWD/JTAG clock frequency in Hz.
+#define DAP_DEFAULT_SWJ_CLOCK   5000000             ///< Default SWD/JTAG clock frequency in Hz.
 
 /// Maximum Package Size for Command and Response data.
 /// This configuration settings is used to optimize the communication performance with the
@@ -174,11 +174,9 @@ __STATIC_INLINE void pin_in_init(GPIO_TypeDef *GPIOx, uint8_t pin_bit, uint8_t m
 {
     uint8_t config;
     if (mode == 1)
-        config = 0x08; // Up
+        config = 0x04; // floating
     else if (mode == 2)
-        config = 0x08; // down
-    else if (mode == 3)
-        config = 0x01; // floating
+        config = 0x08; // Up/Down
     else
         config = 0x00; // GPIO_Mode_AIN
 
@@ -279,22 +277,26 @@ __STATIC_INLINE void PORT_SWD_SETUP(void)
     pin_out_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit);
     
     // Set SWDIO HIGH
-    SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
-    pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
-    
-    pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
-
 #if defined(SWDIO_DIR_PIN_PORT)
     SWDIO_DIR_PIN_PORT->BSRR = SWDIO_DIR_PIN;
+#endif    
+    SWDIO_OUT_PIN_PORT->BSRR = SWDIO_OUT_PIN;
+    pin_out_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit);
+    pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
+
+
+    // Set RESET Low,delay 500us, RESET HIGH
+#if defined(nRST_DIR_PIN_PORT)
+    nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
 #endif
-    
-    // Set RESET HIGH
-    pin_out_init(nRESET_PIN_PORT, nRESET_PIN_Bit);
+    pin_out_init (nRESET_PIN_PORT, nRESET_PIN_Bit);
+    nRESET_PIN_PORT->BRR = nRESET_PIN;
+    uint16_t i = 10000;
+    while (i--) {
+        __NOP ( );
+    }
     nRESET_PIN_PORT->BSRR = nRESET_PIN;
-    
-// #if defined(nRST_DIR_PIN_PORT)
-//     nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
-// #endif
+
 
     // Switch TDO_SWO to GPIO input (SWO).
     pin_in_init(SWDO_PIN_PORT, SWDO_PIN_Bit, 1);
@@ -306,10 +308,14 @@ Disables the DAP Hardware I/O pins which configures:
 */
 __STATIC_INLINE void PORT_OFF(void)
 {
-    pin_in_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, 0);
-    pin_in_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, 0);
-    pin_in_init(SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 0);
+    pin_in_init(SWCLK_TCK_PIN_PORT, SWCLK_TCK_PIN_Bit, 1);
+    pin_in_init(SWDIO_OUT_PIN_PORT, SWDIO_OUT_PIN_Bit, 1);
+    pin_in_init (SWDIO_IN_PIN_PORT, SWDIO_IN_PIN_Bit, 1);
 
+#if defined(nRST_DIR_PIN_PORT)
+    nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
+#endif
+    
 // #if defined(SWDIO_DIR_PIN_PORT)
 //     SWDIO_DIR_PIN_PORT->BRR = SWDIO_DIR_PIN;
 // #endif
@@ -488,14 +494,10 @@ __STATIC_FORCEINLINE void PIN_nTRST_OUT(uint32_t bit)
 */
 __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 {
-#if 0
 #if defined(nRST_DIR_PIN_PORT)
-    nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
+   nRST_DIR_PIN_PORT->BRR = nRST_DIR_PIN;
 #endif
-    return (nRESET_PIN_PORT->IDR & nRESET_PIN);
-#else
-    return (nRESET_PIN_PORT->ODR & nRESET_PIN);
-#endif
+    return ((nRESET_PIN_PORT->IDR >> nRESET_PIN_Bit) & 1);
 }
 
 /** nRESET I/O pin: Set Output.
@@ -508,10 +510,10 @@ __STATIC_FORCEINLINE uint32_t PIN_nRESET_IN(void)
 */
 __STATIC_FORCEINLINE void PIN_nRESET_OUT(uint32_t bit)
 {
+#if defined(nRST_DIR_PIN_PORT)
+	nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
+#endif
     (bit & 1) ? (nRESET_PIN_PORT->BSRR = nRESET_PIN) : (nRESET_PIN_PORT->BRR = nRESET_PIN);
-// #if defined(nRST_DIR_PIN_PORT)
-// 		nRST_DIR_PIN_PORT->BSRR = nRST_DIR_PIN;
-// #endif
 }
 
 //**************************************************************************************************
