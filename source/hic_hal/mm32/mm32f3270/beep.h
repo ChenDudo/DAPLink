@@ -60,6 +60,8 @@ GLOBAL uint16_t	targetCurrent;
 GLOBAL bool     gResetNeedflag;
 GLOBAL bool     gProgrammer_TrueFlag;
 GLOBAL bool     gF0010_TrueFlag;
+GLOBAL bool     gPoweronFlag;
+GLOBAL bool     gPoweroffFlag;
 GLOBAL uint16_t gProgrammer_timeoutcnt;
 #undef GLOBAL
 
@@ -78,7 +80,6 @@ void initADC(void);
 void adcTick(void);
 
 int8_t detectTarget(void);	//chendo new add 0804
-void send_SpecialSequence (void);
 
 /// @}
 

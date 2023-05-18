@@ -49,6 +49,7 @@ void Power_Off(void);
 void Power_3v3_En(void);
 void Power_5v_En(void);
 void Power_Supply(void);
+void send_SpecialSequence(void);
 
 static inline uint8_t gpio_get_reset_btn(void)
 {

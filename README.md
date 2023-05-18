@@ -6,6 +6,12 @@ progen generate -f projects.yaml -p mm32link_mini_winusb_if -t uvision5
 
 ## Release Note
 ----------
+# **Revision: 230520**
+- set default flashalgo = MM32F0010/MM32G0010
+- offline program add powerchangeBOOT logic
+- new add power up/down special handle
+
+
 # **Revision: 230505**
 - new add IAR V8.22 support
 

@@ -269,7 +269,8 @@ void main_task(void * arg)
     // State processing
     uint16_t flags = 0;
     uint16_t gF0010PowerCnt = 0;
-    
+    gProgrammer_TrueFlag = false;
+
     // LED
     gpio_led_state_t hid_led_value = HID_LED_DEF;
     gpio_led_state_t cdc_led_value = CDC_LED_DEF;
@@ -459,10 +460,8 @@ void main_task(void * arg)
         if (flags & FLAGS_MAIN_30MS) {
             adcTick();
             handle_reset_button();
-            if (gResetNeedflag){
-                gResetNeedflag = false;
-                swd_write_word(0xe000ed0c, 0x05fa0004);  //??chend
-            }
+
+            // handle hardReset => systemReset
             if (gProgrammer_timeoutcnt > 1) {
                 gProgrammer_timeoutcnt--;
                 if (gProgrammer_timeoutcnt == 1) {
@@ -471,6 +470,7 @@ void main_task(void * arg)
                 }
             }
             
+            // handle F0010 special
             if (gF0010_TrueFlag) {
                 gF0010_TrueFlag = false;
                 Power_Off ( );
@@ -480,9 +480,18 @@ void main_task(void * arg)
                 gF0010PowerCnt--;
                 if (gF0010PowerCnt == 1) {
                     gF0010PowerCnt = 0;
-                    // config_get_5v_output ( ) ? Power_5v_En ( ) : Power_3v3_En ( );
-                    send_SpecialSequence ( );
+                    send_SpecialSequence();
                 }
+            }
+
+            // handle power on/off
+            if (gPoweronFlag) {
+                gPoweronFlag = false;
+                config_get_5v_output ( ) ? Power_5v_En ( ) : Power_3v3_En ( );
+            }
+            if (gPoweroffFlag) {
+                gPoweroffFlag = false;
+                Power_Off ( );
             }
 
 #ifdef PBON_BUTTON

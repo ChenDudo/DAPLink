@@ -301,7 +301,7 @@ static uint32_t DAP_SWJ_Pins(const uint8_t *request, uint8_t *response) {
            (uint32_t)(*(request+4) << 16) |
            (uint32_t)(*(request+5) << 24);
 
-    // programmer special cnt
+  // programmer special cnt
   if (wait == 19944) {
       gProgrammer_TrueFlag = true;
       gProgrammer_timeoutcnt = 60;
@@ -310,6 +310,19 @@ static uint32_t DAP_SWJ_Pins(const uint8_t *request, uint8_t *response) {
   // f0010 special cnt
   if (wait == 19945) {
       gF0010_TrueFlag = true;
+      return 0;
+  }
+
+  // Power on
+  if (wait == 19946) {
+      gPoweronFlag = true;
+      return 0;
+  }
+
+  // Power off
+  if (wait == 19947) {
+      gPoweroffFlag = true;
+      return 0;
   }
 
   if ((select & (1U << DAP_SWJ_SWCLK_TCK)) != 0U) {
@@ -334,7 +347,8 @@ static uint32_t DAP_SWJ_Pins(const uint8_t *request, uint8_t *response) {
   }
   if ((select & (1U << DAP_SWJ_nRESET)) != 0U){
       PIN_nRESET_OUT (value >> DAP_SWJ_nRESET);
-      if ((!(value >> DAP_SWJ_nRESET)) & !gProgrammer_TrueFlag) gResetNeedflag = true;
+      if ((!(value >> DAP_SWJ_nRESET)) & !gProgrammer_TrueFlag)
+          swd_write_word (0xe000ed0c, 0x05fa0004);;
   }
 
   if (wait != 0U) {

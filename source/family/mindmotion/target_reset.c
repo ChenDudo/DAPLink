@@ -1,27 +1,35 @@
-///**
-// * @file    target_reset.c
-// * @brief   Target reset for the new target
-// *
-// * DAPLink Interface Firmware
-// * Copyright (c) 2009-2016, ARM Limited, All Rights Reserved
-// * SPDX-License-Identifier: Apache-2.0
-// *
-// * Licensed under the Apache License, Version 2.0 (the "License"); you may
-// * not use this file except in compliance with the License.
-// * You may obtain a copy of the License at
-// *
-// * http://www.apache.org/licenses/LICENSE-2.0
-// *
-// * Unless required by applicable law or agreed to in writing, software
-// * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
-// * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// * See the License for the specific language governing permissions and
-// * limitations under the License.
-// */
+/**
+* @file    target_reset.c
+* @brief   Target reset for the MM32F0010/G0001 target
+*
+* DAPLink Interface Firmware
+* Copyright (c) 2009-2016, ARM Limited, All Rights Reserved
+* SPDX-License-Identifier: Apache-2.0
+*
+* Licensed under the Apache License, Version 2.0 (the "License"); you may
+* not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+* WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 
-////#include "target_reset.h"
-//#include "swd_host.h"
-//#include "target_family.h"
+#include "gpio.h"
+
+#include "device.h"
+#include "cmsis_os2.h"
+#include "target_config.h"
+#include "DAP_config.h"
+#include "DAP.h"
+#include "target_family.h"
+#include "swd_host.h"
+
+//#include "target_reset.h"
 //#include "cmsis_os2.h"
 //#include "debug_cm.h"
 
@@ -29,28 +37,40 @@
 //#include "hal_gpio.h"
 //#include "IO_Config.h"
 //#include "beep.h"
-//#include "gpio.h"
 
-//// static void target_before_init_debug(void)
-//// {
-////     // any target specific sequences needed before attaching to the DAP across JTAG or SWD 
-////     swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
-//// }
+
+static void busy_wait(uint32_t cycles)
+{
+    volatile uint32_t i;
+    i = cycles;
+
+    while (i > 0)
+    {
+        i--;
+    }
+}
+
+static void target_before_init_debug(void)
+{
+    // any target specific sequences needed before attaching to the DAP across JTAG or SWD
+    Power_Off();
+    uint32_t dalay = 10000000;
+    while(dalay--);
+    send_SpecialSequence( );
+    dalay = 10000000;
+    while(dalay--);
+    //swd_write_word((uint32_t)&SCB->AIRCR, ((0x5FA << SCB_AIRCR_VECTKEY_Pos) | SCB_AIRCR_SYSRESETREQ_Msk));
+}
 
 //// uint8_t readRstInput;
-// static void prerun_target_config(void)
-// {
-//     /* In some case the CPU will enter "cannot debug" state (low power, SWD pin mux changed, etc.). 
-// 	Doing a hardware reset will clear those states (probably, depends on app). 
-// 	Also, if the external flash's data is not a valid bootable image, DAPLink cannot attached to target. 
-// 	A hardware reset will increase the chance to connect in this situation. */
-
-// 	GPIO_ResetBits(nRESET_PIN_PORT, nRESET_PIN);
-// 	osDelay(4);
-
-// 	GPIO_SetBits(nRESET_PIN_PORT, nRESET_PIN);
-// 	osDelay(2);
-// }
+static void prerun_target_config(void)
+{
+    /* In some case the CPU will enter "cannot debug" state (low power, SWD pin mux changed, etc.). 
+	Doing a hardware reset will clear those states (probably, depends on app). 
+	Also, if the external flash's data is not a valid bootable image, DAPLink cannot attached to target. 
+	A hardware reset will increase the chance to connect in this situation. */
+    //send_SpecialSequence();
+}
 
 ///*
 //static void swd_set_target_reset(uint8_t asserted)
@@ -66,11 +86,45 @@
 //}
 //*/
 
-//static uint8_t target_set_state(target_state_t state)
-//{
-//    
-//    return 1;
-//}
+static uint8_t mz311_target_set_state(target_state_t state)
+{
+    if (state != RUN) {
+        swd_init();
+    }
+    
+    switch (state) {
+        // target_flash_init:
+        // target_flash_uninit: else: Leave the target halted until a reset occurs
+        case RESET_PROGRAM:
+            swd_set_target_state_sw(RESET_PROGRAM);
+            break;
+        // target_flash_uninit
+        /// if config_get_auto_rst
+        case RESET_RUN:
+            swd_set_target_state_sw(RESET_RUN);
+            break;
+        /// else: Leave the target halted until a reset occurs
+        //case RESET_PROGRAM:
+        
+        // Check to see if anything needs to be done after programming.
+        // This is usually a no-op for most targets.
+        case POST_FLASH_RESET:
+            swd_set_target_state_sw(POST_FLASH_RESET);
+            Power_Off();
+            busy_wait(10000000);
+            Power_5v_En();
+            break;
+        
+        // target nouse
+        case RESET_HOLD: swd_set_target_state_sw(RESET_HOLD); break;
+        case NO_DEBUG: swd_set_target_state_sw(NO_DEBUG); break;
+        case DEBUG: swd_set_target_state_sw(DEBUG); break;
+        case HALT: swd_set_target_state_sw(HALT);break;
+        case RUN: swd_set_target_state_sw(RUN);break;
+        default: return 0;
+    }
+    return 1;
+}
 
 
 ////static uint8_t security_bits_set(uint32_t addr, uint8_t *data, uint32_t size)
@@ -82,22 +136,22 @@
 ////}
 
 
-//const target_family_descriptor_t g_target_family_mm32 = {
-//    .family_id                  = kMindMotion_FamilyID,
-//    .default_reset_type         = kSoftwareReset,	//kHardwareReset,
-//    .soft_reset_type            = SYSRESETREQ,
-//    //.target_before_init_debug   = target_before_init_debug,
-//    .prerun_target_config       = prerun_target_config,
-//    //.target_unlock_sequence     = target_unlock_sequence,
-//    //.security_bits_set          = security_bits_set,
-//    .target_set_state           = target_set_state,
-//    //.swd_set_target_reset       = swd_set_target_reset,
-//    //.validate_bin_nvic          = ,
-//    //.validate_hexfile           = ,
-//    //.apsel                      = 0,
-//};
+const target_family_descriptor_t g_target_family_mm32_mz311 = {
+   .family_id                  = kStub_SWSysReset_FamilyID, //CREATE_FAMILY_ID(kMindMotion_VendorID, 0),
+   .default_reset_type         = kSoftwareReset,	//kHardwareReset,
+   .soft_reset_type            = SYSRESETREQ,
+   .prerun_target_config       = prerun_target_config,
+   .target_set_state           = mz311_target_set_state,
+   .target_before_init_debug   = target_before_init_debug,
+   //.target_unlock_sequence     = target_unlock_sequence,
+   //.security_bits_set          = security_bits_set,
+   //.swd_set_target_reset       = swd_set_target_reset,
+   //.validate_bin_nvic          = ,
+   //.validate_hexfile           = ,
+   //.apsel                      = 0,
+};
 
-//const target_family_descriptor_t *g_target_family = &g_target_family_mm32;
+const target_family_descriptor_t *g_target_family = &g_target_family_mm32_mz311;
 
 //#define NVIC_Addr    (0xe000e000)
 //#define DBG_Addr     (0xe000edf0)
