@@ -305,24 +305,25 @@ static uint32_t DAP_SWJ_Pins(const uint8_t *request, uint8_t *response) {
   if (wait == 19944) {
       gProgrammer_TrueFlag = true;
       gProgrammer_timeoutcnt = 60;
+      wait = 0;
   }
 
   // f0010 special cnt
   if (wait == 19945) {
       gF0010_TrueFlag = true;
-      return 0;
+      wait = 0;
   }
 
   // Power on
   if (wait == 19946) {
       gPoweronFlag = true;
-      return 0;
+      wait = 0;
   }
 
   // Power off
   if (wait == 19947) {
       gPoweroffFlag = true;
-      return 0;
+      wait = 0;
   }
 
   if ((select & (1U << DAP_SWJ_SWCLK_TCK)) != 0U) {

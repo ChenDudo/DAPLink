@@ -262,13 +262,13 @@ void gpio_init(void)
     // button is pressed.
     // Note: With optimization set to -O2 the value 1000000 delays for ~85ms
     LED_on ( );
-#if defined(DAPLINK_IF)
-    Power_Off ( );
-#endif
+//#if defined(DAPLINK_IF)
+//    Power_Off ( );
+//#endif
     busy_wait (1000000);
-#if defined(DAPLINK_IF)
-    send_SpecialSequence ( );
-#endif
+//#if defined(DAPLINK_IF)
+//    send_SpecialSequence ( );
+//#endif
     LED_off ( );
     BEEP_off();
 	setBeepMode(mode_none);
