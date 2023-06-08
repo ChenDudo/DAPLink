@@ -325,6 +325,12 @@ static uint32_t DAP_SWJ_Pins(const uint8_t *request, uint8_t *response) {
       gPoweroffFlag = true;
       wait = 0;
   }
+  
+  // Power reStart
+  if (wait == 19948) {
+      gPowerReStartFlag = true;
+      wait = 0;
+  }
 
   if ((select & (1U << DAP_SWJ_SWCLK_TCK)) != 0U) {
     if ((value & (1U << DAP_SWJ_SWCLK_TCK)) != 0U) {

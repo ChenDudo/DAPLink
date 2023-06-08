@@ -62,6 +62,7 @@ GLOBAL bool     gProgrammer_TrueFlag;
 GLOBAL bool     gF0010_TrueFlag;
 GLOBAL bool     gPoweronFlag;
 GLOBAL bool     gPoweroffFlag;
+GLOBAL bool     gPowerReStartFlag;
 GLOBAL uint16_t gProgrammer_timeoutcnt;
 #undef GLOBAL
 

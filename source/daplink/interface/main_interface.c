@@ -269,6 +269,7 @@ void main_task(void * arg)
     // State processing
     uint16_t flags = 0;
     uint16_t gF0010PowerCnt = 0;
+    uint16_t gPowerCnt = 0;
     gProgrammer_TrueFlag = false;
 
     // LED
@@ -483,6 +484,19 @@ void main_task(void * arg)
                     send_SpecialSequence();
                 }
             }
+            
+            // handle Power Restart special
+            if (gPowerReStartFlag) {
+                gPowerReStartFlag = false;
+                Power_Off();
+                gPowerCnt = 13;
+            }
+            if (gPowerCnt-- > 1) {
+                if (!gPowerCnt) {
+                    config_get_5v_output() ? Power_5v_En() : Power_3v3_En();
+                }
+            }
+            
 
             // handle power on/off
             if (gPoweronFlag) {
