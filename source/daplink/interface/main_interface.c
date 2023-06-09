@@ -271,6 +271,10 @@ void main_task(void * arg)
     uint16_t gF0010PowerCnt = 0;
     uint16_t gPowerCnt = 0;
     gProgrammer_TrueFlag = false;
+    gF0010_TrueFlag = false;
+    gPowerReStartFlag = false;
+    gPoweronFlag = false;
+    gPoweroffFlag = false;
 
     // LED
     gpio_led_state_t hid_led_value = HID_LED_DEF;
@@ -491,8 +495,10 @@ void main_task(void * arg)
                 Power_Off();
                 gPowerCnt = 13;
             }
-            if (gPowerCnt-- > 1) {
-                if (!gPowerCnt) {
+            if (gPowerCnt > 1) {
+                gPowerCnt--;
+                if (gPowerCnt == 1) {
+                    gPowerCnt = 0;
                     config_get_5v_output() ? Power_5v_En() : Power_3v3_En();
                 }
             }
